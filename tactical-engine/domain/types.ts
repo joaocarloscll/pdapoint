@@ -121,6 +121,39 @@ export type ShotIntent =
   | 'serve'
 
 /**
+ * Superfície de quadra medida por um estudo.
+ *
+ * Existe só nos dados de evidência: superfície é tema visual no produto
+ * (PRODUCT.md § 00.3). Aqui ela é obrigatória porque um número medido só
+ * significa alguma coisa junto da população em que foi medido.
+ */
+export type MeasuredSurface = 'saibro' | 'grama' | 'rapida'
+
+/**
+ * Um número de probabilidade efetivamente medido e publicado.
+ *
+ * É a única coisa no projeto que pode nascer `measured`. Uma âncora não é a
+ * probabilidade de uma escolha: é a frequência observada de um desfecho numa
+ * população descrita. A distinção importa e está no campo `condicionamento` —
+ * ler "sacador vence 81% dos pontos de rally curto" como "encurtar o rally dá
+ * 81%" é trocar condicionamento por causa, e o próprio estudo se declara
+ * descritivo.
+ */
+export type ProbabilityAnchor = {
+  readonly id: string
+  /** O valor medido, de 0 a 1. */
+  readonly value: number
+  /** Sobre qual população o valor foi medido, em uma frase. */
+  readonly condicionamento: string
+  readonly surface: MeasuredSurface
+  /** Número de pontos observados que sustentam o valor, quando reportado. */
+  readonly n: number | null
+  /** Onde no artigo o número aparece (figura, tabela, página). */
+  readonly onde: string
+  readonly source: SourceRef
+}
+
+/**
  * De onde vem um número de probabilidade.
  *
  * No xadrez o motor é verdade de campo; no tênis não existe equivalente. Um
@@ -142,6 +175,16 @@ export type WinProbability = {
   readonly basis: ProbabilityBasis
   /** O que sustenta o número — a fonte, o cálculo, ou a premissa. */
   readonly note: string
+  /**
+   * Âncora medida a que este número se reporta (`ProbabilityAnchor.id`).
+   *
+   * Obrigatória em `measured` e `derived`: sem ela o número não é auditável,
+   * e não-auditável é exatamente o que o modelo existe para impedir
+   * (invariante 17). Em `estimated` é opcional e significa outra coisa — a
+   * faixa medida mais próxima, declarada para que se veja de quanto a
+   * estimativa se afasta do que alguém de fato mediu.
+   */
+  readonly anchorId?: string
 }
 
 /**

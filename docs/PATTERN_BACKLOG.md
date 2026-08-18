@@ -81,7 +81,7 @@ mas derivado do MCP — portanto inutilizável. Precisa de fonte independente.)*
 
 | # | Padrão | Descrição | Status |
 |---|---|---|---|
-| A-01 | Ataque à bola curta | Reconhecer a bola atacável e a decisão de alvo | 🔍 a pesquisar |
+| A-01 | Ataque à bola curta | Reconhecer a bola atacável e a decisão de alvo | 📄 fonte encontrada |
 | A-02 | Abrir a quadra antes de finalizar | Sequência de dois golpes em vez de finalização prematura | 🔍 a pesquisar |
 | A-03 | Approach e primeiro voleio | Subida estruturada, não impulsiva | 🔍 a pesquisar |
 
@@ -117,11 +117,55 @@ Candidatos mais fortes, nesta ordem:
 
 | Posição | Padrão | Por quê |
 |---|---|---|
-| 1º | **A-01 — Ataque à bola curta** | É o exemplo já usado no documento de visão, a situação é inequívoca visualmente, e o erro (atacar mal uma bola curta) é universal no recreativo |
+| 1º | **A-01 — Ataque à bola curta** ✅ escolhido | É o exemplo já usado no documento de visão, a situação é inequívoca visualmente, e o erro (atacar mal uma bola curta) é universal no recreativo. **Virou o Golden Scenario 001, e a aposta se confirmou:** Prieto-Lage et al. (2023) descrevem exatamente essa sequência — quique curto seguido de golpe agressivo — como a combinação de ponto ganho mais frequente do profissional (`EVIDENCE_SOURCES.md` § 00b.1) |
 | 2º | **C-02 — Mudança de direção** | Trade-off risco/recompensa muito visual; decisão que todo jogador toma |
 | 3º | **R-01 — Devolução profunda no meio** | Decisão simples, alto impacto, e o jogador controla de fato |
 
 ---
+
+## Reconciliação com o catálogo de sementes do pacote de pesquisa (2026-08-18)
+
+O pacote de pesquisa do fundador trouxe um catálogo próprio de **35 sementes de
+estratégia** (`03_STRATEGY_SEEDS/strategy_seed_catalog.csv`, P001–P035). Ele cobre
+o mesmo terreno desta lista, com duas diferenças que valem manter:
+
+1. cada semente já aponta **quais fontes** poderiam sustentá-la (`S0xx`), em vez de
+   deixar a pergunta em aberto;
+2. cobre **duplas** e **planos contra perfis de adversário** (pusher, baseliner
+   profundo), que esta lista não cobria.
+
+**Decisão: os dois documentos convivem, com papéis diferentes.** Esta lista continua
+sendo o backlog operacional — o que está sendo pesquisado agora, com o status real de
+cada item. O catálogo de sementes é o **horizonte**: 35 candidatos com pista de
+pesquisa, dos quais só entram aqui os que forem trabalhados.
+
+### O que foi absorvido
+
+| Semente do pacote | Correspondência aqui | Situação |
+|---|---|---|
+| P001–P004 (saque + primeira bola) | S-01, S-02, S-03, S-04 | mesmo terreno, já mapeado |
+| P005 (1º saque + rally curto) | — | **novo.** Tem número medido (§ 00b.1). Não é uma decisão do jogador, é uma leitura de contexto — ver `PRODUCT.md` § 00.6 |
+| P006–P008 (devolução) | R-01, R-02, R-04 | mesmo terreno |
+| P010–P014 (construção, mudança de direção) | C-01, C-02, C-04 | mesmo terreno |
+| P019 (atacar bola curta sem forçar winner) | A-01, A-02 | mesmo terreno — é o Golden 001 |
+| P029–P030 (duplas) | — | **novo.** Fora do MVP, mas registrado |
+| P031–P032 (contra pusher / baseliner) | — | **novo.** Alinha com o "Match Plan" do documento de visão |
+| P035 (reconhecer perda de vantagem e voltar a neutralizar) | D-03 | mesmo terreno |
+
+### O que foi rejeitado, e por quê
+
+- **O vocabulário de decisão do pacote** (`best` / `good` / `situational` /
+  `neutral` / `poor`) conflita com duas decisões já tomadas: § 00.2b substituiu o
+  juízo pela observação (`padrão` / `alternativa` / `situacional` / `incomum`), e
+  § 00.5 tornou a qualidade **derivada** da probabilidade em vez de escrita à mão.
+  Adotar a escala do pacote seria voltar a escrever o rótulo — exatamente o que o
+  modelo evita. **Mantido o nosso.**
+- **As notas de grade das sementes** (`A-`, `B+`, `B`) são autoatribuídas e
+  provisórias. Não são citação; entram com o mesmo peso desta lista: direcionam
+  pesquisa, não sustentam conteúdo.
+- **O rascunho de schema Supabase** (`11_SCRIPTS/`) não se aplica: o produto hoje
+  não tem backend, e o conteúdo vive tipado em `content/`. Reavaliar se e quando
+  houver contas de usuário.
 
 ## Como este documento evolui
 

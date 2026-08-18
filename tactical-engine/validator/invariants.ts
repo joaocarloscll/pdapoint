@@ -5,7 +5,8 @@
  * Os invariantes 11–13 materializam o padrão de evidência de PRODUCT.md § 00.1
  * — as regras editoriais viram código que falha no CI, em vez de boa intenção.
  * O invariante 14 faz o mesmo com a regra de fechamento de § 00.4, e os
- * invariantes 15–16 com a governança dos números de § 00.5.
+ * invariantes 15–16 com a governança dos números de § 00.5. O invariante 17
+ * fecha o ciclo: um número que se diz medido precisa apontar para a medição.
  */
 
 import type {
@@ -60,7 +61,21 @@ const DECISIVE_OUTCOMES: readonly TerminalOutcome[] = [
 
 const inCourt = (n: number): boolean => n >= 0 && n <= 1
 
-export function validateScenario(scenario: TacticalScenario): ValidationResult {
+/**
+ * Contexto externo ao cenário de que a validação precisa.
+ *
+ * As âncoras medidas são dado de conteúdo, não do engine (ver
+ * `content/evidence/`). O validador recebe os ids conhecidos em vez de
+ * importá-los, para não inverter a regra de dependência.
+ */
+export type ValidationContext = {
+  readonly knownAnchorIds?: ReadonlySet<string>
+}
+
+export function validateScenario(
+  scenario: TacticalScenario,
+  context: ValidationContext = {},
+): ValidationResult {
   const issues: ValidationIssue[] = []
 
   const stateIds = new Set(scenario.states.map((s) => s.id))
@@ -242,7 +257,9 @@ export function validateScenario(scenario: TacticalScenario): ValidationResult {
   }
 
   // 15–16 — governança dos números
-  issues.push(...checkProbabilities(scenario, isPublicScenario(scenario)))
+  issues.push(
+    ...checkProbabilities(scenario, isPublicScenario(scenario), context),
+  )
 
   // 11–13 — governança de evidência
   issues.push(...checkEvidence(scenario))
@@ -314,7 +331,7 @@ const isPublicScenario = (s: TacticalScenario): boolean =>
   PUBLIC_STATUSES.includes(s.status)
 
 /**
- * Invariantes 15 e 16 — governança dos números.
+ * Invariantes 15, 16 e 17 — governança dos números.
  *
  * Uma probabilidade aparenta precisão. Publicar uma estimativa editorial como
  * se fosse medição é pior que publicar um rótulo vago, porque o usuário não
@@ -323,6 +340,7 @@ const isPublicScenario = (s: TacticalScenario): boolean =>
 function checkProbabilities(
   scenario: TacticalScenario,
   isPublic: boolean,
+  context: ValidationContext,
 ): ValidationIssue[] {
   const issues: ValidationIssue[] = []
 
@@ -361,6 +379,35 @@ function checkProbabilities(
             'estimativa editorial só é aceitável em rascunho',
         ),
       )
+    }
+
+    // 17 — dizer-se medido obriga a apontar para a medição.
+    //
+    // Sem isto, `basis: 'measured'` é apenas uma string mais confiante que
+    // `estimated`, e o campo que existe para dar procedência passa a esconder
+    // a falta dela. A âncora precisa existir de fato no registro de evidência.
+    const needsAnchor = p.basis === 'measured' || p.basis === 'derived'
+    if (needsAnchor && p.anchorId === undefined) {
+      issues.push(
+        issue(
+          17,
+          'unanchored-probability',
+          `Escolha "${choice.id}" declara base "${p.basis}" sem citar âncora ` +
+            'medida (winProbability.anchorId)',
+        ),
+      )
+    }
+    if (p.anchorId !== undefined && context.knownAnchorIds !== undefined) {
+      if (!context.knownAnchorIds.has(p.anchorId)) {
+        issues.push(
+          issue(
+            17,
+            'unknown-anchor',
+            `Escolha "${choice.id}" cita a âncora "${p.anchorId}", que não ` +
+              'existe no registro de evidência',
+          ),
+        )
+      }
     }
   }
 

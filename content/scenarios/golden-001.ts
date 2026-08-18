@@ -1,24 +1,29 @@
 /**
  * GOLDEN SCENARIO 001 — Atacar bola curta com adversário deslocado
  *
- * ⚠️ STATUS: RASCUNHO. FONTE PENDENTE.
+ * ⚠️ STATUS: RASCUNHO. FONTE ENCONTRADA, ASSINATURA HUMANA PENDENTE.
  *
- * Este cenário existe para que o engine e o renderer possam ser construídos e
- * testados contra um caso real. Ele NÃO pode ser publicado: o validador
- * (invariante 11) rejeita qualquer cenário com fonte pendente cujo status
- * ultrapasse `rascunho`.
+ * A fonte tier B existe e foi lida: Prieto-Lage et al. (2023), PLOS ONE,
+ * CC BY — ver `content/evidence/prieto-lage-2023.ts` e EVIDENCE_SOURCES.md
+ * § 00. Ela sustenta a existência e a direção deste cenário de forma
+ * descritiva. O que ainda falta para promover a `revisada` é apenas o passo
+ * que só um humano pode dar (§ 00.1, Regra 2):
  *
- * Para promover a `revisada` e depois `publicada`:
- *   1. abrir uma fonte tier B/C em IJRSS ou ITF CSSR (ver EVIDENCE_SOURCES.md § 01b);
- *   2. confirmar que ela sustenta a afirmação sobre ataque à bola curta;
- *   3. preencher source.referencia, oQueSustenta, verificadaPor, verificadaEm;
- *   4. revisar as classificações à luz do que a fonte de fato sustenta.
+ *   1. o fundador abre o artigo pelo DOI e confere os trechos citados;
+ *   2. preenche source.verificadaPor e source.verificadaEm;
+ *   3. revisa a redação à luz do que a fonte de fato sustenta.
  *
- * As probabilidades abaixo são todas `estimated` — estimativa editorial, não
- * medição. O validador (invariante 15) impede que um cenário com qualquer
- * número estimado seja publicado. Elas existem para que a mecânica de
- * avaliação possa ser construída e testada; cada uma declara, no campo
- * `note`, exatamente qual dado a substituiria.
+ * As probabilidades abaixo continuam todas `estimated`, e isso é deliberado.
+ * O artigo mede frequência de ponto ganho por tipo de saque e duração de
+ * rally; ninguém mediu "cruzado curto versus profundo na quadra aberta a
+ * partir de bola curta". Rotular estes números como `derived` porque agora
+ * existe um artigo por perto seria exatamente a fraude que o modelo de
+ * procedência existe para impedir.
+ *
+ * O que mudou: cada estimativa agora cita, em `anchorId`, a âncora medida mais
+ * próxima. Assim dá para ver de quanto ela se afasta do que alguém de fato
+ * mediu — e o validador (invariante 16) continua impedindo que qualquer uma
+ * delas seja publicada.
  *
  * ---
  *
@@ -113,10 +118,15 @@ export const golden001: TacticalScenario = {
       winProbability: {
         value: 0.44,
         basis: 'estimated',
+        anchorId: 'pl2023-fs-curto-rapida',
         note:
           'ESTIMATIVA. Premissa: devolver ângulo e bola curta com o adversário ' +
-          'em recuperação inverte a iniciativa. Precisa de dado de taxa de ' +
-          'ponto ganho após bola curta cruzada em situação de ataque.',
+          'em recuperação inverte a iniciativa. A âncora citada (0,81 — sacador ' +
+          'em rally curto após primeiro saque, quadra rápida) é a faixa medida ' +
+          'de quem domina esse tipo de ponto; este número fica muito abaixo dela ' +
+          'porque a premissa é justamente perder o domínio. Substituível por ' +
+          'taxa de ponto ganho após bola curta cruzada em situação de ataque — ' +
+          'que ninguém publicou.',
       },
       explanation:
         'A bola curta cruzada encurta a distância que o adversário precisa ' +
@@ -132,10 +142,17 @@ export const golden001: TacticalScenario = {
       winProbability: {
         value: 0.76,
         basis: 'estimated',
+        anchorId: 'pl2023-fs-curto-rapida',
         note:
           'ESTIMATIVA. Premissa: atacar o espaço aberto com profundidade contra ' +
-          'adversário deslocado é o padrão dominante. Precisa de dado de taxa ' +
-          'de ponto ganho ao atacar quadra aberta.',
+          'adversário deslocado é o padrão dominante. Prieto-Lage et al. (2023) ' +
+          'medem 0,77–0,81 para o sacador em rally curto — a faixa em que vive ' +
+          'quem domina um ponto curto — e descrevem quique curto seguido de ' +
+          'golpe agressivo como a combinação de finalização mais frequente. ' +
+          'Isso sustenta o cenário, não este número: ficamos abaixo da âncora ' +
+          'porque ela inclui aces e devoluções não devolvidas, que aqui não ' +
+          'existem. Substituível por taxa de ponto ganho ao atacar quadra ' +
+          'aberta a partir de bola curta.',
       },
       explanation:
         'Profundidade no espaço que o adversário deixou: ele já está em ' +
@@ -150,10 +167,13 @@ export const golden001: TacticalScenario = {
       winProbability: {
         value: 0.58,
         basis: 'estimated',
+        anchorId: 'pl2023-fs-medio-rapida',
         note:
           'ESTIMATIVA. Premissa: bola central sem profundidade devolve a ' +
           'iniciativa sem conceder ângulo — pior que atacar, melhor que abrir ' +
-          'a quadra para ele. Precisa de dado de profundidade × ponto ganho.',
+          'a quadra para ele. A âncora é o rally médio (0,52), onde a vantagem ' +
+          'de quem começou mandando já evaporou: é exatamente o que esta ' +
+          'escolha provoca. Substituível por dado de profundidade × ponto ganho.',
       },
       explanation:
         'Devolver ao meio sem profundidade entrega a iniciativa: o adversário ' +
@@ -366,9 +386,20 @@ export const golden001: TacticalScenario = {
     'permite deslocamento para o golpe dominante.',
 
   source: {
-    tier: 'PENDENTE',
-    referencia: '',
-    oQueSustenta: '',
+    tier: 'B',
+    referencia:
+      'Prieto-Lage I, Paramés-González A, Torres-Santos D, Argibay-González JC, ' +
+      'Reguera-López-de-la-Osa X, Gutiérrez-Santiago A (2023). Match analysis and ' +
+      'probability of winning a point in elite men’s singles tennis. ' +
+      'PLOS ONE 18(9): e0286076. DOI 10.1371/journal.pone.0286076. CC BY 4.0.',
+    oQueSustenta:
+      'Que a combinação de ponto ganho mais frequente no profissional masculino ' +
+      'é rally curto finalizado após um quique na zona de saque seguido de golpe ' +
+      'agressivo (Conclusions, p. 13), e que os pontos ganhos com winner ou erro ' +
+      'forçado são dirigidos majoritariamente à zona 1 e às zonas laterais ' +
+      'profundas (p. 11). Sustenta a existência e a direção do cenário, de forma ' +
+      'descritiva (PRODUCT.md § 00.2b). NÃO sustenta a probabilidade de cada ' +
+      'escolha: essa comparação não foi medida por ninguém.',
     verificadaPor: null,
     verificadaEm: null,
   },

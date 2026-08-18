@@ -19,16 +19,21 @@ anterior está razoavelmente fechado.
 01 — Brand System                    ✅ fechado
 02 — Information Architecture        ✅ fechado
 03 — Core Experience Specification   ✅ fechado
-04 — Golden Scenario 001             ⛔ bloqueado — precisa de fonte verificada
+04 — Golden Scenario 001             🟡 fonte encontrada e lida — falta assinatura humana
 05 — Mobile Wireframes               ✅ fechado
 06 — Tactical Content System         ✅ fechado
 07 — Technical Handoff / Agent Spec  ⏳ depende de 04
 08 — Validation Plan                 ✅ fechado
 ```
 
-**Único bloqueio ativo:** o estágio 04 precisa de uma fonte aberta e verificada por
-um humano. Roteiro em `EVIDENCE_SOURCES.md` § 01b; candidatos priorizados em
-`PATTERN_BACKLOG.md`.
+**Único bloqueio ativo:** o estágio 04 já tem fonte — Prieto-Lage et al. (2023),
+PLOS ONE, `CC BY`, lida integralmente (`EVIDENCE_SOURCES.md` § 00b.1). Falta o passo
+que só um humano pode dar: o fundador abrir o DOI, conferir os trechos citados e
+preencher `source.verificadaPor` / `verificadaEm`. Até lá o invariante 11 mantém o
+cenário em rascunho, como deve.
+
+O gargalo, portanto, mudou de natureza: não é mais "não temos fonte", é "falta a
+assinatura". Candidatos seguintes em `PATTERN_BACKLOG.md`.
 
 Os documentos técnicos e de visão original que originaram este arquivo continuam
 como referência histórica, mas este arquivo é o que deve ser lido primeiro.
@@ -79,7 +84,10 @@ A classificação de cada escolha (`padrão` / `alternativa` / `situacional` /
 - Sem fonte → a tática não é publicada.
 
 Nota: Tier A está indisponível por licença (ver 00.2c), o que torna Tier B o teto
-prático de evidência quantitativa no momento.
+prático de evidência quantitativa no momento. **Esse teto agora foi alcançado, e não
+só descrito:** o projeto tem quatro artigos Tier B `CC BY` abertos e lidos, com uso
+comercial permitido (`EVIDENCE_SOURCES.md` § 00b). A frase "não temos fonte" deixou
+de ser verdadeira.
 
 A plataforma nunca simula certeza que a evidência não sustenta. Isso é o que
 separa o PDA Point de uma prancheta com opinião.
@@ -303,6 +311,43 @@ precisão de partida do xadrez, e é o que alimentará o score do Point IQ.
 A precisão avalia **a decisão, não o desfecho**. No tênis a escolha certa perde
 o ponto com frequência; pontuar pelo resultado ensinaria o jogador a perseguir
 sorte.
+
+---
+
+## 00.6 — Âncora medida: o que um número publicado precisa apontar
+
+§ 00.5 diz que toda probabilidade declara procedência. Faltava a parte que torna a
+declaração auditável: **para onde `measured` e `derived` apontam.** Sem isso,
+`basis: 'measured'` é só uma string mais confiante que `estimated`, e o campo criado
+para dar procedência passa a esconder a falta dela.
+
+Uma **âncora** é um número efetivamente medido e publicado, guardado em
+`content/evidence/` com o valor, a população em que foi medido, a superfície, o `n`
+quando reportado, o lugar exato do artigo onde aparece, e a referência completa.
+
+- **Invariante 17** — probabilidade `measured` ou `derived` sem `anchorId`, ou com
+  `anchorId` que não existe no registro, é rejeitada.
+- Uma `estimated` **pode** citar âncora. Significa outra coisa: a faixa medida mais
+  próxima, declarada para que se veja de quanto a estimativa se afasta do que alguém
+  de fato mediu. Continua sem poder ser publicada.
+
+### A armadilha que o modelo existe para evitar
+
+Prieto-Lage et al. medem que o sacador vence **81%** dos pontos que terminaram em
+rally curto após primeiro saque, em quadra rápida. É tentador escrever isso como
+"encurtar o ponto dá 81% de chance".
+
+Seria errado. A duração do rally é **resultado** do ponto, não uma decisão tomada
+antes dele — a população de "pontos que acabaram curtos" já inclui os aces e as
+devoluções não devolvidas, ou seja, já está selecionada pelo desfecho. Trocar
+condicionamento por causa é o modo mais fácil de fabricar um número com aparência de
+rigor. O próprio artigo se declara descritivo.
+
+Consequência prática: **as âncoras calibram, não decidem.** Elas dizem em que faixa
+vive a vantagem real em cada contexto, e portanto quando um número escrito à mão
+está fora do que alguém já mediu. O que ninguém mediu — "cruzado curto versus
+profundo na quadra aberta a partir de uma bola curta" — continua `estimated`, e
+continua sem poder ser publicado.
 
 ---
 

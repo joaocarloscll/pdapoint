@@ -7,6 +7,54 @@ versionamento segue [SemVer](https://semver.org/lang/pt-BR/).
 
 ---
 
+## [Não lançado]
+
+### Evidência — o projeto sai do zero de fontes verificadas
+
+Até aqui nenhum artigo científico tinha sido lido na fonte primária: o ambiente de
+pesquisa tinha egress bloqueado para todos os grandes editores. O fundador entregou
+um pacote com os PDFs, e quatro artigos `CC BY` foram abertos, lidos e conferidos
+contra o manifesto SHA-256.
+
+#### Adicionado
+
+- **`content/evidence/prieto-lage-2023.ts`** — 27 âncoras medidas de Prieto-Lage
+  et al. (2023), PLOS ONE, `CC BY`: probabilidade de o sacador vencer o ponto por
+  tipo de saque × duração de rally × superfície, sobre 4.669 pontos de Grand Slam,
+  mais a distribuição de duração de rally. Primeiros números `measured` do projeto.
+- **`content/evidence/index.ts`** — registro de âncoras e busca por id.
+- **`ProbabilityAnchor`** e o campo `WinProbability.anchorId` nos tipos de domínio.
+- **Invariante 17** — probabilidade `measured` ou `derived` sem âncora, ou com
+  âncora inexistente no registro, é rejeitada. `validateScenario` passa a aceitar um
+  contexto opcional com os ids conhecidos, para não inverter a regra de dependência.
+- **`PRODUCT.md` § 00.6** — o que uma âncora é, e a armadilha de ler frequência
+  condicional como probabilidade de escolha.
+- **`EVIDENCE_SOURCES.md` § 00b** — fichas dos quatro artigos, com licença, amostra,
+  matriz de probabilidades e as ressalvas de leitura.
+- 14 testes de evidência, incluindo a relação primeiro saque > segundo saque em toda
+  superfície como guarda contra erro de digitação na tabela.
+
+#### Alterado
+
+- **Golden Scenario 001** passa de fonte `PENDENTE` para tier B com referência,
+  DOI e a afirmação exata que a fonte sustenta. As três probabilidades **continuam
+  `estimated`**, e isso é deliberado: o artigo mede duração de rally e tipo de
+  saque, não comparação de alvo a partir de uma bola curta. Cada estimativa passa a
+  citar a âncora medida mais próxima, para que se veja de quanto ela se afasta.
+- **`EVIDENCE_SOURCES.md` § 03.6** passa de `⚠️ PARCIAL` para `✅ VERIFICADO`.
+- **`PATTERN_BACKLOG.md`** reconciliado com as 35 sementes do pacote de pesquisa:
+  o que foi absorvido, o que era novo (duplas, planos contra perfis) e o que foi
+  rejeitado — o vocabulário de decisão do pacote conflita com § 00.2b e § 00.5.
+- **Teste do invariante 11** deixou de depender do estado do fixture: montava a
+  fonte pendente a partir de golden-001, e quando o cenário ganhou fonte real o
+  teste passou a não testar nada, silenciosamente.
+
+#### Anotado
+
+- Divergência aritmética na Tabela 2 do artigo do PLOS: na linha da grama os
+  contadores de saque somam 1.569 em vez dos 1.623 pontos do torneio. Saibro e
+  quadra rápida fecham. Reproduzimos o publicado e registramos, em vez de corrigir.
+
 ## [0.1.0] — 2026-08-18
 
 ### Tactical Engine V1

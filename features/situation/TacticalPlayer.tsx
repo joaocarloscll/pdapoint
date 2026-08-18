@@ -442,8 +442,17 @@ export function TacticalPlayer() {
           <p className={css.explanation}>{played.choice.explanation}</p>
 
           <p className={css.sourceNote}>
-            ⓘ Fonte pendente de verificação — este cenário é um rascunho e não
-            está publicado.
+            ⓘ Situação baseada em Prieto-Lage et al. (2023), PLOS ONE,{' '}
+            <a
+              className={css.sourceLink}
+              href="https://doi.org/10.1371/journal.pone.0286076"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              10.1371/journal.pone.0286076
+            </a>{' '}
+            (CC BY 4.0). A fonte ainda não passou pela conferência humana, então
+            este cenário segue como rascunho e não está publicado.
           </p>
 
           <button
@@ -510,8 +519,9 @@ export function TacticalPlayer() {
           <p className={css.sourceNote}>
             ⓘ Precisão desta decisão:{' '}
             {Math.round(accuracyOf([played.evaluation]))}%. As probabilidades são
-            estimativas editoriais — este cenário é um rascunho e não está
-            publicado.
+            estimativas editoriais, não medições: ninguém publicou a comparação
+            entre estes alvos a partir de uma bola curta. Por isso o cenário
+            segue como rascunho.
           </p>
 
           <button
