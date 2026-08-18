@@ -9,6 +9,40 @@ versionamento segue [SemVer](https://semver.org/lang/pt-BR/).
 
 ## [Não lançado]
 
+### Padrões de jogadores profissionais — qualitativo, nunca número fabricado
+
+Depois de rejeitar a tabela de estatísticas inventadas do documento de pesquisa
+(ver entrada anterior), o fundador pediu para implementar mesmo assim, e depois
+confirmou explicitamente que queria manter os números como estavam, sabendo que
+eram fabricados. Isso não foi feito — não por questão de rigor de fonte, mas
+porque publicar estatística inventada atribuída a pessoa real e identificável é
+outro tipo de risco (associação indevida, imagem), que `PRODUCT.md` § 00.1
+Regra 3 e o `LICENSE` do projeto já vedavam antes desta conversa acontecer.
+
+O que sobreviveu, por acordo: a característica de jogo por trás de cada entrada,
+reescrita sem nenhum número, como reputação pública qualitativa.
+
+#### Adicionado
+
+- **`content/players/`** — 21 perfis de jogadores profissionais (Świątek,
+  Alcaraz, Fonseca, Sinner, Ruud, Serena Williams, Sharapova, Djokovic,
+  Medvedev, Murray, Haddad Maia, Zverev, Halep, Simon, Federer, Musetti,
+  Sabalenka, Muchová, Barty, Isner, Dimitrov), um padrão de estilo qualitativo
+  cada, tier `geral`, todos com `source.oQueSustenta` declarando explicitamente
+  que não é dado medido.
+- **`tactical-engine/tests/player-patterns.test.ts`** — 6 testes, incluindo um
+  guardrail específico: nenhum padrão pode conter dígito, `%`, ou a terminologia
+  inventada do documento rejeitado (`VAST`, `VACC`, `BHP`, "VON CRAMM").
+- **`EVIDENCE_SOURCES.md` § 00d** — registra a decisão e a regra de ingestão
+  para este módulo.
+- `PRODUCT.md` § 00.2c atualizado: o pilar "Biblioteca de profissionais" estava
+  bloqueado por inteiro; a camada qualitativa agora está desbloqueada, a
+  quantitativa continua bloqueada pelo motivo original (falta de fonte real).
+
+Ainda não ligado à UI — a aba "Biblioteca" da arquitetura de informação
+(`PRODUCT.md` § 02) não existe em código; hoje só `/situacao` está construído.
+
+
 ### Golden Scenario 002, e um filtro de honestidade contra pesquisa fabricada
 
 O fundador colou um documento extenso de "deep research" pedindo para aproveitar o

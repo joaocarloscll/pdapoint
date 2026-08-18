@@ -209,13 +209,21 @@ O documento de visão prevê 30+ jogadores × 10 padrões. Recorte tático por j
 era exatamente o que o MCP fornecia; literatura publicada quase nunca traz esse
 nível de individualização.
 
-**Sem uma fonte própria, este pilar não tem base.** A alternativa credível é
-**coleta própria**: análise notacional de partidas transmitidas publicamente,
-gerando dados proprietários sem restrição de licença — que é como o próprio MCP
-nasceu. Trabalhoso, mas vira ativo do negócio em vez de fonte emprestada.
+**Sem uma fonte própria, este pilar não tem base quantitativa.** A alternativa
+credível para número real é **coleta própria**: análise notacional de partidas
+transmitidas publicamente, gerando dados proprietários sem restrição de licença —
+que é como o próprio MCP nasceu. Trabalhoso, mas vira ativo do negócio em vez de
+fonte emprestada. Decisão pendente quanto à camada quantitativa.
 
-Decisão pendente. Não bloqueia o MVP (que não depende de padrões por jogador),
-mas bloqueia a Biblioteca de profissionais.
+> **Atualização — 2026-08-18.** A camada **qualitativa** deste pilar deixou de
+> estar bloqueada: `content/players/` guarda estilo de jogo por jogador, em texto,
+> tier `geral`, sem nenhum número — reputação pública reconhecida, não medição
+> (ver `EVIDENCE_SOURCES.md` § 00d). Isso resolveu uma tentação concreta: um
+> documento de pesquisa trouxe estatísticas fabricadas atribuídas a jogadores
+> reais, e a decisão foi separar a característica de jogo (aproveitável, é
+> reputação real) do número (não aproveitável, é invenção anexada a pessoa real —
+> risco de associação indevida, não questão de rigor de fonte). A camada
+> quantitativa continua bloqueada pelo motivo original.
 
 ## 00.3 — Superfície é tema visual, não variável tática
 

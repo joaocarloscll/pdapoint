@@ -95,6 +95,8 @@ tactical-engine/     ⚠️ lógica pura — sem React, Next ou DOM
   tests/
 tactical-renderer/   SVG da quadra e marcadores
 content/scenarios/   cenários táticos
+content/players/     padrões de jogadores profissionais (qualitativo, sem número)
+content/evidence/    âncoras medidas, com fonte e procedência
 docs/                fonte de verdade
 ```
 
