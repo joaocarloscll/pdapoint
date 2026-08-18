@@ -99,6 +99,7 @@ etapa falhar.
 - adicionar dependência;
 - mudar as regras de evidência ou o vocabulário de classificação;
 - alterar os guardrails anti-loop;
-- migrar TypeScript para 7.x (decisão documentada: só com CI verde).
+- rebaixar TypeScript para 6.x (a migração para 7.x já passou pelo portão de CI
+  verde; ver README).
 
 Agente não reverte decisão documentada silenciosamente.

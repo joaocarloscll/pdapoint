@@ -116,11 +116,13 @@ componentes visuais.
 
 ## Stack
 
-Next.js 16 · React 19 · TypeScript 6 (strict) · Tailwind 4 · SVG + Web Animations
+Next.js 16 · React 19 · TypeScript 7 (strict) · Tailwind 4 · SVG + Web Animations
 · Vitest · GitHub Actions
 
-TypeScript permanece em 6.x deliberadamente; a migração para 7.x só ocorre com CI
-verde em todas as ferramentas.
+O TypeScript 7 — o compilador nativo — entrou depois de passar pelo portão que
+a arquitetura definia: typecheck, testes, build padrão e build de export todos
+verdes, e cada flag estrita verificada individualmente. O typecheck ficou cerca
+de 3× mais rápido.
 
 ## Próximo passo
 
