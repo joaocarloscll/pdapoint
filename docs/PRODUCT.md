@@ -67,12 +67,15 @@ ser escrito com o verbo correspondente a isso.
 
 ### Regra 1 — A força da fonte limita a força da afirmação
 
-A classificação de cada escolha (`melhor` / `boa` / `situacional` / `ruim`) é
-limitada pela qualidade da evidência que a sustenta:
+A classificação de cada escolha (`padrão` / `alternativa` / `situacional` /
+`incomum` — ver 00.2b) é limitada pela qualidade da evidência que a sustenta:
 
-- Evidência Tier A/B → pode classificar como `melhor` ou `ruim`.
-- Apenas convenção de manual (Tier C) → a decisão é `situacional` ou `boa`.
+- Evidência Tier B com dado quantitativo → pode classificar como `padrão` ou `incomum`.
+- Apenas convenção de manual (Tier C) → a decisão é `situacional` ou `alternativa`.
 - Sem fonte → a tática não é publicada.
+
+Nota: Tier A está indisponível por licença (ver 00.2c), o que torna Tier B o teto
+prático de evidência quantitativa no momento.
 
 A plataforma nunca simula certeza que a evidência não sustenta. Isso é o que
 separa o PDA Point de uma prancheta com opinião.
@@ -112,6 +115,72 @@ nível × situação.
 Implicação: se uma situação genuinamente tem respostas diferentes por nível, ela
 deve ser modelada como **duas situações distintas**, cada uma com seu contexto
 explícito e sua própria fonte.
+
+## 00.2b — O conteúdo é descritivo, não prescritivo
+
+A pesquisa de fontes (`EVIDENCE_SOURCES.md`) estabeleceu que **toda a evidência
+utilizável descreve tênis profissional**, e que não existe base de dados de jogo
+recreativo — que é o nosso usuário.
+
+Diante disso, o PDA Point afirma o que a evidência sustenta:
+
+- ✅ **"Isto é o que o profissional faz nesta situação."** — sustentado.
+- ✗ "Isto é o que você deve fazer." — não sustentado pela evidência disponível.
+
+Isso não é um recuo. É o posicionamento mais forte disponível: nenhum concorrente
+ocupa o espaço de "mostrar o padrão profissional documentado e ensinar a lê-lo", e
+a honestidade sobre a origem da evidência é, ela própria, o diferencial.
+
+### Consequência no vocabulário
+
+A classificação das escolhas deixa de ser um juízo e passa a ser uma observação:
+
+| Antes (prescritivo) | Agora (descritivo) |
+|---|---|
+| `melhor` | `padrão` — o que predomina no profissional |
+| `boa` | `alternativa` — também usado, depende do contexto |
+| `situacional` | `situacional` — a evidência não distingue |
+| `ruim` | `incomum` — raro no profissional, ou com resultado documentado pior |
+
+O botão "Ver melhor decisão" (seção 03, Fase 7) passa a ser **"Ver o padrão
+profissional"**. A pedagogia não muda: você escolheu X, o profissional joga Y
+aqui, e este é o mecanismo. O que muda é a honestidade da afirmação.
+
+### Consequência na copy
+
+Toda explicação deve declarar a origem da evidência. O usuário sempre sabe que
+está vendo padrão profissional, não prescrição personalizada para o nível dele.
+
+## 00.2c — O Match Charting Project está fora da base de fontes
+
+O MCP é `CC BY-NC-SA 4.0` — **uso não-comercial apenas** (verificado no README
+oficial; ver `EVIDENCE_SOURCES.md` § 02.1). O PDA Point é um produto comercial.
+
+**Decisão: construir sem depender do MCP.** Caminho juridicamente limpo desde o
+início, e que respeita a intenção explícita do mantenedor.
+
+### O que isso implica na prática
+
+| Item | Situação |
+|---|---|
+| Os 7 achados calculados em `EVIDENCE_SOURCES.md` § 06.1 | **Orientação interna apenas.** Indicam quais perguntas táticas valem conteúdo. Nenhum número derivado vai para o produto. |
+| Literatura que deriva do MCP (ex.: Lisi et al. 2024) | Não utilizável como base independente |
+| Literatura de Hawk-Eye (Mecheri 2016; Fitzpatrick et al. 2024) | **Prioridade de aquisição.** Independente do MCP, sobre jogo profissional, sustenta o posicionamento de 00.2b. É paga. |
+| Manuais de federação (ITF, USTA, PTR, CBT) | Sustentam mecanismo e convenção — não sustentam afirmação de frequência no profissional |
+
+### Pendência aberta — padrões por jogador
+
+O documento de visão prevê 30+ jogadores × 10 padrões. Recorte tático por jogador
+era exatamente o que o MCP fornecia; literatura publicada quase nunca traz esse
+nível de individualização.
+
+**Sem uma fonte própria, este pilar não tem base.** A alternativa credível é
+**coleta própria**: análise notacional de partidas transmitidas publicamente,
+gerando dados proprietários sem restrição de licença — que é como o próprio MCP
+nasceu. Trabalhoso, mas vira ativo do negócio em vez de fonte emprestada.
+
+Decisão pendente. Não bloqueia o MVP (que não depende de padrões por jogador),
+mas bloqueia a Biblioteca de profissionais.
 
 ## 00.3 — Superfície é tema visual, não variável tática
 
@@ -412,33 +481,34 @@ Só agora entra texto, e pouco.
 
 | | |
 |---|---|
-| **Mostra** | Veredito em uma frase · classificação (`melhor` / `boa` / `situacional` / `ruim`) · mecanismo em 1–2 frases · acesso à fonte. |
+| **Mostra** | Veredito em uma frase · classificação (`padrão` / `alternativa` / `situacional` / `incomum`, ver 00.2b) · mecanismo em 1–2 frases · acesso à fonte. |
 | **Usuário pode** | Expandir a fonte · avançar. |
 
 **A fonte é parte da UI, não um rodapé jurídico.** Decorre de 00.1: se o conteúdo
 é baseado em evidência, o usuário precisa poder ver em que. Tratamento discreto
 (afordância que expande), nunca escondido.
 
-Formato do veredito — descreve o mecanismo, não julga o usuário:
+Formato do veredito — descreve o mecanismo, não julga o usuário, e declara a
+origem da evidência (00.2b):
 
 > ✅ "Essa decisão devolveu ângulo ao adversário antes de você consolidar a vantagem."
 > ✗ "Errado! A opção correta era a B."
 
-## Fase 7 — Ver melhor decisão
+## Fase 7 — Ver o padrão profissional
 
 Fase **condicional**. O que aparece depende da classificação da escolha do usuário
 e da natureza da situação:
 
 | Escolha do usuário | Ação oferecida |
 |---|---|
-| `ruim` ou `boa`, e existe uma opção `melhor` | **Ver melhor decisão** |
-| `melhor` | **Ver as outras opções** (opcional, não obrigatório) |
-| Situação sem resposta dominante (todas `situacional`) | **Comparar alternativas** |
+| `incomum` ou `alternativa`, e existe um `padrão` documentado | **Ver o padrão profissional** |
+| `padrão` | **Ver as outras opções** (opcional, não obrigatório) |
+| Situação sem padrão dominante (todas `situacional`) | **Comparar alternativas** |
 
-O terceiro caso decorre diretamente de 00.1: quando a evidência não sustenta uma
-única melhor decisão, a plataforma **não inventa uma**. Ela mostra os trade-offs.
-Isso não é uma limitação a esconder — é a diferença entre ensinar tênis e aplicar
-um gabarito.
+O terceiro caso decorre diretamente de 00.1: quando a evidência não distingue as
+opções, a plataforma **não inventa um padrão**. Ela mostra os trade-offs. Isso não
+é uma limitação a esconder — é a diferença entre ensinar tênis e aplicar um
+gabarito.
 
 ## Fase 8 — Comparação visual
 
@@ -485,7 +555,8 @@ continua vendo *o que aconteceu*, sem o deslocamento contínuo na tela.
 - Permitir troca de escolha após confirmar.
 - Reduzir o feedback a "certo / errado".
 - Publicar uma situação cuja explicação não tenha fonte (ver 00.1).
-- Forçar uma "melhor decisão" quando a evidência sustenta apenas `situacional`.
+- Forçar um `padrão` quando a evidência sustenta apenas `situacional`.
+- Apresentar padrão profissional como prescrição para o nível do usuário (00.2b).
 
 ---
 
