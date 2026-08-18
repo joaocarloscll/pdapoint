@@ -1253,8 +1253,10 @@ não sejam prometidas:
 Ordenado por impacto. Itens 1–3 são bloqueadores.
 
 **1. 🔴 BLOQUEADOR — Licença comercial do Match Charting Project.**
-Contatar Jeff Sackmann (`jeffsackmann@gmail.com`, e-mail que consta na aba
-`Instructions` da planilha oficial) e negociar licença comercial explícita.
+Contatar Jeff Sackmann e negociar licença comercial explícita. O endereço de
+contato consta na aba `Instructions` da planilha oficial do projeto — não é
+reproduzido aqui porque este repositório é público e republicar o dado pessoal
+de um terceiro o expõe a coleta automatizada.
 Argumentos a favor: existe titular único (§ 02.1), o uso é educacional, e a
 atribuição visível é do interesse dele. **Nada de § 06.1 pode ir para produção
 antes disso.** Se a resposta for não, os caminhos 2 e 3 de § 07.1 passam a ser as

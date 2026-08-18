@@ -1,0 +1,84 @@
+PDA Point — Licença Proprietária
+Copyright (c) 2026 João Carlos. Todos os direitos reservados.
+
+PORTUGUÊS
+
+Este repositório é público para fins de transparência, avaliação e
+demonstração. Público não significa livre: nenhum direito de uso é
+concedido além dos expressamente descritos abaixo.
+
+1. PERMITIDO
+
+   a) Visualizar e ler o código-fonte, a documentação e o conteúdo.
+   b) Executar o projeto localmente para avaliação pessoal e não comercial.
+   c) Citar trechos, com atribuição, para fins de estudo, resenha ou
+      comentário, na medida permitida pela legislação aplicável.
+
+2. NÃO PERMITIDO, sem autorização prévia e por escrito do titular
+
+   a) Uso comercial de qualquer parte deste repositório.
+   b) Cópia, redistribuição, publicação ou hospedagem do projeto, no todo
+      ou em parte.
+   c) Criação de obras derivadas, adaptações ou traduções.
+   d) Uso do conteúdo tático, dos cenários, da metodologia editorial ou da
+      documentação de produto para treinar modelos, alimentar bases de
+      dados ou construir produtos concorrentes.
+   e) Uso da marca "PDA Point", do nome, da identidade visual ou de
+      qualquer elemento distintivo.
+
+3. CONTEÚDO E DADOS DE TERCEIROS
+
+   O conteúdo tático deste projeto é baseado em evidência publicada. As
+   fontes citadas permanecem sob a licença e a titularidade de seus
+   respectivos autores, e nada nesta licença se estende a elas.
+
+   O projeto não incorpora dados do Match Charting Project, que é
+   licenciado sob CC BY-NC-SA 4.0 e proíbe uso comercial. Ver
+   docs/EVIDENCE_SOURCES.md.
+
+   Nomes de atletas e de torneios, quando citados, são usados de forma
+   descritiva e factual. Não há afiliação, patrocínio ou endosso.
+
+4. SEM GARANTIA
+
+   O SOFTWARE É FORNECIDO "COMO ESTÁ", SEM GARANTIA DE QUALQUER NATUREZA,
+   EXPRESSA OU IMPLÍCITA, INCLUINDO MAS NÃO SE LIMITANDO ÀS GARANTIAS DE
+   COMERCIABILIDADE, ADEQUAÇÃO A UMA FINALIDADE ESPECÍFICA E NÃO
+   VIOLAÇÃO. EM NENHUMA HIPÓTESE O TITULAR SERÁ RESPONSÁVEL POR QUALQUER
+   REIVINDICAÇÃO, DANO OU OUTRA RESPONSABILIDADE DECORRENTE DO SOFTWARE
+   OU DE SEU USO.
+
+5. NATUREZA DO CONTEÚDO
+
+   Este projeto tem finalidade educacional e descreve padrões observados
+   no tênis profissional. Não constitui recomendação técnica
+   individualizada nem substitui orientação de um treinador.
+
+Para solicitar autorização de uso: abra uma issue neste repositório.
+
+--------------------------------------------------------------------------
+
+ENGLISH (informative translation; the Portuguese text prevails)
+
+This repository is public for transparency, evaluation and demonstration
+purposes. Public does not mean free: no rights are granted beyond those
+expressly listed below.
+
+PERMITTED: viewing and reading the source, documentation and content;
+running the project locally for personal, non-commercial evaluation;
+quoting excerpts with attribution for study, review or commentary, to the
+extent permitted by applicable law.
+
+NOT PERMITTED without prior written permission from the copyright holder:
+commercial use of any part; copying, redistribution, publication or
+hosting, in whole or in part; derivative works, adaptations or
+translations; use of the tactical content, scenarios, editorial
+methodology or product documentation to train models, populate datasets
+or build competing products; use of the "PDA Point" name, brand or visual
+identity.
+
+Third-party sources cited remain under their own licences and ownership.
+This project does not incorporate Match Charting Project data, which is
+CC BY-NC-SA 4.0 and forbids commercial use.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND.
