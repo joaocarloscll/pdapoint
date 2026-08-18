@@ -52,7 +52,7 @@ jobs:
         # Sem isto, o Jekyll do Pages ignora o diretório _next/
         run: touch out/.nojekyll
 
-      - uses: actions/upload-pages-artifact@v3
+      - uses: actions/upload-pages-artifact@v5
         with:
           path: out
 
