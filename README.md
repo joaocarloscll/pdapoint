@@ -110,6 +110,8 @@ componentes visuais.
 | [`docs/PRODUCT.md`](docs/PRODUCT.md) | Fonte de verdade de produto: decisões fundamentais, marca, arquitetura de informação, core loop, wireframes, sistema de conteúdo, plano de validação |
 | [`docs/EVIDENCE_SOURCES.md`](docs/EVIDENCE_SOURCES.md) | Catálogo de fontes, com status de verificação por fonte |
 | [`docs/PATTERN_BACKLOG.md`](docs/PATTERN_BACKLOG.md) | Padrões táticos candidatos a virar conteúdo |
+| [`docs/DATA_PROTECTION.md`](docs/DATA_PROTECTION.md) | Postura de proteção de dados (LGPD) e requisitos antes de coletar qualquer dado |
+| [`SECURITY.md`](SECURITY.md) | Política de segurança e como reportar vulnerabilidades |
 | [`AGENTS.md`](AGENTS.md) | Regras para agentes de código. Leia antes de editar |
 
 ## Stack
@@ -127,3 +129,22 @@ aberta e verificada por uma pessoa. Duas revistas gratuitas cobrem o escopo —
 IJRSS (`CC BY 4.0`, permite uso comercial) e ITF Coaching & Sport Science Review.
 
 O roteiro está em `docs/EVIDENCE_SOURCES.md` § 01b.
+
+## Privacidade
+
+A aplicação publicada **não coleta nenhum dado pessoal**: não há contas,
+cookies, `localStorage`, analytics ou requisições a terceiros. Detalhes e os
+requisitos para as fases futuras em
+[`docs/DATA_PROTECTION.md`](docs/DATA_PROTECTION.md).
+
+## Licença
+
+Copyright © 2026 João Carlos. Todos os direitos reservados.
+
+Este repositório é público para transparência e avaliação — **público não
+significa livre**. Uso comercial, redistribuição e obras derivadas exigem
+autorização prévia por escrito. Ver [`LICENSE`](LICENSE).
+
+As fontes citadas permanecem sob a licença de seus respectivos autores. O
+projeto não incorpora dados do Match Charting Project, que proíbe uso
+comercial.

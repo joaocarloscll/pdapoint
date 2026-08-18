@@ -1,0 +1,41 @@
+name: CodeQL
+
+# Análise estática de segurança. Roda no push para main, em cada PR, e
+# semanalmente para pegar regras novas em código que não mudou.
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  schedule:
+    - cron: '0 6 * * 1'
+
+permissions:
+  contents: read
+
+jobs:
+  analyze:
+    # Code scanning é gratuito em repositório público; em repositório privado
+    # exige GitHub Advanced Security. Sem isso a análise roda mas o envio do
+    # resultado é recusado, e o job termina em erro de configuração.
+    #
+    # O guarda evita um check vermelho permanente enquanto o repositório for
+    # privado. Assim que ele virar público, a análise passa a rodar sozinha —
+    # nada precisa ser alterado aqui.
+    if: github.event.repository.private == false
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      security-events: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+
+      - uses: github/codeql-action/init@v3
+        with:
+          languages: javascript-typescript
+          queries: security-and-quality
+
+      - uses: github/codeql-action/analyze@v3

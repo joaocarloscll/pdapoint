@@ -5,11 +5,18 @@ on:
   push:
     branches: [main]
 
+# Sem isto, o token do workflow herda as permissões padrão do repositório.
+permissions:
+  contents: read
+
 jobs:
   verify:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          # O job não precisa do token depois do clone.
+          persist-credentials: false
 
       - uses: actions/setup-node@v4
         with:

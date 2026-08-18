@@ -1,0 +1,21 @@
+version: 2
+
+updates:
+  # Dependências da aplicação. Atualizações de segurança são abertas
+  # automaticamente pelo GitHub independentemente desta janela.
+  - package-ecosystem: npm
+    directory: /
+    schedule:
+      interval: weekly
+    open-pull-requests-limit: 5
+    groups:
+      # Agrupa atualizações de manutenção num único PR, para que atualizações
+      # de segurança individuais não se percam no ruído.
+      minor-e-patch:
+        update-types: [minor, patch]
+
+  # As próprias actions do CI são dependência executável com acesso ao token.
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: weekly
