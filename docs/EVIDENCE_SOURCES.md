@@ -114,6 +114,67 @@ nada disso existe nos dados. Ver § 07.
 
 ---
 
+## 01b — Adendo: busca por fontes gratuitas (2026-08-18)
+
+Rodada adicional de verificação, com o objetivo explícito de encontrar fontes
+**gratuitas** utilizáveis mesmo que a evidência seja mais fraca.
+
+### Resultado: o gargalo deixou de ser dinheiro
+
+Os dois periódicos mais alinhados ao nosso escopo **são gratuitos**, e um deles
+permite uso comercial:
+
+| Fonte | Acesso | Licença | Uso comercial |
+|---|---|---|---|
+| **IJRSS** — Int. Journal of Racket Sports Science | Diamond OA (grátis para ler e publicar) | **CC BY 4.0** — confirmado na página de política do periódico | ✅ **Permitido, com atribuição** |
+| **ITF CSSR** — Coaching & Sport Science Review | Open Access, sem taxa de leitura nem APC | Indicada como CC BY | ✅ Provável (confirmar) |
+
+**Isto reposiciona o projeto.** A conclusão anterior — "a fonte que resolve o
+produto está juridicamente bloqueada" — vale para o MCP, mas **não** para a
+literatura. Existe corpo peer-reviewed, gratuito, dedicado a esportes de raquete,
+com licença que permite produto comercial.
+
+O IJRSS ser `CC BY 4.0` é o achado mais relevante desta rodada: é a única fonte
+de peso do catálogo **sem restrição comercial**, e cobre exatamente análise
+notacional de tênis.
+
+### O que continua sem verificação, e por quê
+
+O ambiente desta sessão tem política de egresso que **bloqueia praticamente toda a
+web** exceto busca e GitHub. Domínios bloqueados nesta rodada, confirmados:
+
+```text
+itfcoachingreview.com          journal.racketsportscience.org
+revistaseug.ugr.es             redalyc.org
+pmc.ncbi.nlm.nih.gov           api.openalex.org
+doaj.org                       arxiv.org
+scholar.google.com             researchgate.net
+link.springer.com              frontiersin.org
+tandfonline.com                journals.plos.org
+```
+
+Portanto: **confirmei que estas fontes existem, são gratuitas e qual é a licença,
+mas não abri um único artigo.** Nenhum achado quantitativo novo foi extraído nesta
+rodada, e nenhum número foi inventado para preencher a lacuna.
+
+### Consequência prática
+
+A verificação que falta **não custa dinheiro — custa algumas horas de leitura**, e
+pode ser feita fora deste ambiente, onde esses sites são apenas páginas abertas.
+
+Roteiro sugerido, em ordem de retorno:
+
+1. **IJRSS** — `journal.racketsportscience.org` → confirmar `CC BY 4.0` na página
+   de política e varrer os índices por análise notacional de tênis.
+2. **ITF CSSR** — `itfcoachingreview.com` → o portal tem índice por tópico, com
+   seção **TACTICS**. É o caminho mais curto para artigos táticos aplicados.
+3. Para cada artigo relevante: registrar autores, ano, periódico, DOI, o número
+   que ele sustenta, e o tamanho de amostra.
+
+Só depois disso o `Golden Scenario 001` pode ser escrito com fonte real.
+
+---
+
 ## 02 — Tier A · Dados quantitativos de partidas reais
 
 ### 02.1 — Match Charting Project (MCP) — ✅ VERIFICADO
