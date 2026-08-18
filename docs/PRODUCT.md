@@ -19,12 +19,16 @@ anterior está razoavelmente fechado.
 01 — Brand System                    ✅ fechado
 02 — Information Architecture        ✅ fechado
 03 — Core Experience Specification   ✅ fechado
-04 — Golden Scenario 001             ⛔ bloqueado por EVIDENCE_SOURCES.md
-05 — Mobile Wireframes               🔜 próximo
-06 — Tactical Content System         ◐ fundação decidida (ver 00)
-07 — Technical Handoff / Agent Spec
-08 — Validation Plan
+04 — Golden Scenario 001             ⛔ bloqueado — precisa de fonte verificada
+05 — Mobile Wireframes               ✅ fechado
+06 — Tactical Content System         ✅ fechado
+07 — Technical Handoff / Agent Spec  ⏳ depende de 04
+08 — Validation Plan                 ✅ fechado
 ```
+
+**Único bloqueio ativo:** o estágio 04 precisa de uma fonte aberta e verificada por
+um humano. Roteiro em `EVIDENCE_SOURCES.md` § 01b; candidatos priorizados em
+`PATTERN_BACKLOG.md`.
 
 Os documentos técnicos e de visão original que originaram este arquivo continuam
 como referência histórica, mas este arquivo é o que deve ser lido primeiro.
@@ -562,4 +566,451 @@ continua vendo *o que aconteceu*, sem o deslocamento contínuo na tela.
 
 # 04 — Golden Scenario 001
 
-*(bloqueado até a base de fontes estar levantada — ver `EVIDENCE_SOURCES.md`)*
+⛔ **Bloqueado.** Depende de fonte verificada. Ver `EVIDENCE_SOURCES.md` § 01b
+para o roteiro de verificação, e `PATTERN_BACKLOG.md` para os três candidatos
+priorizados a ocupar esta posição.
+
+Escrever o cenário canônico com fonte placeholder violaria a Regra 2 de 00.1 —
+que é justamente a regra que sustenta a credibilidade do produto inteiro.
+
+---
+
+# 05 — Wireframes mobile (390 × 844)
+
+Hierarquia e interação. **Não** são cores, tipografia ou tratamento visual final.
+
+Convenções: `▓` área da quadra · `[ ]` controle tocável · `···` conteúdo
+truncado/rolável.
+
+## Tela 1 — Entrada no Point IQ
+
+Primeiro contato. Sem conta, sem fricção.
+
+```text
+┌─────────────────────────────┐
+│                             │
+│         PDA POINT           │
+│                             │
+│   Enxergue o ponto antes    │
+│      de jogá-lo.            │
+│                             │
+│  ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓  │
+│  ▓                       ▓  │
+│  ▓   quadra em loop      ▓  │
+│  ▓   silencioso —        ▓  │
+│  ▓   uma jogada curta    ▓  │
+│  ▓                       ▓  │
+│  ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓  │
+│                             │
+│   10 situações. 3 minutos.  │
+│   Sem cadastro.             │
+│                             │
+│   [   Descobrir meu IQ   ]  │
+│                             │
+│   [ Ver como funciona ]     │
+│                             │
+└─────────────────────────────┘
+```
+
+A animação em loop **é** o argumento de venda. Ela mostra o produto antes de
+qualquer texto explicativo.
+
+## Tela 2 — Situação tática
+
+O coração do produto. Duas fases na mesma tela.
+
+**2a — Observação** (opções ainda ocultas)
+
+```text
+┌─────────────────────────────┐
+│  ←            2/10          │
+├─────────────────────────────┤
+│                             │
+│  ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓  │
+│  ▓         ●B            ▓  │
+│  ▓                       ▓  │
+│  ▓ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ▓  │
+│  ▓              ○        ▓  │
+│  ▓          ●A           ▓  │
+│  ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓  │
+│                             │
+│         [ ↻ rever ]         │
+│                             │
+│  ─────────────────────────  │
+│                             │
+│   [  O que você faria?  ]   │
+│                             │
+└─────────────────────────────┘
+```
+
+**2b — Decisão** (após o toque)
+
+```text
+┌─────────────────────────────┐
+│  ←            2/10          │
+├─────────────────────────────┤
+│  ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓  │
+│  ▓         ●B            ▓  │
+│  ▓ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ▓  │
+│  ▓              ○        ▓  │
+│  ▓          ●A           ▓  │
+│  ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓  │
+│         [ ↻ rever ]         │
+│  ─────────────────────────  │
+│  ┌───────────────────────┐  │
+│  │ A  Cruzado curto      │  │
+│  ├───────────────────────┤  │
+│  │ B  Cruzado profundo   │ ◄│ selecionado
+│  ├───────────────────────┤  │
+│  │ C  Paralela           │  │
+│  └───────────────────────┘  │
+│                             │
+│   [      Confirmar      ]   │
+└─────────────────────────────┘
+```
+
+A quadra **nunca sai da tela**. As opções ocupam o terço inferior — zona do
+polegar. Alvo mínimo de 44px por opção.
+
+## Tela 3 — Consequência
+
+```text
+┌─────────────────────────────┐
+│               2/10          │
+├─────────────────────────────┤
+│  ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓  │
+│  ▓                       ▓  │
+│  ▓      ●B ←── trajetória▓  │
+│  ▓ ─ ─ ─┼─ ─ ─ ─ ─ ─ ─ ─ ▓  │
+│  ▓      ▒▒▒ espaço       ▓  │
+│  ▓      ▒▒▒ concedido    ▓  │
+│  ▓            ●A         ▓  │
+│  ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓  │
+│  ─────────────────────────  │
+│                             │
+│  ○ alternativa              │
+│                             │
+│  Devolveu ângulo ao         │
+│  adversário antes de        │
+│  consolidar a vantagem.     │
+│                             │
+│  [ ⓘ fonte ]                │
+│                             │
+│  [  Ver o padrão profissional ]│
+└─────────────────────────────┘
+```
+
+A classificação (`○ alternativa`) aparece **junto** com o veredito, nunca antes da
+animação. O acesso à fonte é discreto mas presente — exigência de 00.1.
+
+## Tela 4 — Resultado do Point IQ
+
+```text
+┌─────────────────────────────┐
+│                             │
+│      Seu score tático       │
+│                             │
+│           632               │
+│                             │
+│  ─────────────────────────  │
+│  Construção      ███████ 74 │
+│  Saque +1        ████████ 81│
+│  Devolução       ██████ 63  │
+│  Ataque          ███████ 68 │
+│  Defesa          ████ 41 ◄  │
+│  Posicionamento  ███████ 71 │
+│  ─────────────────────────  │
+│                             │
+│  Seu maior vazamento hoje   │
+│  foi defesa sob pressão.    │
+│                             │
+│  38% das decisões erradas   │
+│  vieram dessa família.      │
+│                             │
+│  ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒  │
+│  ▒ outros padrões ocultos ▒ │
+│  ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒  │
+│                             │
+│  [ Descobrir os outros    ] │
+│  [ padrões                ] │
+└─────────────────────────────┘
+```
+
+Um insight revelado, o resto parcialmente oculto. A barra da dimensão mais fraca
+recebe marcação — é a âncora narrativa do resultado.
+
+## Tela 5 — Início autenticado
+
+```text
+┌─────────────────────────────┐
+│  PDA Point            ⚙     │
+├─────────────────────────────┤
+│  Continue de onde parou     │
+│  ┌───────────────────────┐  │
+│  │ ▓ Construção de ponto │  │
+│  │   7/12 situações      │  │
+│  └───────────────────────┘  │
+│                             │
+│  Desafio de hoje            │
+│  ┌───────────────────────┐  │
+│  │ ▓ uma situação        │  │
+│  └───────────────────────┘  │
+│                             │
+│  Score tático     632  ▲ 8  │
+│                             │
+│  Detectamos                 │
+│  ┌───────────────────────┐  │
+│  │ Defesa sob pressão    │  │
+│  │ → ver na Biblioteca   │  │
+│  └───────────────────────┘  │
+│                             │
+├─────────────────────────────┤
+│ Início Biblio (JOGAR) Plano Perfil│
+└─────────────────────────────┘
+```
+
+Cinco blocos, teto rígido. "Detectamos" **sempre** linka para a Biblioteca — regra
+de conexão da seção 02.
+
+## Tela 6 — Biblioteca
+
+```text
+┌─────────────────────────────┐
+│  Biblioteca           🔍    │
+├─────────────────────────────┤
+│  [Momento][Objetivo][Nível] │ ← filtros roláveis
+├─────────────────────────────┤
+│  ┌───────────────────────┐  │
+│  │ ▓▓▓▓  Ataque à bola   │  │
+│  │ ▓▓▓▓  curta           │  │
+│  │       Ataque · Interm.│  │
+│  └───────────────────────┘  │
+│  ┌───────────────────────┐  │
+│  │ ▓▓▓▓  Saque aberto →  │  │
+│  │ ▓▓▓▓  forehand        │  │
+│  │       Saque · Interm. │  │
+│  └───────────────────────┘  │
+│  ┌───────────────────────┐  │
+│  │ ▓▓▓▓  Neutralizar     │  │
+│  │ ▓▓▓▓  deslocado       │  │
+│  │       Defesa · Fund.  │  │
+│  └───────────────────────┘  │
+│           ···               │
+├─────────────────────────────┤
+│ Início Biblio (JOGAR) Plano Perfil│
+└─────────────────────────────┘
+```
+
+Cada card mostra a quadra em miniatura — o usuário reconhece a situação
+visualmente antes de ler o título.
+
+## Tela 7 — Point Builder
+
+```text
+┌─────────────────────────────┐
+│  ←     0–0 · você saca      │
+├─────────────────────────────┤
+│                             │
+│  golpe 3 de até 14          │
+│  ● ● ○ ○ ○ ○ ○ ○            │
+│                             │
+│  ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓  │
+│  ▓        ●B             ▓  │
+│  ▓ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ▓  │
+│  ▓      ○                ▓  │
+│  ▓          ●A           ▓  │
+│  ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓  │
+│  ─────────────────────────  │
+│  ┌───────────────────────┐  │
+│  │ Abrir a quadra        │  │
+│  ├───────────────────────┤  │
+│  │ Manter profundidade   │  │
+│  ├───────────────────────┤  │
+│  │ Mudar de direção      │  │
+│  └───────────────────────┘  │
+│   [      Confirmar      ]   │
+└─────────────────────────────┘
+```
+
+O contador de golpes é visível — comunica que **o ponto é finito** e torna o
+guardrail anti-loop parte da experiência em vez de um limite escondido.
+
+## O que estes wireframes fixam
+
+1. A quadra é sempre o maior elemento da tela.
+2. Decisão sempre no terço inferior, zona do polegar.
+3. Opções nunca aparecem junto com a situação (Fase 2 da seção 03).
+4. Confirmação em dois toques em toda decisão.
+5. Fonte acessível em toda explicação.
+6. Navegação inferior nunca aparece durante uma situação — ela distrai da jogada.
+
+## Telas fora deste lote
+
+Depois de validado o core loop: página da tática, perfil, criação de Match Plan,
+resultado do Match Plan, área do Coach.
+
+---
+
+# 06 — Sistema de Conteúdo Tático
+
+A Biblioteca precisa nascer como **dataset estruturado**, não como um conjunto de
+textos. Sem template obrigatório, 300 táticas viram 300 formatos diferentes e o
+engine não consegue tratá-las de forma uniforme.
+
+## Template obrigatório
+
+Toda tática, sem exceção, preenche esta estrutura:
+
+```yaml
+# Identificação
+id:                 # slug estável, nunca reutilizado
+nome:               # título curto, orientado à situação
+versao:             # inteiro; publicação nova nunca sobrescreve
+categoria:          # saque | devolução | rally | ataque | defesa | transição | rede | duplas
+nivel:              # fundamental | intermediária | avançada
+tipo:               # simples | duplas
+
+# Situação
+contexto:           # 1 frase: o que está acontecendo
+estado_inicial:
+  bola:    { x: , y: }        # coordenadas normalizadas 0.0–1.0
+  jogador_a: { x: , y: }
+  jogador_b: { x: , y: }
+  quem_bate:                  # a | b
+  vantagem:                   # neutra | a | b
+
+# Decisões
+escolhas:
+  - id:
+    rotulo:                   # texto curto de intenção
+    intencao:                 # o que o jogador tenta conseguir
+    trajetoria:               # descrição do caminho da bola
+    resposta_adversario:      # como B reage
+    consequencia:             # estado resultante em 1 frase
+    classificacao:            # padrão | alternativa | situacional | incomum
+    proximo_estado:           # id do estado seguinte, ou terminal
+    explicacao:               # o mecanismo, 1–2 frases
+
+# Princípio
+principio_tatico:   # a lição transferível
+quando_usar:
+quando_nao_usar:
+
+# Governança — obrigatório para publicar
+fonte:
+  tier:             # B | C  (A indisponível — ver 00.2c)
+  referencia:       # autores, ano, periódico, DOI
+  o_que_sustenta:   # exatamente qual afirmação vem desta fonte
+  verificada_por:   # nome de quem abriu a fonte
+  verificada_em:    # data
+revisor:
+status:             # rascunho | revisada | aprovada | publicada | descontinuada
+```
+
+## Regras de integridade
+
+1. **Sem `fonte.verificada_por` preenchido, o status não pode passar de `revisada`.**
+   Esta é a materialização da Regra 2 de 00.1.
+2. `classificacao` é limitada pelo `tier` da fonte (Regra 1 de 00.1).
+3. Toda `escolha` aponta para um `proximo_estado` existente ou para um terminal.
+4. Coordenadas sempre normalizadas — nunca pixels (ver documento de arquitetura).
+5. Publicação nova cria versão; nunca edita destrutivamente uma publicada.
+6. `o_que_sustenta` existe para impedir citação decorativa: a fonte precisa
+   sustentar uma afirmação **específica**, não a tática "em geral".
+
+## Fluxo de produção
+
+```text
+backlog (PATTERN_BACKLOG.md)
+   ↓
+pesquisa em fonte gratuita (IJRSS / ITF CSSR)
+   ↓
+fonte encontrada e aberta por um humano
+   ↓
+preenchimento do template
+   ↓
+modelagem do grafo de estados
+   ↓
+validação automática (invariantes do engine)
+   ↓
+preview em viewport de iPhone
+   ↓
+publicação versionada
+```
+
+## Por que isto vem antes das 300 táticas
+
+Se o template só for definido depois de 30 táticas escritas, todas as 30 precisam
+ser refeitas. O custo de estabelecer a estrutura agora é de horas; o de corrigir
+depois é de semanas.
+
+---
+
+# 07 — Technical Handoff / Agent Specification
+
+*(a escrever — depende de 04 e 06 estarem preenchidos com um caso real)*
+
+Este documento ficará entre produto e código, e dirá ao agente *"construa
+exatamente isto"*. Para cada tela/feature: objetivo, entrada, saída, componentes,
+estados, interações, regras, comportamento mobile, loading/erro/vazio, analytics,
+critérios de aceite e testes obrigatórios.
+
+Alimentará `AGENTS.md`, `docs/ARCHITECTURE.md`, `docs/TACTICAL_ENGINE.md` e
+`docs/DESIGN_SYSTEM.md`, conforme previsto no documento de arquitetura técnica.
+
+---
+
+# 08 — Plano de Validação
+
+Existe para impedir que "ficou legal" seja confundido com "há negócio".
+
+## V1 — Compreensão (5 pessoas)
+
+**Pergunta:** entenderam sem explicação?
+
+Método: entregar o telefone com a Tela 1 aberta, sem instrução alguma, e observar
+em silêncio.
+
+| Sinal de sucesso | Sinal de fracasso |
+|---|---|
+| Toca em "Descobrir meu IQ" sem perguntar nada | Pergunta "o que eu faço aqui?" |
+| Observa a quadra antes de tocar nas opções | Toca em uma opção sem olhar a quadra |
+| Consegue explicar por que a decisão foi ruim | Só entende que "errou" |
+
+**Critério de avanço:** 4 de 5 entendem o loop sem ajuda.
+
+## V2 — Valor (20 tenistas)
+
+**Pergunta:** volta sozinho?
+
+| Métrica | Alvo mínimo |
+|---|---|
+| Completou as 10 situações | 70% |
+| Pediu "Ver o padrão profissional" ao menos uma vez | 50% |
+| Quis jogar outra sessão na hora | 40% |
+| Voltou em até 7 dias, sem lembrete | 25% |
+
+**Critério de avanço:** retorno em 7 dias ≥ 25%. Abaixo disso, o problema é a
+experiência — não adianta ampliar a biblioteca.
+
+## V3 — Coach (5 professores)
+
+**Pergunta:** usariam para explicar uma situação a um aluno?
+
+Sinal forte: o professor pede para **enviar** uma situação a um aluno sem que
+tenhamos sugerido. Isso indica o canal `coach → aluno → usuário` do documento de
+visão.
+
+**Contexto disponível:** o PDA Tennis é o ambiente natural para esta rodada.
+
+## V4 — Disposição a pagar
+
+**Pergunta:** alguém paga?
+
+Não perguntar "você pagaria?" — a resposta é sempre sim e não vale nada. Colocar
+um checkout real e medir conversão. Mesmo com 10 pessoas, o sinal é honesto.
+
+## Regra que governa o plano
+
+Nenhuma fase avança com a anterior reprovada. Se V1 falhar, o problema é
+compreensão — e escalar conteúdo só multiplica um mal-entendido.
