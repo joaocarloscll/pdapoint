@@ -4,10 +4,12 @@
  * Os invariantes 1–10 vêm do documento de arquitetura, seção 17.
  * Os invariantes 11–13 materializam o padrão de evidência de PRODUCT.md § 00.1
  * — as regras editoriais viram código que falha no CI, em vez de boa intenção.
+ * O invariante 14 faz o mesmo com a regra de fechamento de § 00.4.
  */
 
 import type {
   ChoiceClassification,
+  TerminalOutcome,
   ScenarioStatus,
   SourceTier,
   TacticalScenario,
@@ -45,6 +47,25 @@ const STRONG_CLASSIFICATIONS: readonly ChoiceClassification[] = [
 
 /** Tiers que sustentam uma afirmação forte. */
 const QUANTITATIVE_TIERS: readonly SourceTier[] = ['B']
+
+/**
+ * Desfechos que resolvem o ponto.
+ *
+ * `neutralized_end` está deliberadamente fora: ele é produzido em tempo de
+ * execução pelo guardrail anti-loop do Point Builder, nunca escrito à mão.
+ * Um cenário de decisão que termina em "rally neutralizado" não entrega
+ * consequência — e consequência é a lição (PRODUCT.md § 00.4).
+ */
+const DECISIVE_OUTCOMES: readonly TerminalOutcome[] = [
+  'winner_a',
+  'winner_b',
+  'forced_error_a',
+  'forced_error_b',
+  'unforced_error_a',
+  'unforced_error_b',
+  'ace',
+  'double_fault',
+]
 
 const inCourt = (n: number): boolean => n >= 0 && n <= 1
 
@@ -211,6 +232,23 @@ export function validateScenario(scenario: TacticalScenario): ValidationResult {
 
   // 9 e 10 — todo caminho termina dentro do limite
   issues.push(...checkTermination(scenario))
+
+  // 14 — todo caminho resolve o ponto
+  for (const state of scenario.states) {
+    if (
+      state.terminal !== undefined &&
+      !DECISIVE_OUTCOMES.includes(state.terminal)
+    ) {
+      issues.push(
+        issue(
+          14,
+          'terminal-does-not-resolve-point',
+          `Estado terminal "${state.id}" termina em "${state.terminal}", que não ` +
+            'resolve o ponto; cenário de decisão precisa de desfecho decisivo',
+        ),
+      )
+    }
+  }
 
   // 11–13 — governança de evidência
   issues.push(...checkEvidence(scenario))

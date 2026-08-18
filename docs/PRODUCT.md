@@ -37,7 +37,7 @@ como referência histórica, mas este arquivo é o que deve ser lido primeiro.
 
 # 00 — Decisões fundamentais
 
-Duas decisões que precedem todo o resto. Elas condicionam o conteúdo, o engine, a
+As decisões que precedem todo o resto. Elas condicionam o conteúdo, o engine, a
 UI e o discurso comercial. Não devem ser alteradas sem ADR.
 
 ## 00.1 — O conteúdo tático é baseado em evidência
@@ -200,6 +200,41 @@ Implicação: o conteúdo tático deve ser escrito de forma **neutra de superfí
 Se um padrão só se sustenta em uma superfície específica, isso pertence ao
 contexto explícito da tática (e, se necessário, ela vira uma situação distinta —
 mesma regra de 00.2), nunca a uma troca de tema pelo usuário.
+
+## 00.4 — Todo caminho resolve o ponto
+
+Cada escolha termina em ponto ganho ou perdido. Quando a decisão abre espaço
+para isso, **o adversário responde e pontua** — a consequência é animada, não
+anunciada.
+
+Motivo duplo. O primeiro é de experiência: decidir e ver o rally "neutralizado"
+não fecha nada, e o usuário sai sem sensação de desfecho. O segundo é
+pedagógico e mais importante: a consequência **é** a lição (§ 03). Um veredito
+textual informa que a escolha foi ruim; ver o adversário entrar na quadra e
+passar faz o custo ser sentido.
+
+Por isso cada transição anima dois golpes — o seu e a resposta dele.
+
+### Consequência na curadoria de conteúdo
+
+Uma situação só vira conteúdo quando a evidência sustenta um padrão dominante.
+Situações em que a evidência não distingue as opções simplesmente **não entram
+na biblioteca**.
+
+Isto é curadoria, não invenção. A regra de § 00.1 continua intacta: nunca se
+afirma mais do que a fonte sustenta. O que muda é o critério de seleção — em
+vez de publicar uma situação ambígua e classificá-la como `situacional`, ela
+fica de fora até que haja evidência que a resolva.
+
+A classificação `situacional` permanece no modelo e no validador, como guarda:
+um cenário cujas opções sejam todas situacionais é sinal de que ele ainda não
+deveria existir.
+
+### Consequência no engine
+
+O invariante 14 rejeita cenário de decisão que termine em `neutralized_end`.
+Esse desfecho fica reservado ao guardrail anti-loop do Point Builder, que o
+produz em tempo de execução — nunca é escrito à mão.
 
 ---
 
