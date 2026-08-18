@@ -109,7 +109,7 @@ export const golden001: TacticalScenario = {
       stateId: 's1',
       label: 'Cruzado curto',
       shotIntent: 'attack',
-      targetZone: 'deuce-short',
+      targetZone: 'opp-left-short',
       winProbability: {
         value: 0.44,
         basis: 'estimated',
@@ -128,7 +128,7 @@ export const golden001: TacticalScenario = {
       stateId: 's1',
       label: 'Ataque profundo na quadra aberta',
       shotIntent: 'finish',
-      targetZone: 'ad-deep',
+      targetZone: 'opp-right-deep',
       winProbability: {
         value: 0.76,
         basis: 'estimated',
@@ -146,7 +146,7 @@ export const golden001: TacticalScenario = {
       stateId: 's1',
       label: 'Bola ao meio, sem profundidade',
       shotIntent: 'neutralize',
-      targetZone: 'center-short',
+      targetZone: 'opp-center-short',
       winProbability: {
         value: 0.58,
         basis: 'estimated',
@@ -194,7 +194,8 @@ export const golden001: TacticalScenario = {
           kind: 'highlight-zone',
           startMs: 820,
           durationMs: 1000,
-          zone: 'ad-deep',
+          // O espaço aberto na NOSSA metade, para onde ele passa.
+          zone: 'own-right-deep',
           tone: 'risk',
         },
         {
@@ -215,7 +216,18 @@ export const golden001: TacticalScenario = {
           to: { x: 0.68, y: 0.76 },
           easing: 'ease-out',
         },
-        { kind: 'pause', startMs: 1560, durationMs: 420 },
+        // A bola quica dentro e sai: é o quique que fecha o ponto.
+        { kind: 'bounce', startMs: 1520, durationMs: 420, at: { x: 0.9, y: 0.74 } },
+        {
+          kind: 'move-ball',
+          startMs: 1540,
+          durationMs: 420,
+          from: { x: 0.9, y: 0.74 },
+          to: { x: 1.04, y: 0.96 },
+          arc: 0.04,
+          easing: 'linear',
+        },
+        { kind: 'pause', startMs: 1960, durationMs: 380 },
       ],
     },
     {
@@ -229,7 +241,8 @@ export const golden001: TacticalScenario = {
           kind: 'highlight-zone',
           startMs: 0,
           durationMs: 900,
-          zone: 'ad-deep',
+          // O espaço aberto na metade DELE, que é o alvo do ataque.
+          zone: 'opp-right-deep',
           tone: 'opportunity',
         },
         {
@@ -260,7 +273,17 @@ export const golden001: TacticalScenario = {
           to: { x: 0.55, y: 0.7 },
           easing: 'ease-in-out',
         },
-        { kind: 'pause', startMs: 900, durationMs: 460 },
+        { kind: 'bounce', startMs: 640, durationMs: 420, at: { x: 0.82, y: 0.08 } },
+        {
+          kind: 'move-ball',
+          startMs: 660,
+          durationMs: 400,
+          from: { x: 0.82, y: 0.08 },
+          to: { x: 0.94, y: -0.06 },
+          arc: 0.04,
+          easing: 'linear',
+        },
+        { kind: 'pause', startMs: 1060, durationMs: 460 },
       ],
     },
     {
@@ -294,7 +317,8 @@ export const golden001: TacticalScenario = {
           kind: 'highlight-zone',
           startMs: 840,
           durationMs: 1000,
-          zone: 'deuce-deep',
+          // O espaço aberto na nossa metade, do lado esquerdo.
+          zone: 'own-left-deep',
           tone: 'risk',
         },
         {
@@ -315,7 +339,17 @@ export const golden001: TacticalScenario = {
           to: { x: 0.36, y: 0.8 },
           easing: 'ease-out',
         },
-        { kind: 'pause', startMs: 1560, durationMs: 420 },
+        { kind: 'bounce', startMs: 1500, durationMs: 420, at: { x: 0.12, y: 0.78 } },
+        {
+          kind: 'move-ball',
+          startMs: 1520,
+          durationMs: 420,
+          from: { x: 0.12, y: 0.78 },
+          to: { x: -0.04, y: 0.98 },
+          arc: 0.04,
+          easing: 'linear',
+        },
+        { kind: 'pause', startMs: 1940, durationMs: 380 },
       ],
     },
   ],

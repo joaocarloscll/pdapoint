@@ -24,17 +24,33 @@ export type CourtPoint = {
   readonly y: number
 }
 
-/** Zonas nomeadas, usadas para intenção de alvo e para o hash anti-loop. */
+/**
+ * Zonas nomeadas, usadas para intenção de alvo e para o hash anti-loop.
+ *
+ * O prefixo diz **de que lado da rede**: `opp` é a metade do adversário
+ * (y < 0.5), `own` é a nossa (y > 0.5). Sem isso, um alvo no fundo do
+ * adversário e um no nosso caem na mesma zona — o destaque visual aparece do
+ * lado errado, e o hash anti-loop confunde estados opostos.
+ *
+ * Lateral é da perspectiva de quem olha o desenho (esquerda/centro/direita),
+ * não `deuce`/`ad`: esses invertem conforme o lado da quadra e conforme a
+ * mão do jogador, e a ambiguidade já custou um bug.
+ */
 export type CourtZone =
-  | 'deuce-deep'
-  | 'deuce-short'
-  | 'center-deep'
-  | 'center-short'
-  | 'ad-deep'
-  | 'ad-short'
-  | 'net-deuce'
-  | 'net-center'
-  | 'net-ad'
+  // Metade do adversário
+  | 'opp-left-deep'
+  | 'opp-center-deep'
+  | 'opp-right-deep'
+  | 'opp-left-short'
+  | 'opp-center-short'
+  | 'opp-right-short'
+  // Nossa metade
+  | 'own-left-short'
+  | 'own-center-short'
+  | 'own-right-short'
+  | 'own-left-deep'
+  | 'own-center-deep'
+  | 'own-right-deep'
 
 // ---------------------------------------------------------------------------
 // Estado
@@ -206,6 +222,17 @@ export type PauseEvent = TimelineEventBase & {
   readonly kind: 'pause'
 }
 
+/**
+ * Quique da bola no ponto em que ela cai.
+ *
+ * Marca visualmente onde a bola tocou a quadra. Sem o quique, a bola apenas
+ * para no alvo e o ponto não se lê como encerrado.
+ */
+export type BounceEvent = TimelineEventBase & {
+  readonly kind: 'bounce'
+  readonly at: CourtPoint
+}
+
 export type AnnotationEvent = TimelineEventBase & {
   readonly kind: 'annotation'
   readonly text: string
@@ -218,6 +245,7 @@ export type TimelineEvent =
   | HighlightZoneEvent
   | ShowArrowEvent
   | PauseEvent
+  | BounceEvent
   | AnnotationEvent
 
 // ---------------------------------------------------------------------------
