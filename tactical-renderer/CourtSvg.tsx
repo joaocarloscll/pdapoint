@@ -37,9 +37,16 @@ export function CourtSvg({ theme, children, title }: CourtSvgProps) {
       viewBox={`0 0 ${VIEW_W} ${VIEW_H}`}
       role="img"
       aria-label={title}
-      // Preenche o espaço disponível em vez de impor a própria proporção:
-      // é o que mantém os controles alcançáveis em telas baixas.
-      // preserveAspectRatio (xMidYMid meet, o padrão) evita distorção.
+      // O SVG preenche a caixa e `preserveAspectRatio` (xMidYMid meet, o
+      // padrão) encaixa o desenho dentro dela, centralizado e sem distorção.
+      //
+      // Escolhido em vez de aspect-ratio no CSS porque é o único mecanismo com
+      // garantia idêntica em todo navegador: quando altura e largura estão
+      // ambas restritas, aspect-ratio perde para a dimensão explícita e a
+      // quadra sai estreita. Aqui a proporção é do SVG, não do layout.
+      //
+      // A proporção nunca é esticada: num produto sobre ângulos e distâncias,
+      // uma quadra distorcida mentiria sobre para onde a bola foi.
       style={{ width: '100%', height: '100%', display: 'block' }}
     >
       <title>{title}</title>
