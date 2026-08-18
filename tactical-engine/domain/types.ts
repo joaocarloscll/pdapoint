@@ -105,20 +105,43 @@ export type ShotIntent =
   | 'serve'
 
 /**
- * Classificação de uma escolha.
+ * De onde vem um número de probabilidade.
  *
- * Vocabulário descritivo, não prescritivo (PRODUCT.md § 00.2b): descreve o que
- * o profissional faz, não o que o usuário deve fazer.
+ * No xadrez o motor é verdade de campo; no tênis não existe equivalente. Um
+ * número sem procedência declarada é pior que um rótulo vago, porque aparenta
+ * uma precisão que não tem. Por isso a procedência é parte do dado, e o
+ * validador recusa publicar estimativa (PRODUCT.md § 00.5).
  */
-export type ChoiceClassification =
-  /** Predomina no jogo profissional. */
-  | 'padrao'
-  /** Também usado; depende do contexto. */
-  | 'alternativa'
-  /** A evidência não distingue as opções. */
-  | 'situacional'
-  /** Raro no profissional, ou com resultado documentado pior. */
-  | 'incomum'
+export type ProbabilityBasis =
+  /** Medido em partidas reais e publicado. */
+  | 'measured'
+  /** Calculado a partir de dado publicado, com o cálculo declarado. */
+  | 'derived'
+  /** Estimativa editorial. Aceitável em rascunho, nunca em conteúdo publicado. */
+  | 'estimated'
+
+export type WinProbability = {
+  /** Probabilidade de vencer o ponto após esta escolha, de 0 a 1. */
+  readonly value: number
+  readonly basis: ProbabilityBasis
+  /** O que sustenta o número — a fonte, o cálculo, ou a premissa. */
+  readonly note: string
+}
+
+/**
+ * Qualidade de uma escolha, no espírito da avaliação de lances do xadrez.
+ *
+ * NÃO é escrita à mão: deriva da distância entre a probabilidade da escolha e
+ * a da melhor opção disponível. Assim o rótulo nunca contradiz o número, e
+ * corrigir um número reclassifica a escolha sozinho.
+ */
+export type ChoiceQuality =
+  | 'melhor'
+  | 'excelente'
+  | 'boa'
+  | 'imprecisao'
+  | 'erro'
+  | 'erro-grave'
 
 export type TacticalChoice = {
   readonly id: string
@@ -127,7 +150,13 @@ export type TacticalChoice = {
   readonly label: string
   readonly shotIntent: ShotIntent
   readonly targetZone?: CourtZone
-  readonly classification: ChoiceClassification
+  /**
+   * Chance de vencer o ponto ao escolher esta opção.
+   *
+   * Toda escolha tem uma: não existe empate real entre duas opções, existe
+   * diferença que ainda não foi medida (PRODUCT.md § 00.5).
+   */
+  readonly winProbability: WinProbability
   /** O mecanismo, 1–2 frases. Mostrado na Fase 6 do loop. */
   readonly explanation: string
 }

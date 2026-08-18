@@ -11,6 +11,7 @@ import type {
   TacticalState,
   TacticalTransition,
 } from '../domain/types'
+import { accuracyOf, evaluateChoice, type ChoiceEvaluation } from '../scoring/evaluate'
 import { canonicalHash, guardrailBreach } from './guardrails'
 
 export type EngineError =
@@ -41,6 +42,16 @@ export type PlaySession = {
   readonly transitionSequence: readonly string[]
   readonly visitedHashes: readonly string[]
   readonly score: number
+  /** Uma avaliação por decisão tomada, na ordem. Base da precisão da sessão. */
+  readonly evaluations: readonly ChoiceEvaluation[]
+}
+
+/**
+ * Precisão da sessão, de 0 a 100 — quanto o jogador reteve da melhor escolha
+ * disponível em cada decisão.
+ */
+export function accuracy(session: PlaySession): number {
+  return accuracyOf(session.evaluations)
 }
 
 export function startSession(scenario: TacticalScenario): Result<PlaySession> {
@@ -61,6 +72,7 @@ export function startSession(scenario: TacticalScenario): Result<PlaySession> {
       transitionSequence: [],
       visitedHashes: [canonicalHash(initial)],
       score: 0,
+      evaluations: [],
     },
   }
 }
@@ -93,7 +105,11 @@ export function isTerminal(session: PlaySession): boolean {
 export function choose(
   session: PlaySession,
   choiceId: string,
-): Result<{ session: PlaySession; transition: TacticalTransition }> {
+): Result<{
+  session: PlaySession
+  transition: TacticalTransition
+  evaluation: ChoiceEvaluation
+}> {
   const state = currentState(session)
   if (state === undefined) {
     return {
@@ -106,7 +122,8 @@ export function choose(
     return { ok: false, error: { kind: 'state-is-terminal', stateId: state.id } }
   }
 
-  if (findChoice(session.scenario, choiceId) === undefined) {
+  const chosen = findChoice(session.scenario, choiceId)
+  if (chosen === undefined) {
     return { ok: false, error: { kind: 'unknown-choice', choiceId } }
   }
 
@@ -141,6 +158,15 @@ export function choose(
     return { ok: false, error: { kind: 'guardrail', reason: breach } }
   }
 
+  // Avalia contra o que estava disponível naquele estado: julga a decisão,
+  // não o desfecho.
+  const evaluation = evaluateChoice(
+    chosen,
+    state.availableChoices
+      .map((id) => findChoice(session.scenario, id))
+      .filter((c): c is TacticalChoice => c !== undefined),
+  )
+
   return {
     ok: true,
     value: {
@@ -151,8 +177,10 @@ export function choose(
         transitionSequence: [...session.transitionSequence, transition.id],
         visitedHashes,
         score: session.score + transition.scoreDelta,
+        evaluations: [...session.evaluations, evaluation],
       },
       transition,
+      evaluation,
     },
   }
 }

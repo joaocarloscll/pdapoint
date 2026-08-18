@@ -4,11 +4,11 @@
  * Os invariantes 1–10 vêm do documento de arquitetura, seção 17.
  * Os invariantes 11–13 materializam o padrão de evidência de PRODUCT.md § 00.1
  * — as regras editoriais viram código que falha no CI, em vez de boa intenção.
- * O invariante 14 faz o mesmo com a regra de fechamento de § 00.4.
+ * O invariante 14 faz o mesmo com a regra de fechamento de § 00.4, e os
+ * invariantes 15–16 com a governança dos números de § 00.5.
  */
 
 import type {
-  ChoiceClassification,
   TerminalOutcome,
   ScenarioStatus,
   SourceTier,
@@ -36,16 +36,7 @@ const issue = (
 /** Status a partir dos quais o cenário é visível ao usuário final. */
 const PUBLIC_STATUSES: readonly ScenarioStatus[] = ['publicada']
 
-/**
- * Classificações que afirmam um padrão dominante e, portanto, exigem
- * evidência quantitativa (Regra 1 de PRODUCT.md § 00.1).
- */
-const STRONG_CLASSIFICATIONS: readonly ChoiceClassification[] = [
-  'padrao',
-  'incomum',
-]
-
-/** Tiers que sustentam uma afirmação forte. */
+/** Tiers que sustentam uma afirmação quantitativa. */
 const QUANTITATIVE_TIERS: readonly SourceTier[] = ['B']
 
 /**
@@ -250,6 +241,9 @@ export function validateScenario(scenario: TacticalScenario): ValidationResult {
     }
   }
 
+  // 15–16 — governança dos números
+  issues.push(...checkProbabilities(scenario, isPublicScenario(scenario)))
+
   // 11–13 — governança de evidência
   issues.push(...checkEvidence(scenario))
 
@@ -316,6 +310,63 @@ function checkTermination(scenario: TacticalScenario): ValidationIssue[] {
  * depende delas, e uma regra que vive só na documentação é uma regra que será
  * esquecida quando houver pressa.
  */
+const isPublicScenario = (s: TacticalScenario): boolean =>
+  PUBLIC_STATUSES.includes(s.status)
+
+/**
+ * Invariantes 15 e 16 — governança dos números.
+ *
+ * Uma probabilidade aparenta precisão. Publicar uma estimativa editorial como
+ * se fosse medição é pior que publicar um rótulo vago, porque o usuário não
+ * tem como distinguir. Ver PRODUCT.md § 00.5.
+ */
+function checkProbabilities(
+  scenario: TacticalScenario,
+  isPublic: boolean,
+): ValidationIssue[] {
+  const issues: ValidationIssue[] = []
+
+  for (const choice of scenario.choices) {
+    const p = choice.winProbability
+
+    // 15 — o número precisa ser uma probabilidade
+    if (!(p.value >= 0 && p.value <= 1)) {
+      issues.push(
+        issue(
+          15,
+          'probability-out-of-range',
+          `Escolha "${choice.id}" tem probabilidade ${p.value}, fora de 0–1`,
+        ),
+      )
+    }
+
+    // 15 — todo número declara o que o sustenta
+    if (p.note.trim() === '') {
+      issues.push(
+        issue(
+          15,
+          'probability-without-note',
+          `Escolha "${choice.id}" não declara o que sustenta a probabilidade`,
+        ),
+      )
+    }
+
+    // 16 — estimativa não é publicável
+    if (isPublic && p.basis === 'estimated') {
+      issues.push(
+        issue(
+          16,
+          'estimated-probability-published',
+          `Escolha "${choice.id}" publica uma probabilidade estimada; ` +
+            'estimativa editorial só é aceitável em rascunho',
+        ),
+      )
+    }
+  }
+
+  return issues
+}
+
 function checkEvidence(scenario: TacticalScenario): ValidationIssue[] {
   const issues: ValidationIssue[] = []
   const isPublic = PUBLIC_STATUSES.includes(scenario.status)
@@ -347,23 +398,17 @@ function checkEvidence(scenario: TacticalScenario): ValidationIssue[] {
     )
   }
 
-  // 12 — Regra 1 de § 00.1: a força da fonte limita a força da afirmação
-  if (isPublic) {
-    const strongEnough = QUANTITATIVE_TIERS.includes(scenario.source.tier)
-    if (!strongEnough) {
-      for (const choice of scenario.choices) {
-        if (STRONG_CLASSIFICATIONS.includes(choice.classification)) {
-          issues.push(
-            issue(
-              12,
-              'classification-exceeds-source',
-              `Escolha "${choice.id}" está classificada como "${choice.classification}", ` +
-                `que exige fonte tier B; a fonte do cenário é tier "${scenario.source.tier}"`,
-            ),
-          )
-        }
-      }
-    }
+  // 12 — Regra 1 de § 00.1: a força da fonte limita a força da afirmação.
+  // Publicar probabilidade é afirmação quantitativa e exige fonte tier B.
+  if (isPublic && !QUANTITATIVE_TIERS.includes(scenario.source.tier)) {
+    issues.push(
+      issue(
+        12,
+        'probability-exceeds-source',
+        `Cenário "${scenario.id}" publica probabilidades, o que é afirmação ` +
+          `quantitativa e exige fonte tier B; a fonte é tier "${scenario.source.tier}"`,
+      ),
+    )
   }
 
   // 13 — a fonte precisa declarar o que sustenta (impede citação decorativa)
