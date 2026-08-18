@@ -209,6 +209,142 @@ material de posicionamento.
 
 ---
 
+## 00c — Pacote "Deep Research Global" do fundador (2026-08-18) — verificação seletiva
+
+O fundador colou um documento extenso ("Deep Research Global — Base de Estratégias,
+Padrões Táticos e Motor de Decisão do PDA Point") pedindo para aproveitar o que desse.
+O documento mistura duas coisas de qualidade muito diferente, e tratá-las por igual
+seria exatamente o erro que a Regra 2 de `PRODUCT.md` § 00.1 existe para evitar.
+Cada citação foi checada individualmente, com WebSearch (o acesso direto a
+`arxiv.org`, `researchgate.net`, `scribd.com` e `deepai.org` continua bloqueado por
+política de egress — ver § 00).
+
+### O que se confirmou real
+
+#### 00c.1 — Chan, Fearing, Fernandes & Kovalchik (2021) — ⚠️ PARCIAL, bem corroborado
+
+**Citação.** Chan, T. C. Y., Fearing, D. S., Fernandes, C., & Kovalchik, S. (2021).
+*A Markov process approach to untangling intention versus execution in tennis.*
+arXiv:2110.01527. Publicado depois em **Journal of Quantitative Analysis in Sports**
+(De Gruyter), DOI `10.1515/jqas-2021-0077`.
+
+**Verificação.** Não abri o PDF (egress bloqueado), mas a existência, os autores e o
+conteúdo foram confirmados de forma convergente por **cinco fontes independentes**:
+a própria listagem do arXiv, a página do periódico De Gruyter, a página de
+apresentação no MIT Sloan Sports Analytics Conference, o repositório de teses da
+University of Toronto (a dissertação de mestrado de um dos autores) e um resumo
+técnico de terceiros (DeepAI). Essa convergência é mais forte que um `⚠️ PARCIAL`
+comum — mas continua sendo metadado e resumo de terceiros, não o texto lido.
+
+**Achados reportados (por resumo convergente):** o modelo usa processos de Markov e
+de recompensa de Markov sobre centenas de milhões de tacadas simuladas (tracking 3D
+de bola e 2D de jogadores) para separar o valor da **decisão** tática do custo da
+**execução**. A estratégia ótima de seleção de golpe fica mais conservadora à medida
+que o erro de execução cresce; erro de execução no backhand é mais custoso que no
+forehand em qualquer nível de execução; e a seleção ótima na devolução de saque tem
+o valor marginal mais alto do jogo, em qualquer nível de execução.
+
+**Por que importa para o PDA Point.** Este é o primeiro artigo que sustenta,
+diretamente, uma decisão de produto já tomada de forma independente: `PRODUCT.md`
+§ 00.5 avalia **a decisão, não o desfecho**, exatamente a separação entre
+intenção/decisão e execução que este artigo formaliza. Não é a origem da decisão —
+foi tomada antes de eu encontrar isto — mas é a primeira vez que ela tem apoio
+externo publicado. Citado em § 00.5.
+
+**O que NÃO absorvo daqui.** Os números específicos por golpe (ex.: quanto mais caro
+é um erro de backhand vs. forehand, em pontos percentuais) não foram lidos por mim
+na fonte primária — não viram dado no produto, só reforçam o princípio geral.
+
+#### 00c.2 — Wardlaw Directionals — ✅ VERIFICADO (como convenção, não como artigo)
+
+**O que é.** Sistema de seleção de golpe de alta percentagem a partir do fundo de
+quadra, atribuído a Paul Wardlaw, técnico universitário (NCAA) de tênis feminino nos
+EUA. Regra central: classificar cada bola recebida como "externa" (cruza a frente do
+corpo) ou "interna" (não cruza), e manter a direção na externa / permitir mudança de
+direção na interna.
+
+**Verificação.** Não existe um artigo científico único por trás disto — é uma
+convenção de ensino. A verificação aqui é por **convergência**: múltiplas fontes
+independentes e não relacionadas entre si (um fórum de equipamento e discussão
+técnica, uma plataforma de cursos em vídeo, um site de ferramentas de ensino de
+tênis, um repositório de slides) descrevem exatamente o mesmo sistema, atribuído ao
+mesmo autor, com a mesma regra de "externa mantém / interna muda", de forma
+consistente entre si. Isso é o padrão de verificação apropriado para tier C
+(`PRODUCT.md` § 00.1): convenção "amplamente aceita", não dado publicado.
+
+**Uso.** Fonte do Golden Scenario 002 (`content/scenarios/wardlaw-outside-ball-001.ts`).
+
+#### 00c.3 — Sandholtz, Hanson, Hager, Kovalchik & Fellingham — ⚠️ PARCIAL
+
+**Citação.** *Stated, Realized, and Optimal Aiming Strategies for the Tennis Serve:
+Experimental Evidence from Collegiate Athletes.* arXiv:2607.28500 (categoria
+stat.AP).
+
+**Verificação.** Confirmado via listagem de catch-up do arXiv (categoria cs.LG/
+stat.AP, julho de 2026) e via página de pesquisa de um dos autores (Nathan
+Sandholtz, professor assistente de Estatística na Brigham Young University).
+Metodologia consistente com um artigo relacionado de 2017 dos mesmos coautores
+("Serving Strategy in Tennis: Accuracy versus Power"): experimento com o time
+masculino de tênis da BYU, jogadores identificam alvos que julgam ótimos no saque,
+servem repetidamente, posição do quique é registrada com precisão, e um MDP
+Bayesiano de dois períodos combina a distribuição de saque de cada jogador com uma
+superfície de recompensa de ponto ganho.
+
+**Uso.** Ainda não citado em nenhum cenário — é sobre o saque, não sobre construção
+de rally. Fica catalogado para quando houver um cenário de saque.
+
+#### 00c.4 — Craig O'Shannessy, "The First Four Shots" — Tier D, corrobora Prieto-Lage
+
+**Quem é.** Analista de estratégia real e público, com trabalho documentado para a
+ATP, Grand Slam Media e Wimbledon; palestrante no MIT Sloan Sports Analytics
+Conference. Tier D na hierarquia de `PRODUCT.md` § 00.1: complementa, nunca sustenta
+uma tática sozinho.
+
+**Achado reportado (por múltiplas fontes jornalísticas convergentes).** Cerca de
+70% dos ralis no circuito masculino e 66% no feminino terminam entre 0 e 4 golpes;
+jogadores que vencem mais desses ralis curtos vencem a partida 90% (masculino) e
+83% (feminino) das vezes.
+
+**Por que importa.** Corrobora, de forma independente, o achado central de
+Prieto-Lage et al. (2023) já usado como âncora medida (§ 00b.1): a dominância do
+rali curto não é um artefato de uma única amostra. Não substitui a âncora — é tier D,
+não B — mas é honesto citar quando duas fontes de metodologia diferente convergem.
+
+### O que NÃO se aproveitou, e por quê
+
+Isto é tão importante quanto a lista acima. O documento colado continha uma seção
+extensa ("Catálogo Master") atribuindo táticas e estatísticas hiperespecíficas a
+mais de 45 jogadores profissionais reais e nomeados (Alcaraz, Sinner, Świątek,
+Sabalenka, Fonseca, Serena Williams, entre outros), organizadas numa taxonomia de
+"150 estratégias" com códigos (S01–S25, R01–R25, N01–N60, O01–O25, D01–D15).
+
+**Nada disso foi implementado.** Motivos, específicos:
+
+1. **Nenhuma citação por trás.** A lista de referências do documento cobre só os
+   artigos gerais (seção 1–3); a tabela de jogadores e a taxonomia de 150 estratégias
+   não citam nada. Números como "64,7% de sucesso no ataque pós-resposta" ou
+   "51,8% de win rate em bolas profundas" aparecem sem fonte checável.
+2. **Terminologia que não existe na literatura.** "VAST", "VACC" e "BHP" (Backhand
+   Potency) não são termos de analítica de tênis reconhecidos — não aparecem em
+   nenhuma busca fora deste próprio documento. "Space-Time VON CRAMM (Variational
+   generatiON of Complete Resolution Arcs via Mixture Modeling)" é um acrônimo que
+   nem soletra corretamente a partir da própria expansão; é o padrão clássico de
+   nome técnico fabricado por um sistema de geração de texto.
+3. **Atribuição factual a pessoas reais, sem base.** `PRODUCT.md` § 00.1 Regra 3 exige
+   que padrões atribuídos a jogadores reais sejam "formulados de forma factual e
+   citável". Uma estatística inventada anexada ao nome de um atleta vivo e ativo não
+   é isso — é o oposto: dano de imagem potencial disfarçado de precisão analítica.
+4. **Números de "efeito halo" do saque sem fonte verificável.** As cifras de 28,1%,
+   51,1%, 45,4% e 18–20% (§ 3.2 do documento colado), atribuídas vagamente a "um
+   estudo extenso de 1.200 partidas", não foram encontradas em nenhuma busca. Podem
+   vir de uma análise real de Craig O'Shannessy em algum lugar — mas sem conseguir
+   apontar para onde, não entram como dado, só como algo a investigar depois.
+
+O que **sobreviveu** dessa mesma seção do documento, porque é verificável e não
+depende dos números inventados: a existência real do sistema de Wardlaw (§ 00c.2) e
+o enquadramento geral de Decision Loss / Execution Loss (§ 00c.1), que já estava
+descrito de forma consistente com a literatura confirmada de forma independente.
+
 ## 01 — Sumário executivo
 
 ### O veredito curto

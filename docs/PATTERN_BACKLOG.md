@@ -78,8 +78,8 @@ mas derivado do MCP — portanto inutilizável. Precisa de fonte independente.)*
 
 | # | Padrão | Descrição | Status |
 |---|---|---|---|
-| C-01 | Disciplina de cruzado | Sustentar a diagonal até obter bola atacável | 🔍 a pesquisar |
-| C-02 | Mudança de direção (paralela) | Quando trocar a diagonal pela linha, e o risco associado | 🔍 a pesquisar |
+| C-01 | Disciplina de cruzado | Sustentar a diagonal até obter bola atacável | ✅ virou o Golden Scenario 002 |
+| C-02 | Mudança de direção (paralela) | Quando trocar a diagonal pela linha, e o risco associado | ✅ virou o Golden Scenario 002 |
 | C-03 | Neutralizador profundo no meio | Devolver profundidade central para retirar ângulo do adversário | 🔍 a pesquisar |
 | C-04 | Forehand inside-out | Contornar o backhand para impor o golpe dominante | 🔍 a pesquisar |
 | C-05 | Proteção de backhand | Construir de modo a evitar exposição do lado fraco | 🔍 a pesquisar |
@@ -115,9 +115,9 @@ fonte antes de virar conteúdo.
 
 ---
 
-## Prioridade para o Golden Scenario 001
+## Prioridade para os Golden Scenarios
 
-O primeiro cenário canônico deve ser escolhido por três critérios:
+Cada cenário canônico é escolhido por três critérios:
 
 1. **Frequência** — situação que o jogador recreativo encontra toda partida.
 2. **Decisão clara** — as opções produzem consequências visualmente distintas.
@@ -128,7 +128,7 @@ Candidatos mais fortes, nesta ordem:
 | Posição | Padrão | Por quê |
 |---|---|---|
 | 1º | **A-01 — Ataque à bola curta** ✅ escolhido | É o exemplo já usado no documento de visão, a situação é inequívoca visualmente, e o erro (atacar mal uma bola curta) é universal no recreativo. **Virou o Golden Scenario 001, e a aposta se confirmou:** Prieto-Lage et al. (2023) descrevem exatamente essa sequência — quique curto seguido de golpe agressivo — como a combinação de ponto ganho mais frequente do profissional (`EVIDENCE_SOURCES.md` § 00b.1) |
-| 2º | **C-02 — Mudança de direção** | Trade-off risco/recompensa muito visual; decisão que todo jogador toma |
+| 2º | **C-02 — Mudança de direção** ✅ escolhido | Trade-off risco/recompensa muito visual; decisão que todo jogador toma. **Virou o Golden Scenario 002** (`wardlaw-outside-ball-001`), fundamentado nas Direcionais de Wardlaw — tier C verificado por convergência de múltiplas fontes independentes (`EVIDENCE_SOURCES.md` § 00c.2) |
 | 3º | **R-01 — Devolução profunda no meio** | Decisão simples, alto impacto, e o jogador controla de fato |
 
 ---

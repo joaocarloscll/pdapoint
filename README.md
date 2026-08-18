@@ -157,15 +157,24 @@ continua marcado como `estimated` (`docs/PRODUCT.md` § 00.6, invariante 17) —
 
 ## Status
 
-O **Golden Scenario 001** está `publicada`. Tem fonte real e citada
-(Prieto-Lage et al. 2023), mas ninguém além de quem escreveu revisou por cima
-ainda — `source.verificadaPor` é `null`, e isso deixou de bloquear publicação
+Dois cenários canônicos publicados, ambos `content/scenarios/`:
+
+- **Golden Scenario 001** (`golden-001`) — ataque a bola curta, fonte tier B
+  (Prieto-Lage et al. 2023, `EVIDENCE_SOURCES.md` § 00b.1)
+- **Golden Scenario 002** (`wardlaw-outside-ball-001`) — manter ou mudar direção
+  numa bola externa, fonte tier C (Direcionais de Wardlaw, `EVIDENCE_SOURCES.md`
+  § 00c.2). Só o primeiro está ligado à UI hoje; o segundo existe e passa em todos
+  os invariantes, aguardando a decisão de produto de como múltiplos cenários se
+  apresentam no fluxo mobile.
+
+Nenhum dos dois tem `source.verificadaPor` preenchido — ninguém além de quem
+escreveu revisou por cima ainda, e isso deixou de bloquear publicação
 (`docs/PRODUCT.md` § 00.1, decisão revisada de 2026-08-18). A interface mostra
 esse estado com honestidade: quando não há checagem extra, aparece um selo
 discreto dizendo isso, em vez de um aviso de "rascunho" que já não seria verdade.
 
 Mais fontes e cenários entram continuamente. Roteiro em
-`docs/EVIDENCE_SOURCES.md` § 00b e `docs/PATTERN_BACKLOG.md`.
+`docs/EVIDENCE_SOURCES.md` § 00b/§ 00c e `docs/PATTERN_BACKLOG.md`.
 
 ## Privacidade
 

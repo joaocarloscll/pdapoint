@@ -19,18 +19,19 @@ anterior está razoavelmente fechado.
 01 — Brand System                    ✅ fechado
 02 — Information Architecture        ✅ fechado
 03 — Core Experience Specification   ✅ fechado
-04 — Golden Scenario 001             ✅ publicado
+04 — Golden Scenarios (001, 002)      ✅ publicados
 05 — Mobile Wireframes               ✅ fechado
 06 — Tactical Content System         ✅ fechado
 07 — Technical Handoff / Agent Spec  ⏳ próximo
 08 — Validation Plan                 ✅ fechado
 ```
 
-**Sem bloqueio ativo.** O estágio 04 tem fonte — Prieto-Lage et al. (2023), PLOS
-ONE, `CC BY`, lida integralmente (`EVIDENCE_SOURCES.md` § 00b.1) — e não precisa
-mais de mais nada para publicar: a decisão revisada de 2026-08-18 (§ 00.1) tirou a
-exigência de um humano abrir a fonte e assinar antes de qualquer conteúdo sair de
-rascunho. `source.verificadaPor` continua `null`, e está tudo bem: o campo agora
+**Sem bloqueio ativo.** Dois cenários publicados: 001 (Prieto-Lage et al. 2023,
+tier B, `EVIDENCE_SOURCES.md` § 00b.1) e 002 (Direcionais de Wardlaw, tier C,
+`EVIDENCE_SOURCES.md` § 00c.2). Nenhum precisa de mais nada para permanecer
+publicado: a decisão revisada de 2026-08-18 (§ 00.1) tirou a exigência de um humano
+abrir a fonte e assinar antes de qualquer conteúdo sair de rascunho.
+`source.verificadaPor` continua `null` nos dois, e está tudo bem: o campo agora
 registra uma checagem extra opcional, não um requisito de publicação.
 
 Os documentos técnicos e de visão original que originaram este arquivo continuam
@@ -340,6 +341,14 @@ precisão de partida do xadrez, e é o que alimentará o score do Point IQ.
 A precisão avalia **a decisão, não o desfecho**. No tênis a escolha certa perde
 o ponto com frequência; pontuar pelo resultado ensinaria o jogador a perseguir
 sorte.
+
+Essa separação foi decidida antes de ter apoio externo — e passou a ter um em
+2026-08-18: Chan, Fearing, Fernandes & Kovalchik, *A Markov process approach to
+untangling intention versus execution in tennis* (2021; publicado no *Journal of
+Quantitative Analysis in Sports*), formaliza exatamente essa distinção — valor da
+decisão tática separado do custo de execução — usando processos de Markov sobre
+tacadas reais rastreadas (`EVIDENCE_SOURCES.md` § 00c.1). Não é a origem da regra;
+é confirmação de que ela não é peculiar ao PDA Point.
 
 ---
 

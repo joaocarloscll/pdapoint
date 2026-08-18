@@ -9,6 +9,63 @@ versionamento segue [SemVer](https://semver.org/lang/pt-BR/).
 
 ## [Não lançado]
 
+### Golden Scenario 002, e um filtro de honestidade contra pesquisa fabricada
+
+O fundador colou um documento extenso de "deep research" pedindo para aproveitar o
+que desse. O documento misturava conteúdo real e verificável com estatísticas
+hiperespecíficas atribuídas a mais de 45 jogadores profissionais reais e nomeados,
+sem citação nenhuma — exatamente o padrão de fabricação que a Regra 2 de
+`PRODUCT.md` § 00.1 existe para barrar, relaxamento de rigor ou não.
+
+#### Verificado e absorvido
+
+- **Chan, Fearing, Fernandes & Kovalchik (2021)**, *A Markov process approach to
+  untangling intention versus execution in tennis* — confirmado por 5 fontes
+  independentes (arXiv, De Gruyter, MIT Sloan, tese da University of Toronto,
+  DeepAI). Formaliza a separação entre valor da decisão e custo de execução — dá
+  apoio externo a uma escolha de produto já feita (`PRODUCT.md` § 00.5: avaliar a
+  decisão, não o desfecho).
+- **Wardlaw Directionals** (Paul Wardlaw) — verificado por convergência de múltiplas
+  fontes de ensino independentes descrevendo o mesmo sistema. Vira fonte tier C do
+  **Golden Scenario 002**.
+- **Sandholtz, Hanson, Hager, Kovalchik & Fellingham**, sobre mira de saque —
+  confirmado via arXiv e página de pesquisa de autor (BYU). Catalogado para uso
+  futuro em cenário de saque.
+- **Craig O'Shannessy**, "The First Four Shots" — analista real e público, tier D,
+  corrobora de forma independente a dominância do rali curto já medida por
+  Prieto-Lage et al. (2023).
+
+Tudo documentado em `EVIDENCE_SOURCES.md` § 00c.
+
+#### Explicitamente rejeitado, com o motivo registrado
+
+- Tabela de "arquétipos táticos" atribuindo estatísticas específicas a jogadores
+  reais e nomeados, sem nenhuma citação.
+- Terminologia inventada ("VAST", "VACC", "BHP", "Space-Time VON CRAMM" — um
+  acrônimo que nem soletra corretamente a partir da própria expansão).
+- Taxonomia de "150 estratégias" com percentuais de "valor esperado" sem fonte.
+- Números específicos de "efeito halo" do saque (28,1%, 51,1%, 45,4%) atribuídos a
+  "um estudo de 1.200 partidas" não localizável em nenhuma busca.
+
+#### Adicionado
+
+- **`content/scenarios/wardlaw-outside-ball-001.ts`** — Golden Scenario 002: bola
+  externa em rally cruzado, três escolhas (manter a diagonal / mudar de direção sem
+  vantagem / manter a diagonal sem profundidade), todas `estimated`, fonte tier C.
+  Situação neutra (`advantage: 'neutral'`) — o primeiro cenário do projeto sem
+  vantagem inicial para nenhum lado, diferente do 001.
+- **`tactical-engine/tests/wardlaw-outside-ball.test.ts`** — 7 testes: validação
+  completa, ausência de vantagem inicial, ordenação de probabilidade batendo com o
+  desfecho terminal de cada escolha, ausência de âncora (Wardlaw não publica taxa),
+  e classificação nunca fingindo percentual.
+- `PATTERN_BACKLOG.md`: C-01 e C-02 (que já eram os candidatos priorizados) marcados
+  como convertidos no Golden Scenario 002.
+
+O cenário 002 ainda não está ligado à interface — `TacticalPlayer` continua servindo
+só o 001. Como e quando múltiplos cenários entram no fluxo mobile é decisão de
+produto separada desta absorção de pesquisa.
+
+
 ### Política de evidência revisada — útil vem antes de auditável
 
 O fundador pediu explicitamente menos rigor: não quer nível de confiabilidade de
