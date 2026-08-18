@@ -19,6 +19,7 @@ import type {
   TacticalScenario,
   TacticalState,
   TacticalTransition,
+  TerminalOutcome,
 } from '../../tactical-engine/domain/types'
 import {
   availableChoices,
@@ -61,6 +62,30 @@ const CLASSIFICATION_COLOR: Record<ChoiceClassification, string> = {
   situacional: 'var(--text-secondary)',
   incomum: 'var(--danger)',
 }
+
+/**
+ * Como o desfecho é anunciado ao usuário.
+ *
+ * O usuário é o jogador A. O ponto precisa ser declarado: sentir a
+ * consequência é metade, saber que o ponto acabou é a outra (PRODUCT.md § 00.4).
+ */
+const OUTCOME_LABEL: Record<TerminalOutcome, string> = {
+  winner_a: 'Ponto seu',
+  forced_error_b: 'Ponto seu',
+  unforced_error_b: 'Ponto seu',
+  ace: 'Ponto seu — ace',
+  winner_b: 'Ponto do adversário',
+  forced_error_a: 'Ponto do adversário',
+  unforced_error_a: 'Ponto do adversário',
+  double_fault: 'Ponto do adversário — dupla falta',
+  neutralized_end: 'Rally neutralizado',
+}
+
+const wonByPlayer = (outcome: TerminalOutcome): boolean =>
+  outcome === 'winner_a' ||
+  outcome === 'forced_error_b' ||
+  outcome === 'unforced_error_b' ||
+  outcome === 'ace'
 
 /** Primeiro evento de bola de uma transição — define a trajetória do golpe. */
 const ballMoveOf = (transition: TacticalTransition) =>
@@ -172,7 +197,6 @@ export function TacticalPlayer() {
   const animating = phase === 'playing' || phase === 'comparing'
   const showGhost = phase === 'comparing'
   const ghostMove = showGhost && played ? ballMoveOf(played.transition) : undefined
-  const activeMove = active ? ballMoveOf(active) : undefined
 
   // Fora da animação, a quadra mostra o estado corrente do engine.
   const ball = animating ? playback.frame.ball : state.ball
@@ -226,15 +250,23 @@ export function TacticalPlayer() {
             />
           )}
 
-          {animating && activeMove !== undefined && (
-            <Trajectory
-              from={activeMove.from}
-              to={activeMove.to}
-              arc={activeMove.arc}
-              color={theme.trajectory}
-              progress={playback.frame.ballProgress}
-            />
-          )}
+          {/*
+            Cada golpe da transição com o próprio progresso: o seu golpe fica
+            desenhado enquanto a resposta do adversário ainda está no ar.
+          */}
+          {animating &&
+            playback.frame.shots.map((shot, i) =>
+              shot.progress > 0 ? (
+                <Trajectory
+                  key={i}
+                  from={shot.from}
+                  to={shot.to}
+                  arc={shot.arc}
+                  color={theme.trajectory}
+                  progress={shot.progress}
+                />
+              ) : null,
+            )}
 
           <PlayerMarker
             at={posB}
@@ -307,6 +339,20 @@ export function TacticalPlayer() {
 
       {phase === 'consequence' && played !== null && (
         <section className={css.panel}>
+          {state.terminal !== undefined && (
+            <p
+              className={css.outcome}
+              style={
+                {
+                  '--tone': wonByPlayer(state.terminal)
+                    ? 'var(--success)'
+                    : 'var(--danger)',
+                } as React.CSSProperties
+              }
+            >
+              {OUTCOME_LABEL[state.terminal]}
+            </p>
+          )}
           <span
             className={css.classification}
             style={

@@ -26,23 +26,29 @@ describe('sessão de jogo', () => {
     expect(isTerminal(session)).toBe(false)
   })
 
-  it('expõe as três escolhas do estado inicial', () => {
+  it('expõe as escolhas do estado inicial, na ordem do cenário', () => {
+    // Derivado do cenário, não escrito à mão: o engine é o que está sob teste,
+    // e ele não deve quebrar quando o texto de uma tática é reescrito.
+    const inicial = golden001.states.find((s) => s.id === golden001.initialStateId)
+    if (inicial === undefined) throw new Error('estado inicial ausente')
+
     const choices = availableChoices(start())
-    expect(choices.map((c) => c.id)).toEqual(['c1', 'c2', 'c3'])
-    expect(choices.map((c) => c.label)).toEqual([
-      'Cruzado curto',
-      'Cruzado profundo',
-      'Paralela',
-    ])
+    expect(choices.map((c) => c.id)).toEqual([...inicial.availableChoices])
+    expect(choices.every((c) => c.label.length > 0)).toBe(true)
   })
 
   it('avança para o estado seguinte e devolve a transição a animar', () => {
+    const esperada = golden001.transitions.find(
+      (t) => t.fromStateId === golden001.initialStateId && t.choiceId === 'c2',
+    )
+    if (esperada === undefined) throw new Error('transição de c2 ausente')
+
     const step = choose(start(), 'c2')
     if (!step.ok) throw new Error('c2 deveria ser válida')
 
-    expect(step.value.session.currentStateId).toBe('s3')
-    expect(step.value.transition.id).toBe('t2')
-    expect(step.value.session.score).toBe(2)
+    expect(step.value.session.currentStateId).toBe(esperada.toStateId)
+    expect(step.value.transition.id).toBe(esperada.id)
+    expect(step.value.session.score).toBe(esperada.scoreDelta)
     expect(isTerminal(step.value.session)).toBe(true)
   })
 

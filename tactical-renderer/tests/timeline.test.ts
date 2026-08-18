@@ -195,6 +195,76 @@ describe('sampleTimeline', () => {
   })
 })
 
+/**
+ * Transições com dois golpes — o seu e a resposta do adversário.
+ *
+ * Foi aqui que a primeira versão errou: o renderer desenhava a trajetória do
+ * primeiro golpe animada pelo progresso do segundo.
+ */
+describe('transição com dois golpes', () => {
+  const golpe1: TimelineEvent = {
+    kind: 'move-ball',
+    startMs: 0,
+    durationMs: 500,
+    from: { x: 0.6, y: 0.6 },
+    to: { x: 0.2, y: 0.4 },
+    arc: 0,
+    easing: 'linear',
+  }
+  const golpe2: TimelineEvent = {
+    kind: 'move-ball',
+    startMs: 800,
+    durationMs: 500,
+    from: { x: 0.2, y: 0.4 },
+    to: { x: 0.9, y: 0.8 },
+    arc: 0,
+    easing: 'linear',
+  }
+  const dois = [golpe1, golpe2]
+
+  it('expõe os dois golpes, cada um com seu progresso', () => {
+    const frame = sampleTimeline(dois, base, 250)
+    expect(frame.shots).toHaveLength(2)
+    expect(frame.shots[0]?.progress).toBeCloseTo(0.5, 6)
+    expect(frame.shots[1]?.progress).toBe(0)
+  })
+
+  it('durante o segundo golpe, o primeiro já está inteiro', () => {
+    const frame = sampleTimeline(dois, base, 1050)
+    expect(frame.shots[0]?.progress).toBe(1)
+    expect(frame.shots[1]?.progress).toBeCloseTo(0.5, 6)
+  })
+
+  it('a bola segue o golpe em curso, não o seguinte', () => {
+    // Em t=250 o segundo golpe ainda não saiu: a bola tem de estar no primeiro.
+    const meio1 = sampleTimeline(dois, base, 250)
+    expect(meio1.ball.x).toBeGreaterThan(0.2)
+    expect(meio1.ball.x).toBeLessThan(0.6)
+
+    // No intervalo entre os golpes, fica onde o primeiro a deixou.
+    const entre = sampleTimeline(dois, base, 700)
+    expect(entre.ball.x).toBeCloseTo(0.2, 6)
+    expect(entre.ball.y).toBeCloseTo(0.4, 6)
+
+    // Durante o segundo, já percorre a segunda trajetória.
+    const meio2 = sampleTimeline(dois, base, 1050)
+    expect(meio2.ball.x).toBeGreaterThan(0.2)
+    expect(meio2.ball.y).toBeGreaterThan(0.4)
+  })
+
+  it('antes de tudo começar, a bola está na origem do primeiro golpe', () => {
+    const frame = sampleTimeline(dois, base, 0)
+    expect(frame.ball.x).toBeCloseTo(0.6, 6)
+    expect(frame.ball.y).toBeCloseTo(0.6, 6)
+  })
+
+  it('no fim, a bola está no destino do último golpe', () => {
+    const frame = sampleTimeline(dois, base, 1300)
+    expect(frame.ball.x).toBeCloseTo(0.9, 6)
+    expect(frame.ball.y).toBeCloseTo(0.8, 6)
+  })
+})
+
 describe('duração e movimento reduzido', () => {
   it('duração é o fim do último evento', () => {
     expect(timelineDuration([ballMove])).toBe(1000)

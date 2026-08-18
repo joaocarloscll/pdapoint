@@ -25,9 +25,22 @@ export type TimelineFrame = {
   readonly playerA: CourtPoint
   readonly playerB: CourtPoint
   /**
-   * Fração da trajetória já percorrida, 0→1. Alimenta o desenho progressivo:
-   * a linha se desenha conforme a bola avança, em vez de aparecer inteira.
+   * Cada golpe da transição, na ordem, com o quanto já foi percorrido.
+   *
+   * Uma transição pode conter mais de um golpe — o seu e a resposta do
+   * adversário. Expor todos permite ao renderer desenhar o que já aconteceu e
+   * animar só o que está em curso; expor um só fazia a linha de um golpe ser
+   * animada pelo progresso de outro.
    */
+  readonly shots: readonly {
+    readonly from: CourtPoint
+    readonly to: CourtPoint
+    readonly arc: number
+    /** 0 = ainda não saiu; 1 = já chegou. */
+    readonly progress: number
+  }[]
+
+  /** Progresso do golpe mais recente. Conveniência para casos de um golpe só. */
   readonly ballProgress: number
   readonly activeZone: {
     readonly zone: CourtZone
@@ -79,7 +92,17 @@ export function sampleTimeline(
   let playerA = base.playerA
   let playerB = base.playerB
   let ballProgress = 0
+  // A bola pertence a um golpe de cada vez: ao último que já começou, ou à
+  // origem do primeiro enquanto nenhum começou. Sem isso, um golpe seguinte
+  // teleportaria a bola para a própria origem antes da hora.
+  let ballClaimed = false
   let activeZone: TimelineFrame['activeZone'] = null
+  const shots: Array<{
+    from: CourtPoint
+    to: CourtPoint
+    arc: number
+    progress: number
+  }> = []
 
   for (const event of timeline) {
     switch (event.kind) {
@@ -87,8 +110,16 @@ export function sampleTimeline(
         const t = progressOf(event, elapsedMs, event.easing)
         const a = toSvg(event.from)
         const b = toSvg(event.to)
-        ball = fromSvg(quadraticAt(a, controlPoint(a, b, event.arc), b, t))
-        ballProgress = t
+        if (t > 0) {
+          ball = fromSvg(quadraticAt(a, controlPoint(a, b, event.arc), b, t))
+          ballProgress = t
+          ballClaimed = true
+        } else if (!ballClaimed) {
+          ball = event.from
+          ballProgress = 0
+          ballClaimed = true
+        }
+        shots.push({ from: event.from, to: event.to, arc: event.arc, progress: t })
         break
       }
 
@@ -127,7 +158,7 @@ export function sampleTimeline(
     }
   }
 
-  return { ball, playerA, playerB, ballProgress, activeZone }
+  return { ball, playerA, playerB, shots, ballProgress, activeZone }
 }
 
 /**

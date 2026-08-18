@@ -137,6 +137,46 @@ describe('invariantes de integridade do grafo', () => {
   })
 })
 
+describe('invariante 14 — todo caminho resolve o ponto', () => {
+  it('golden-001 termina em ponto ganho ou perdido em todo caminho', () => {
+    const terminais = golden001.states
+      .filter((s) => s.terminal !== undefined)
+      .map((s) => s.terminal)
+
+    expect(terminais.length).toBeGreaterThan(0)
+    for (const t of terminais) {
+      expect(t).not.toBe('neutralized_end')
+    }
+  })
+
+  it('rejeita cenário de decisão que termina em rally neutralizado', () => {
+    const broken = mutate({
+      states: golden001.states.map((s) =>
+        s.terminal !== undefined
+          ? { ...s, terminal: 'neutralized_end' as const }
+          : s,
+      ),
+    })
+    expect(codesOf(broken)).toContain('terminal-does-not-resolve-point')
+  })
+
+  it('a escolha padrão ganha o ponto e as demais perdem', () => {
+    const desfecho = (choiceId: string) => {
+      const t = golden001.transitions.find((x) => x.choiceId === choiceId)
+      return golden001.states.find((s) => s.id === t?.toStateId)?.terminal
+    }
+
+    for (const choice of golden001.choices) {
+      const fim = desfecho(choice.id)
+      if (choice.classification === 'padrao') {
+        expect(fim).toBe('winner_a')
+      } else {
+        expect(fim).toBe('winner_b')
+      }
+    }
+  })
+})
+
 describe('invariantes de evidência — PRODUCT.md § 00.1 como código', () => {
   it('11 — bloqueia publicação sem fonte verificada por humano', () => {
     const broken = mutate({ status: 'publicada' })

@@ -231,3 +231,15 @@
     font-size: 11px;
   }
 }
+
+/*
+ * O desfecho do ponto. Maior que o resto do painel de propósito: é o
+ * fechamento, e precisa ser lido antes da explicação.
+ */
+.outcome {
+  margin: 0;
+  font-size: clamp(19px, 5.2vw, 23px);
+  font-weight: 700;
+  line-height: 1.15;
+  color: var(--tone, var(--text-primary));
+}
