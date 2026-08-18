@@ -76,7 +76,8 @@ if (isPublic && !isVerified) {
 
 Um cenário sem fonte verificada não passa do status `rascunho`. O teste falha no
 CI. É por isso que o cenário canônico atual está marcado como rascunho e exibe um
-aviso na própria interface.
+aviso na própria interface — mesmo agora que a fonte existe e foi lida, porque a
+assinatura humana ainda não foi dada.
 
 ## Estrutura
 
@@ -124,13 +125,40 @@ a arquitetura definia: typecheck, testes, build padrão e build de export todos
 verdes, e cada flag estrita verificada individualmente. O typecheck ficou cerca
 de 3× mais rápido.
 
+## Evidência
+
+O projeto deixou de ser "sem fonte". Quatro artigos revisados por pares, todos
+`CC BY` (uso comercial permitido com atribuição), foram abertos e lidos —
+fichas completas em [`docs/EVIDENCE_SOURCES.md`](docs/EVIDENCE_SOURCES.md) § 00b:
+
+- **Prieto-Lage et al. (2023)**, *Match analysis and probability of winning a point
+  in elite men's singles tennis*, PLOS ONE 18(9): e0286076 —
+  DOI [`10.1371/journal.pone.0286076`](https://doi.org/10.1371/journal.pone.0286076)
+- **Crespo, Martínez-Gallego & Filipcic (2024)**, Frontiers in Sports and Active
+  Living 6:1406846 — DOI `10.3389/fspor.2024.1406846`
+- **Zhao, Cui, Gómez, Zong & Qi (2025)**, Frontiers in Sports and Active Living
+  7:1634573 — DOI `10.3389/fspor.2025.1634573`
+- **Cheng & Wang (2026)**, Frontiers in Psychology — DOI `10.3389/fpsyg.2026.1562462`
+
+O primeiro deles dá ao projeto seus primeiros números **medidos**, guardados em
+`content/evidence/` como âncoras: probabilidade de o sacador vencer o ponto por
+tipo de saque, duração de rally e superfície, em 4.669 pontos de Grand Slam.
+
+Âncora não é resposta. São frequências condicionais — "entre os pontos que
+terminaram curtos, o sacador venceu 81%" — e ler isso como "encurte o ponto e você
+ganha 81%" troca condicionamento por causa. Elas calibram os números do produto e
+mostram quando um palpite está fora do que alguém já mediu; o que ninguém mediu
+continua marcado como estimativa e continua sem poder ser publicado
+(`docs/PRODUCT.md` § 00.6, invariante 17).
+
 ## Próximo passo
 
-O estágio bloqueado é o **Golden Scenario 001**: ele precisa de uma fonte tier B
-aberta e verificada por uma pessoa. Duas revistas gratuitas cobrem o escopo —
-IJRSS (`CC BY 4.0`, permite uso comercial) e ITF Coaching & Sport Science Review.
+O **Golden Scenario 001** já tem fonte, lida e citada. Falta o passo que nenhum
+agente pode dar por você: abrir o DOI, conferir os trechos citados e preencher
+`source.verificadaPor` / `verificadaEm`. Até lá o invariante 11 mantém o cenário em
+rascunho.
 
-O roteiro está em `docs/EVIDENCE_SOURCES.md` § 01b.
+O roteiro está em `docs/EVIDENCE_SOURCES.md` § 00b.
 
 ## Privacidade
 

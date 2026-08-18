@@ -190,13 +190,35 @@ describe('invariantes de evidência — PRODUCT.md § 00.1 como código', () => 
   })
 
   it('11 — fonte PENDENTE não passa de rascunho', () => {
-    const broken = mutate({ status: 'revisada' })
+    // A fonte pendente é montada aqui, e não herdada do cenário: quando
+    // golden-001 ganhou fonte real este teste passou a não testar nada, e
+    // silenciosamente. Um teste de regra não deve depender do estado
+    // circunstancial de um fixture.
+    const broken = mutate({
+      status: 'revisada',
+      source: {
+        tier: 'PENDENTE',
+        referencia: '',
+        oQueSustenta: '',
+        verificadaPor: null,
+        verificadaEm: null,
+      },
+    })
     expect(codesOf(broken)).toContain('pending-source-beyond-draft')
   })
 
-  it('11 — golden-001 é rascunho, portanto fonte pendente é aceitável', () => {
-    expect(golden001.status).toBe('rascunho')
+  it('11 — golden-001 tem fonte tier B, não pendente', () => {
+    expect(golden001.source.tier).toBe('B')
     expect(codesOf(golden001)).not.toContain('pending-source-beyond-draft')
+  })
+
+  it('11 — fonte real ainda não publica sem assinatura humana', () => {
+    // O gargalo mudou de lugar: já não falta fonte, falta alguém abri-la e
+    // assinar. O invariante continua barrando a publicação.
+    expect(golden001.source.verificadaPor).toBeNull()
+    expect(codesOf(mutate({ status: 'publicada' }))).toContain(
+      'published-without-verified-source',
+    )
   })
 
   it('12 — publicar probabilidade exige fonte tier B', () => {

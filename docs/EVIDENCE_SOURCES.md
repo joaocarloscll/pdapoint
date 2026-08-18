@@ -57,6 +57,153 @@ Isso não invalida o catálogo. Mas significa que **a Seção 06 (achados citáv
 dividida em duas metades com forças muito diferentes**, e você precisa respeitar essa
 divisão.
 
+> **Atualização de 2026-08-18.** Quatro artigos deixaram de depender do egress: os
+> PDFs vieram pelo pacote de pesquisa do fundador e foram lidos. Ver **§ 00b**. O
+> parágrafo acima continua valendo para todo o resto do documento.
+
+---
+
+## 00b — O bloqueio de egress foi contornado por fora (2026-08-18)
+
+O fundador entregou um pacote de pesquisa (`PDA_POINT_RESEARCH_PACK`) com **quatro
+PDFs `CC BY` já baixados**. Isso muda o estado deste documento no ponto exato em
+que ele doía: até aqui, **nenhum artigo científico tinha sido lido na fonte
+primária**. Agora quatro foram.
+
+Estes são os primeiros itens deste catálogo a sair de `⚠️ PARCIAL`.
+
+### O que foi feito para verificar
+
+Para cada PDF: texto extraído e lido integralmente; figuras extraídas do próprio
+arquivo e lidas como imagem (a Figura 2 do artigo do PLOS, que carrega a matriz de
+probabilidades, é imagem — sem abri-la não haveria número nenhum); SHA-256
+calculado e conferido contra o manifesto do pacote; página de copyright do artigo
+lida para confirmar a licença.
+
+| Arquivo | SHA-256 (prefixo) | Manifesto |
+|---|---|---|
+| `2023_plos_probability_winning_point_elite_men.pdf` | `b70b9777…41f9` | confere |
+| `2024_frontiers_competency_model_systematic_review.pdf` | `849e0978…6c44` | confere |
+| `2025_frontiers_technical_tactical_diversity.pdf` | `26bc0650…2659` | confere |
+| `2026_frontiers_spatial_working_memory_decision_making.pdf` | `f971067b…b613` | confere |
+
+### O selo que estes artigos recebem, e o que ainda falta
+
+Recebem `✅ VERIFICADO` neste catálogo: o artefato foi aberto e o conteúdo citado
+foi lido, que é a definição do selo.
+
+**Isso não é a verificação humana da Regra 2 de `PRODUCT.md` § 00.1.** Aquela regra
+existe justamente porque um agente pode produzir uma citação plausível e inexistente,
+e ela não se cumpre com o agente afirmando que cumpriu. Enquanto o fundador não abrir
+o DOI e assinar, `source.verificadaPor` fica `null` no código, e o invariante 11
+continua barrando qualquer publicação. O gargalo mudou de lugar — deixou de ser
+"não temos fonte" e passou a ser "falta a assinatura".
+
+### 00b.1 — Prieto-Lage et al. (2023) — ✅ VERIFICADO
+
+**Citação.** Prieto-Lage, I., Paramés-González, A., Torres-Santos, D.,
+Argibay-González, J. C., Reguera-López-de-la-Osa, X., & Gutiérrez-Santiago, A.
+(2023). *Match analysis and probability of winning a point in elite men's singles
+tennis.* **PLOS ONE**, 18(9), e0286076. DOI `10.1371/journal.pone.0286076`.
+
+**Licença.** CC BY 4.0, declarada na página 1 do PDF: *"distributed under the terms
+of the Creative Commons Attribution License, which permits unrestricted use,
+distribution, and reproduction in any medium, provided the original author and
+source are credited."* **Uso comercial permitido com atribuição.**
+
+**Amostra.** 4.669 pontos, das quartas de final em diante de três Grand Slams de
+2021 — Roland Garros (1.660, saibro), Wimbledon (1.623, grama), US Open (1.386,
+quadra rápida). 17 jogadores. Metodologia observacional (instrumento OBSTENNIS-S21,
+7 critérios e 50 categorias), kappa intra-observador 0,93/0,96 e inter-observador
+0,94.
+
+**Probabilidade de o sacador vencer o ponto (Figura 2, p. 8):**
+
+| Combinação | Saibro | Grama | Rápida |
+|---|---|---|---|
+| Todos os pontos | 63% | 65% | 65% |
+| Primeiro saque | 69% | 75% | 75% |
+| Segundo saque | 55% | 54% | 57% |
+| 1º saque + rally curto (0–4) | **77%** | **80%** | **81%** |
+| 1º saque + rally médio (5–8) | 49% | 55% | 52% |
+| 1º saque + rally longo (9+) | 62% | 49% | 43% |
+| 2º saque + rally curto | 54% | 55% | 60% |
+| 2º saque + rally médio | 57% | 51% | 46% |
+| 2º saque + rally longo | 57% | 61% | 62% |
+
+**Distribuição de duração de rally (Tabela 2, p. 7):** curto 64,9% / 77,4% / 68,8%;
+médio 21,6% / 15,7% / 18,0%; longo 13,4% / 6,9% / 13,1%.
+
+**Zonas (Figura 1, p. 6).** A quadra é dividida em Z1 (a faixa dos quadrados de
+saque), Z2 e Z3 (a faixa entre a linha de saque e o fundo, dividida em duas
+profundidades) e Z4/Z5 (as faixas laterais profundas de cada lado). O texto do
+artigo é internamente inconsistente sobre qual das laterais corresponde ao backhand
+(p. 11 diz Z5, p. 12 diz Z4) — o que faz sentido, porque isso depende do lado e da
+mão do jogador. **Não usar Z4/Z5 como sinônimo de "backhand" ao citar.**
+
+**O achado que mais importa para o produto** (Conclusions, p. 13): *a combinação de
+ponto ganho mais frequente do sacador é primeiro saque, rally de menos de cinco
+golpes, e finalização após um quique na zona de saque seguido de golpe agressivo.*
+É a descrição literal da situação do Golden Scenario 001.
+
+**Divergência aritmética anotada.** Na Tabela 2, a linha da grama soma
+60 + 1.003 + 506 = 1.569 contadores de saque, e não os 1.623 pontos do torneio; o
+percentual impresso para segundo saque (34,5%) também não corresponde a 506. Saibro
+e quadra rápida fecham exatamente. Reproduzimos o publicado e registramos a
+divergência em vez de corrigir por conta própria — vale perguntar aos autores.
+
+**⚠️ Leitura correta destes números.** São frequências **condicionais**, não
+probabilidades de escolha: "entre os pontos que terminaram em rally curto, o sacador
+venceu 81%". A duração do rally é resultado do ponto, não uma decisão tomada antes
+dele. Ler "encurte o ponto e você ganha 81%" é trocar condicionamento por causa. O
+próprio artigo se declara descritivo. Ver `PRODUCT.md` § 00.6.
+
+### 00b.2 — Crespo, Martínez-Gallego & Filipcic (2024) — ✅ VERIFICADO
+
+**Citação.** Crespo, M., Martínez-Gallego, R., & Filipcic, A. (2024). *Determining
+the tactical and technical level of competitive tennis players using a competency
+model: a systematic review.* **Frontiers in Sports and Active Living**, 6, 1406846.
+DOI `10.3389/fspor.2024.1406846`. **CC BY.**
+
+**Por que importa.** O primeiro autor é do Development Department da **ITF**. É uma
+revisão sistemática PRISMA de 390 publicações rastreadas sobre competências técnicas
+e táticas. É a fonte natural para sustentar o modelo de **nível** (`PRODUCT.md`
+§ 00.2) — qual competência se espera de qual nível — que hoje não tem base nenhuma.
+
+### 00b.3 — Zhao, Cui, Gómez, Zong & Qi (2025) — ✅ VERIFICADO
+
+**Citação.** Zhao, Z., Cui, Y., Gómez, M. Á., Zong, S., & Qi, B. (2025).
+*Quantifying the technical-tactical diversity of elite tennis players during
+match-play.* **Frontiers in Sports and Active Living**, 7, 1634573.
+DOI `10.3389/fspor.2025.1634573`. **CC BY.**
+
+**Conteúdo.** 236 partidas de simples do Australian Open e US Open de 2023;
+entropia de cinco indicadores (tipo de golpe, direção de forehand e de backhand,
+distribuição de primeiro e segundo saque) contra resultado da partida e gênero.
+
+**Por que importa.** É a base para o princípio de **variação** — dizer que variar
+direção tem valor mensurável, em vez de repetir o clichê. Cobre mulheres, o que a
+maior parte da literatura não faz.
+
+### 00b.4 — Cheng & Wang (2026) — ✅ VERIFICADO
+
+**Citação.** Cheng, Y., & Wang, N. (2026). *The relationship between visual spatial
+working memory capacity of tennis players and visual information processing of
+offensive tactical decision-making.* **Frontiers in Psychology**.
+DOI `10.3389/fpsyg.2026.1562462`. **CC BY.**
+
+**Conteúdo.** 48 jogadores, desenho 2 (nível: perito × novato) × 2 (memória de
+trabalho espacial: alta × baixa), com rastreamento ocular durante tarefa de decisão
+tática ofensiva. Peritos acertam mais e reagem mais rápido; olham mais para tronco,
+membros inferiores e braço/raquete, enquanto novatos olham mais para a bola e para
+o adversário.
+
+**Por que importa, e é mais do que parece.** Este artigo sustenta a **tese central
+do produto**: a diferença entre o perito e o novato está em *onde ele olha antes da
+bola chegar*, e isso é treinável fora da quadra. É a justificativa científica de
+um app de decisão tática — não conteúdo tático, mas fundamento. Vale citar no
+material de posicionamento.
+
 ---
 
 ## 01 — Sumário executivo
@@ -587,7 +734,13 @@ Open access.
 
 ---
 
-### 03.6 — Prieto-Lage et al. (2023) — probabilidade de ganhar o ponto — ⚠️ PARCIAL
+### 03.6 — Prieto-Lage et al. (2023) — probabilidade de ganhar o ponto — ✅ VERIFICADO
+
+> **Atualizado em 2026-08-18.** O PDF chegou pelo pacote de pesquisa do fundador e
+> foi lido integralmente. **A ficha completa, com a matriz de probabilidades e as
+> ressalvas de leitura, está em § 00b.1.** O que segue é o registro original de
+> quando só havia metadados — mantido porque mostra o que a busca por resumo
+> conseguia e o que não conseguia.
 
 **Citação.** Prieto-Lage, I., Paramés-González, A., Torres-Santos, D.,
 Argibay-González, J. C., Reguera-López-de-la-Osa, X., & Gutiérrez-Santiago, A.
@@ -595,16 +748,18 @@ Argibay-González, J. C., Reguera-López-de-la-Osa, X., & Gutiérrez-Santiago, A
 tennis.* **PLOS ONE**, 18(9), e0286076. DOI: `10.1371/journal.pone.0286076`
 
 **Verificação.** Autores, periódico, volume, número de artigo e DOI confirmados via
-PLOS, PubMed (PMID 37768928), PMC (PMC10538650) e RePEc. **PDF não aberto.**
-**Open access** — o fundador consegue abrir sem pagar.
+PLOS, PubMed (PMID 37768928), PMC (PMC10538650) e RePEc. **PDF não aberto na
+época deste registro** — aberto depois, ver § 00b.1. **Open access.**
 
 **Achados reportados (por resumo/trechos):**
 
 - Entre **65% e 77%** dos pontos, conforme a superfície, terminam em rally curto
   (**1 a 4 golpes**).
 - Com **primeiro saque + rally curto**, o sacador vence **≈80%** dos pontos.
+  (Confirmado na leitura: 77% / 80% / 81%.)
 - Com **primeiro saque + rally médio**, a probabilidade fica **equilibrada**:
   sacador entre **49% e 55%**, independentemente da superfície.
+  (Confirmado na leitura: 49% / 55% / 52%.)
 
 **Por que importa.** O terceiro achado é taticamente mais interessante que os dois
 primeiros, e é do tipo que sustenta uma situação de produto: *a vantagem do saque

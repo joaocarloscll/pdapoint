@@ -111,6 +111,14 @@
   overflow-wrap: break-word;
 }
 
+/* O DOI é longo e não tem espaços: sem a quebra ele empurra o painel e a
+   página passa a rolar na horizontal no celular. */
+.sourceLink {
+  color: inherit;
+  text-decoration: underline;
+  overflow-wrap: anywhere;
+}
+
 .classification {
   font-size: 12px;
   text-transform: uppercase;
