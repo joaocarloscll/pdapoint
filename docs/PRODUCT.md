@@ -19,21 +19,21 @@ anterior está razoavelmente fechado.
 01 — Brand System                    ✅ fechado
 02 — Information Architecture        ✅ fechado
 03 — Core Experience Specification   ✅ fechado
-04 — Golden Scenario 001             🟡 fonte encontrada e lida — falta assinatura humana
+04 — Golden Scenarios (001, 002, 003) ✅ publicados
 05 — Mobile Wireframes               ✅ fechado
 06 — Tactical Content System         ✅ fechado
-07 — Technical Handoff / Agent Spec  ⏳ depende de 04
+07 — Technical Handoff / Agent Spec  ⏳ próximo
 08 — Validation Plan                 ✅ fechado
 ```
 
-**Único bloqueio ativo:** o estágio 04 já tem fonte — Prieto-Lage et al. (2023),
-PLOS ONE, `CC BY`, lida integralmente (`EVIDENCE_SOURCES.md` § 00b.1). Falta o passo
-que só um humano pode dar: o fundador abrir o DOI, conferir os trechos citados e
-preencher `source.verificadaPor` / `verificadaEm`. Até lá o invariante 11 mantém o
-cenário em rascunho, como deve.
-
-O gargalo, portanto, mudou de natureza: não é mais "não temos fonte", é "falta a
-assinatura". Candidatos seguintes em `PATTERN_BACKLOG.md`.
+**Sem bloqueio ativo.** Três cenários publicados: 001 (Prieto-Lage et al. 2023,
+tier B, `EVIDENCE_SOURCES.md` § 00b.1), 002 (Direcionais de Wardlaw, tier C,
+`EVIDENCE_SOURCES.md` § 00c.2) e 003 (devolução de segundo saque, USTA, tier C,
+`EVIDENCE_SOURCES.md` § 00e). Nenhum precisa de mais nada para permanecer
+publicado: a decisão revisada de 2026-08-18 (§ 00.1) tirou a exigência de um humano
+abrir a fonte e assinar antes de qualquer conteúdo sair de rascunho.
+`source.verificadaPor` continua `null` nos três, e está tudo bem: o campo agora
+registra uma checagem extra opcional, não um requisito de publicação.
 
 Os documentos técnicos e de visão original que originaram este arquivo continuam
 como referência histórica, mas este arquivo é o que deve ser lido primeiro.
@@ -45,11 +45,24 @@ como referência histórica, mas este arquivo é o que deve ser lido primeiro.
 As decisões que precedem todo o resto. Elas condicionam o conteúdo, o engine, a
 UI e o discurso comercial. Não devem ser alteradas sem ADR.
 
-## 00.1 — O conteúdo tático é baseado em evidência
+## 00.1 — O conteúdo tático é fundamentado, não necessariamente publicado
+
+> **Decisão revisada — 2026-08-18.** Até aqui esta seção descrevia uma barra de
+> publicação científica: toda tática precisava de fonte tier B/C **e** de um
+> humano abrindo-a e assinando antes de qualquer coisa sair de rascunho. O
+> fundador decidiu que não é isso que quer construir agora — quer uma
+> ferramenta **útil**, com fatos que fazem sentido, não um repositório
+> auditado. A mudança concreta: **conhecimento geral do ensino de tênis passa
+> a ser aceito como base sozinho** (tier `geral`, abaixo), e **publicar deixa
+> de exigir assinatura humana**. O que **não** mudou, porque é outra coisa —
+> honestidade, não rigor: uma fonte citada continua tendo que ser real. Um
+> agente de IA inventar uma referência plausível e inexistente continua sendo
+> o pior erro possível aqui, exatamente como antes.
 
 A autoridade tática do PDA Point não é o fundador nem um treinador contratado.
-É a **evidência publicada**. Toda tática, e todo padrão atribuído a um jogador
-profissional, precisa estar ancorado em material verificável.
+É a **evidência e a convenção estabelecida do ensino de tênis**. Toda tática, e
+todo padrão atribuído a um jogador profissional, precisa declarar o que a
+sustenta — e essa declaração precisa ser verdadeira.
 
 ### Realidade do terreno
 
@@ -72,7 +85,8 @@ ser escrito com o verbo correspondente a isso.
 | **B** | Literatura científica de análise notacional / ciência do esporte | ITF Coaching & Sport Science Review; periódicos de performance analysis | Sustenta uma tática sozinha |
 | **C** | Manuais de federação e livros de treinadores com trajetória verificável | ITF, USTA, PTR, CBT | Sustenta uma tática sozinha |
 | **D** | Análise pública de especialista reconhecido | Craig O'Shannessy / Brain Game Tennis | Apenas complementa — nunca sustenta sozinha |
-| **✗** | Não aceito | Fórum, vídeo sem dado, "conhecimento geral do tênis", conteúdo gerado por IA sem verificação da fonte primária | Nunca |
+| **geral** | Convenção amplamente aceita do ensino de tênis, sem estudo específico | "Devolver profundo ao meio reduz o ângulo do adversário" | Sustenta uma tática sozinha, desde que rotulada como tal |
+| **✗** | Ainda não aceito | Fonte inventada; algo apresentado como Tier B/C que não existe ou não diz o que se afirma | Nunca — isto é fraude, não falta de rigor |
 
 ### Regra 1 — A força da fonte limita a força da afirmação
 
@@ -81,27 +95,37 @@ A classificação de cada escolha (`padrão` / `alternativa` / `situacional` /
 
 - Evidência Tier B com dado quantitativo → pode classificar como `padrão` ou `incomum`.
 - Apenas convenção de manual (Tier C) → a decisão é `situacional` ou `alternativa`.
-- Sem fonte → a tática não é publicada.
+- Apenas convenção geral do ensino (tier `geral`) → a decisão nunca é `padrão`: é
+  `alternativa` ou `situacional`, e a copy diz "é comum ensinar que...", nunca
+  "o profissional faz X em Y%".
+- Sem base nenhuma declarada (`PENDENTE`) → a tática não é publicada.
 
 Nota: Tier A está indisponível por licença (ver 00.2c), o que torna Tier B o teto
-prático de evidência quantitativa no momento. **Esse teto agora foi alcançado, e não
-só descrito:** o projeto tem quatro artigos Tier B `CC BY` abertos e lidos, com uso
-comercial permitido (`EVIDENCE_SOURCES.md` § 00b). A frase "não temos fonte" deixou
-de ser verdadeira.
+prático de evidência quantitativa no momento. O projeto tem quatro artigos Tier B
+`CC BY` abertos e lidos, com uso comercial permitido (`EVIDENCE_SOURCES.md` § 00b).
 
-A plataforma nunca simula certeza que a evidência não sustenta. Isso é o que
-separa o PDA Point de uma prancheta com opinião.
+A plataforma nunca simula certeza que a evidência não sustenta — mesmo sob a barra
+mais baixa, uma convenção geral continua rotulada como convenção geral, não como
+dado. Isso é o que separa o PDA Point de uma prancheta com opinião disfarçada de
+estatística.
 
-### Regra 2 — Citação fabricada é o maior risco do projeto
+### Regra 2 — Citação fabricada continua sendo o maior risco do projeto
+
+A barra de quanto rigor uma tática precisa caiu. A honestidade sobre o que a
+sustenta não caiu — são coisas diferentes.
 
 Um agente de IA pode produzir uma referência plausível e inexistente, e o
-fundador não teria como distinguir. O documento de arquitetura já estabelece que
-nunca se deve confiar em JSON gerado por IA; **a mesma regra vale, com mais
-rigor, para fontes**.
+fundador não teria como distinguir sem abrir cada uma. O documento de arquitetura
+já estabelece que nunca se deve confiar em JSON gerado por IA; **a mesma regra
+vale, com o mesmo rigor, para fontes**: se `source.referencia` aponta para um
+artigo, autor ou manual específico, esse material precisa existir de verdade e
+dizer o que a tática afirma que ele diz. Se não há um material específico por
+trás, o campo `tier` diz `geral` e ponto — isso é aceitável, inventar não é.
 
-Nenhuma tática entra em `published` sem que a fonte primária tenha sido
-verificada por um humano. Verificar significa: a fonte existe, é acessível, e
-diz de fato o que a tática afirma que ela diz.
+Deixou de ser exigido que um humano abra a fonte e assine antes de publicar. Isso
+não é o mesmo que dispensar a verificação de que a fonte é real: continua sendo
+trabalho de quem escreve a tática (hoje, um agente de código) garantir isso antes
+de escrever `referencia`.
 
 ### Regra 3 — Atribuição a jogadores profissionais
 
@@ -186,13 +210,21 @@ O documento de visão prevê 30+ jogadores × 10 padrões. Recorte tático por j
 era exatamente o que o MCP fornecia; literatura publicada quase nunca traz esse
 nível de individualização.
 
-**Sem uma fonte própria, este pilar não tem base.** A alternativa credível é
-**coleta própria**: análise notacional de partidas transmitidas publicamente,
-gerando dados proprietários sem restrição de licença — que é como o próprio MCP
-nasceu. Trabalhoso, mas vira ativo do negócio em vez de fonte emprestada.
+**Sem uma fonte própria, este pilar não tem base quantitativa.** A alternativa
+credível para número real é **coleta própria**: análise notacional de partidas
+transmitidas publicamente, gerando dados proprietários sem restrição de licença —
+que é como o próprio MCP nasceu. Trabalhoso, mas vira ativo do negócio em vez de
+fonte emprestada. Decisão pendente quanto à camada quantitativa.
 
-Decisão pendente. Não bloqueia o MVP (que não depende de padrões por jogador),
-mas bloqueia a Biblioteca de profissionais.
+> **Atualização — 2026-08-18.** A camada **qualitativa** deste pilar deixou de
+> estar bloqueada: `content/players/` guarda estilo de jogo por jogador, em texto,
+> tier `geral`, sem nenhum número — reputação pública reconhecida, não medição
+> (ver `EVIDENCE_SOURCES.md` § 00d). Isso resolveu uma tentação concreta: um
+> documento de pesquisa trouxe estatísticas fabricadas atribuídas a jogadores
+> reais, e a decisão foi separar a característica de jogo (aproveitável, é
+> reputação real) do número (não aproveitável, é invenção anexada a pessoa real —
+> risco de associação indevida, não questão de rigor de fonte). A camada
+> quantitativa continua bloqueada pelo motivo original.
 
 ## 00.3 — Superfície é tema visual, não variável tática
 
@@ -287,20 +319,27 @@ Por isso toda probabilidade declara sua procedência:
 
 | Procedência | O que é | Publicável |
 |---|---|---|
-| `measured` | Medido em partidas reais e publicado | ✅ |
-| `derived` | Calculado a partir de dado publicado, com o cálculo declarado | ✅ |
-| `estimated` | Estimativa editorial | ❌ apenas rascunho |
+| `measured` | Medido em partidas reais e publicado | ✅ — e precisa citar a âncora (§ 00.6) |
+| `derived` | Calculado a partir de dado publicado, com o cálculo declarado | ✅ — e precisa citar a âncora (§ 00.6) |
+| `estimated` | Estimativa editorial | ✅ desde a decisão revisada de 2026-08-18 |
 
 E todo número declara, no campo `note`, exatamente o que o sustenta — ou, sendo
-estimativa, **qual dado o substituiria**.
+estimativa, **qual dado o substituiria** (quando existir algum próximo).
+
+> **Decisão revisada — 2026-08-18.** Até aqui, `estimated` não podia sair de
+> rascunho, e publicar qualquer probabilidade exigia fonte tier B. As duas
+> travas caíram junto com a de § 00.1: a barra deixou de ser "toda tática
+> rastreável a um artigo", passou a ser "todo número honesto sobre a própria
+> origem". `basis: 'estimated'` permanece um rótulo público — o usuário
+> continua vendo, quando existir, que aquele número é palpite calibrado, não
+> medição. O que mudou é que isso deixou de impedir a publicação.
 
 ### Consequência no engine
 
 - **Invariante 15** — probabilidade fora de 0–1, ou sem `note`, é rejeitada.
-- **Invariante 16** — cenário publicado com qualquer probabilidade `estimated`
-  é rejeitado.
-- **Invariante 12** — publicar probabilidade é afirmação quantitativa e exige
-  fonte tier B.
+- **Invariante 17** — probabilidade `measured` ou `derived` precisa apontar
+  para uma âncora real (§ 00.6); `estimated` não precisa, mas pode citar uma
+  para efeito de calibração.
 
 ### Precisão da sessão
 
@@ -311,6 +350,14 @@ precisão de partida do xadrez, e é o que alimentará o score do Point IQ.
 A precisão avalia **a decisão, não o desfecho**. No tênis a escolha certa perde
 o ponto com frequência; pontuar pelo resultado ensinaria o jogador a perseguir
 sorte.
+
+Essa separação foi decidida antes de ter apoio externo — e passou a ter um em
+2026-08-18: Chan, Fearing, Fernandes & Kovalchik, *A Markov process approach to
+untangling intention versus execution in tennis* (2021; publicado no *Journal of
+Quantitative Analysis in Sports*), formaliza exatamente essa distinção — valor da
+decisão tática separado do custo de execução — usando processos de Markov sobre
+tacadas reais rastreadas (`EVIDENCE_SOURCES.md` § 00c.1). Não é a origem da regra;
+é confirmação de que ela não é peculiar ao PDA Point.
 
 ---
 

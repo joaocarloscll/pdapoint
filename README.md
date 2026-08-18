@@ -58,26 +58,30 @@ exatamente a habilidade que promete treinar.
 
 ## A regra que governa o projeto
 
-**Todo conteúdo tático precisa de fonte publicada e verificada por um humano.**
+**Todo conteúdo tático declara o que o sustenta, e essa declaração é sempre real.**
 
-A autoridade não é o fundador nem um treinador contratado: é a evidência. E como
-toda a evidência disponível descreve tênis profissional enquanto o usuário-alvo é
-recreativo, o produto afirma **"isto é o que o profissional faz"** — nunca "isto é
-o que você deve fazer".
+A autoridade não é o fundador nem um treinador contratado: é a evidência e a
+convenção estabelecida do ensino de tênis. Como boa parte da evidência publicada
+descreve tênis profissional enquanto o usuário-alvo é recreativo, o produto afirma
+**"isto é o que o profissional faz"** quando tem um estudo por trás, e **"é comum
+ensinar que..."** quando a base é convenção — nunca finge medição que não existe.
 
-Essa regra não vive só na documentação. Ela é executável:
+A barra deixou de ser "nível de rigor de publicação científica" (decisão revisada
+de 2026-08-18, `docs/PRODUCT.md` § 00.1): publicar não exige mais que um humano
+abra a fonte e assine antes, e conhecimento geral do ensino de tênis passa a ser
+aceito como base sozinho. O que não mudou é a honestidade — se o código cita um
+artigo específico, esse artigo precisa existir de verdade. Isso continua
+executável:
 
 ```ts
-// tactical-engine/validator/invariants.ts — invariante 11
-if (isPublic && !isVerified) {
-  issues.push(/* published-without-verified-source */)
+// tactical-engine/validator/invariants.ts — invariante 13
+if (isPublic && scenario.source.oQueSustenta.trim() === '') {
+  issues.push(/* decorative-citation */)
 }
 ```
 
-Um cenário sem fonte verificada não passa do status `rascunho`. O teste falha no
-CI. É por isso que o cenário canônico atual está marcado como rascunho e exibe um
-aviso na própria interface — mesmo agora que a fonte existe e foi lida, porque a
-assinatura humana ainda não foi dada.
+Um cenário sem base nenhuma declarada não passa do status `rascunho`. O teste
+falha no CI.
 
 ## Estrutura
 
@@ -87,10 +91,12 @@ features/            composição de UI por funcionalidade
 tactical-engine/     ⚠️ lógica pura — sem React, Next ou DOM
   domain/            tipos
   graph/             percurso e guardrails anti-loop
-  validator/         os 13 invariantes
+  validator/         os invariantes de integridade e evidência
   tests/
 tactical-renderer/   SVG da quadra e marcadores
 content/scenarios/   cenários táticos
+content/players/     padrões de jogadores profissionais (qualitativo, sem número)
+content/evidence/    âncoras medidas, com fonte e procedência
 docs/                fonte de verdade
 ```
 
@@ -148,17 +154,38 @@ tipo de saque, duração de rally e superfície, em 4.669 pontos de Grand Slam.
 terminaram curtos, o sacador venceu 81%" — e ler isso como "encurte o ponto e você
 ganha 81%" troca condicionamento por causa. Elas calibram os números do produto e
 mostram quando um palpite está fora do que alguém já mediu; o que ninguém mediu
-continua marcado como estimativa e continua sem poder ser publicado
-(`docs/PRODUCT.md` § 00.6, invariante 17).
+continua marcado como `estimated` (`docs/PRODUCT.md` § 00.6, invariante 17) — e
+`estimated` agora pode ser publicado, desde que rotulado como tal.
 
-## Próximo passo
+## Status
 
-O **Golden Scenario 001** já tem fonte, lida e citada. Falta o passo que nenhum
-agente pode dar por você: abrir o DOI, conferir os trechos citados e preencher
-`source.verificadaPor` / `verificadaEm`. Até lá o invariante 11 mantém o cenário em
-rascunho.
+Três cenários canônicos publicados, todos em `content/scenarios/`:
 
-O roteiro está em `docs/EVIDENCE_SOURCES.md` § 00b.
+- **Golden Scenario 001** (`golden-001`) — ataque a bola curta, fonte tier B
+  (Prieto-Lage et al. 2023, `EVIDENCE_SOURCES.md` § 00b.1)
+- **Golden Scenario 002** (`wardlaw-outside-ball-001`) — manter ou mudar direção
+  numa bola externa, fonte tier C (Direcionais de Wardlaw, `EVIDENCE_SOURCES.md`
+  § 00c.2)
+- **Golden Scenario 003** (`second-serve-return-001`) — devolução de segundo
+  saque, fonte tier C (USTA, `EVIDENCE_SOURCES.md` § 00e), calibrado contra a
+  âncora medida de segundo saque de Prieto-Lage et al.
+
+Só o primeiro está ligado à UI hoje; os outros dois existem, passam em todos os
+invariantes e têm teste próprio, aguardando a decisão de produto de como múltiplos
+cenários se apresentam no fluxo mobile.
+
+Além dos cenários, `content/players/` guarda 41 padrões qualitativos de jogadores
+profissionais (histórico e atual, ATP e WTA) — reputação de estilo de jogo, nunca
+número. Também sem UI própria ainda.
+
+Nenhum dos três cenários tem `source.verificadaPor` preenchido — ninguém além de
+quem escreveu revisou por cima ainda, e isso deixou de bloquear publicação
+(`docs/PRODUCT.md` § 00.1, decisão revisada de 2026-08-18). A interface mostra
+esse estado com honestidade: quando não há checagem extra, aparece um selo
+discreto dizendo isso, em vez de um aviso de "rascunho" que já não seria verdade.
+
+Mais fontes e cenários entram continuamente. Roteiro em
+`docs/EVIDENCE_SOURCES.md` § 00b/§ 00c/§ 00e e `docs/PATTERN_BACKLOG.md`.
 
 ## Privacidade
 

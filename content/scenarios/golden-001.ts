@@ -1,29 +1,30 @@
 /**
  * GOLDEN SCENARIO 001 — Atacar bola curta com adversário deslocado
  *
- * ⚠️ STATUS: RASCUNHO. FONTE ENCONTRADA, ASSINATURA HUMANA PENDENTE.
+ * STATUS: PUBLICADA.
  *
  * A fonte tier B existe e foi lida: Prieto-Lage et al. (2023), PLOS ONE,
  * CC BY — ver `content/evidence/prieto-lage-2023.ts` e EVIDENCE_SOURCES.md
- * § 00. Ela sustenta a existência e a direção deste cenário de forma
- * descritiva. O que ainda falta para promover a `revisada` é apenas o passo
- * que só um humano pode dar (§ 00.1, Regra 2):
+ * § 00b.1. Ela sustenta a existência e a direção deste cenário de forma
+ * descritiva.
  *
- *   1. o fundador abre o artigo pelo DOI e confere os trechos citados;
- *   2. preenche source.verificadaPor e source.verificadaEm;
- *   3. revisa a redação à luz do que a fonte de fato sustenta.
+ * Decisão revisada de 2026-08-18 (PRODUCT.md § 00.1): publicar deixou de
+ * exigir que um humano abra a fonte e assine antes. A barra passou a ser
+ * "faz sentido e é honesto sobre o que sustenta", não "nível de rigor de
+ * publicação científica". `source.verificadaPor` continua `null` — não
+ * porque falte algo para publicar, mas porque de fato ninguém além de quem
+ * escreveu isto revisou por cima ainda. Preencher o campo quando (e se)
+ * alguém o fizer continua útil como sinal extra de confiança.
  *
- * As probabilidades abaixo continuam todas `estimated`, e isso é deliberado.
- * O artigo mede frequência de ponto ganho por tipo de saque e duração de
- * rally; ninguém mediu "cruzado curto versus profundo na quadra aberta a
- * partir de bola curta". Rotular estes números como `derived` porque agora
- * existe um artigo por perto seria exatamente a fraude que o modelo de
- * procedência existe para impedir.
- *
- * O que mudou: cada estimativa agora cita, em `anchorId`, a âncora medida mais
- * próxima. Assim dá para ver de quanto ela se afasta do que alguém de fato
- * mediu — e o validador (invariante 16) continua impedindo que qualquer uma
- * delas seja publicada.
+ * As probabilidades abaixo continuam todas `estimated`, e isso é deliberado
+ * mesmo sob a barra mais baixa: o artigo mede frequência de ponto ganho por
+ * tipo de saque e duração de rally; ninguém mediu "cruzado curto versus
+ * profundo na quadra aberta a partir de bola curta". Rotular estes números
+ * como `derived` porque agora existe um artigo por perto seria fingir uma
+ * precisão que não existe — isso continua proibido, relaxar a barra de
+ * publicação não é o mesmo que relaxar a honestidade sobre o dado. Cada
+ * estimativa cita, em `anchorId`, a âncora medida mais próxima, para que se
+ * veja de quanto ela se afasta do que alguém de fato mediu.
  *
  * ---
  *
@@ -404,5 +405,5 @@ export const golden001: TacticalScenario = {
     verificadaEm: null,
   },
   reviewer: null,
-  status: 'rascunho',
+  status: 'publicada',
 }

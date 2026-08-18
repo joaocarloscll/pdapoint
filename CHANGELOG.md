@@ -9,6 +9,209 @@ versionamento segue [SemVer](https://semver.org/lang/pt-BR/).
 
 ## [Não lançado]
 
+### Segundo pacote de pesquisa: Golden Scenario 003, mais 20 jogadores, e uma correção pública
+
+O fundador enviou um segundo pacote de pesquisa (`.rar`, ~950 KB), estruturalmente
+muito mais disciplinado que o primeiro — probabilidades propositalmente em branco,
+`access_status` por fonte, e a mesma filosofia de honestidade deste projeto. Pedido:
+implementar tudo.
+
+#### Achado de integridade, corrigido antes de absorver qualquer coisa
+
+Checagem mecânica: 32 dos 125 padrões de jogador e 35 das 165 estratégias citavam
+um `source_id` que não existe na tabela mestra do próprio pacote — na maioria,
+identificadores no formato `turnNNNNNNsearchN`, artefato interno de uma ferramenta
+de busca de agente de IA nunca resolvido para uma fonte real registrada. Nada disso
+entrou. Só patterns/estratégias com toda referência resolvendo para uma fonte real
+foram absorvidos.
+
+#### Correção pública: eu estava errado sobre "VAST", "VACC" e "Space-Time VON CRAMM"
+
+No documento anterior (primeiro pacote), rejeitei esses termos como jargão
+inventado — "acrônimo que nem soletra corretamente a partir da própria expansão".
+Verificação neste pacote encontrou o paper real: Kovalchik, Ingram, Weeratunga &
+Goncu (2020), "Space-Time VON CRAMM", arXiv:2005.12853. O acrônimo soletra
+corretamente, e VAST/VACC/Shot IQ são métricas reais de Expected Shot Value. A
+autora principal é a mesma coautora do paper de Decision Loss já citado no projeto.
+Continuam fora do texto de `content/players/` — não por serem falsas, mas por
+exigirem medição real por jogador que não temos. `EVIDENCE_SOURCES.md` § 00c
+reescrita com a correção; § 00c também ganhou, pela primeira vez, as subseções
+00c.1–00c.4 que outros arquivos já citavam mas que nunca tinham sido escritas —
+uma lacuna de processo encontrada e fechada nesta mesma passada.
+
+#### Adicionado
+
+- **`content/scenarios/second-serve-return-001.ts`** — Golden Scenario 003:
+  devolução de segundo saque, fonte tier C (USTA), primeira situação do projeto na
+  fase de devolução. As três probabilidades citam a âncora medida de segundo saque
+  de Prieto-Lage et al. como calibração — a vantagem aqui é estatística (embutida
+  no segundo saque), não posicional como nos cenários 001/002.
+- **`tactical-engine/tests/second-serve-return.test.ts`** — 6 testes.
+- **20 novos perfis em `content/players/`** (Nadal, Graf, Navratilova, Seles,
+  Sampras, Agassi, Connors, Lendl, Kuerten, McEnroe, Borg, Evert, Venus Williams,
+  Hingis, Henin, Wawrinka, Tsitsipas, Osaka, Fritz, de Minaur) — total 41. Dois
+  ganharam fonte tier B real (Martín-Lorente, Campos & Crespo 2017, sobre forehand
+  inside-out, para Lendl e Tsitsipas) e treze ganharam tier C (Crespo & Reid,
+  *Tennis Tactics: Winning Patterns of Play*) — mais fortes que a maioria dos 21
+  anteriores, que seguem tier `geral`.
+- **`EVIDENCE_SOURCES.md` § 00e** — o segundo pacote, o achado de referências
+  soltas, e a lista completa do que não foi implementado e por quê (164 das 165
+  estratégias, as 500 variantes candidatas, os 376 valores de ação ainda em
+  branco).
+
+#### Alterado
+
+- `PATTERN_BACKLOG.md`: R-02 (avançar no segundo saque) marcado como convertido no
+  Golden Scenario 003.
+- `player-patterns.test.ts`: o teste que bania "VAST/VACC/BHP/VON CRAMM" como
+  jargão inventado agora bane pelo motivo certo (métricas reais não medidas para
+  este projeto, não invenção), e a fonte de cada perfil passa a aceitar B/C/`geral`
+  em vez de exigir sempre `geral`.
+
+Não implementado, deliberadamente: as outras 164 estratégias do pacote (dado
+estruturado com fonte, sem cenário jogável construído), as 500 variantes candidatas
+e os 376 valores de ação com probabilidade em branco — ver `EVIDENCE_SOURCES.md`
+§ 00e para a lista completa e o motivo de cada uma.
+
+
+### Padrões de jogadores profissionais — qualitativo, nunca número fabricado
+
+Depois de rejeitar a tabela de estatísticas inventadas do documento de pesquisa
+(ver entrada anterior), o fundador pediu para implementar mesmo assim, e depois
+confirmou explicitamente que queria manter os números como estavam, sabendo que
+eram fabricados. Isso não foi feito — não por questão de rigor de fonte, mas
+porque publicar estatística inventada atribuída a pessoa real e identificável é
+outro tipo de risco (associação indevida, imagem), que `PRODUCT.md` § 00.1
+Regra 3 e o `LICENSE` do projeto já vedavam antes desta conversa acontecer.
+
+O que sobreviveu, por acordo: a característica de jogo por trás de cada entrada,
+reescrita sem nenhum número, como reputação pública qualitativa.
+
+#### Adicionado
+
+- **`content/players/`** — 21 perfis de jogadores profissionais (Świątek,
+  Alcaraz, Fonseca, Sinner, Ruud, Serena Williams, Sharapova, Djokovic,
+  Medvedev, Murray, Haddad Maia, Zverev, Halep, Simon, Federer, Musetti,
+  Sabalenka, Muchová, Barty, Isner, Dimitrov), um padrão de estilo qualitativo
+  cada, tier `geral`, todos com `source.oQueSustenta` declarando explicitamente
+  que não é dado medido.
+- **`tactical-engine/tests/player-patterns.test.ts`** — 6 testes, incluindo um
+  guardrail específico: nenhum padrão pode conter dígito, `%`, ou a terminologia
+  inventada do documento rejeitado (`VAST`, `VACC`, `BHP`, "VON CRAMM").
+- **`EVIDENCE_SOURCES.md` § 00d** — registra a decisão e a regra de ingestão
+  para este módulo.
+- `PRODUCT.md` § 00.2c atualizado: o pilar "Biblioteca de profissionais" estava
+  bloqueado por inteiro; a camada qualitativa agora está desbloqueada, a
+  quantitativa continua bloqueada pelo motivo original (falta de fonte real).
+
+Ainda não ligado à UI — a aba "Biblioteca" da arquitetura de informação
+(`PRODUCT.md` § 02) não existe em código; hoje só `/situacao` está construído.
+
+
+### Golden Scenario 002, e um filtro de honestidade contra pesquisa fabricada
+
+O fundador colou um documento extenso de "deep research" pedindo para aproveitar o
+que desse. O documento misturava conteúdo real e verificável com estatísticas
+hiperespecíficas atribuídas a mais de 45 jogadores profissionais reais e nomeados,
+sem citação nenhuma — exatamente o padrão de fabricação que a Regra 2 de
+`PRODUCT.md` § 00.1 existe para barrar, relaxamento de rigor ou não.
+
+#### Verificado e absorvido
+
+- **Chan, Fearing, Fernandes & Kovalchik (2021)**, *A Markov process approach to
+  untangling intention versus execution in tennis* — confirmado por 5 fontes
+  independentes (arXiv, De Gruyter, MIT Sloan, tese da University of Toronto,
+  DeepAI). Formaliza a separação entre valor da decisão e custo de execução — dá
+  apoio externo a uma escolha de produto já feita (`PRODUCT.md` § 00.5: avaliar a
+  decisão, não o desfecho).
+- **Wardlaw Directionals** (Paul Wardlaw) — verificado por convergência de múltiplas
+  fontes de ensino independentes descrevendo o mesmo sistema. Vira fonte tier C do
+  **Golden Scenario 002**.
+- **Sandholtz, Hanson, Hager, Kovalchik & Fellingham**, sobre mira de saque —
+  confirmado via arXiv e página de pesquisa de autor (BYU). Catalogado para uso
+  futuro em cenário de saque.
+- **Craig O'Shannessy**, "The First Four Shots" — analista real e público, tier D,
+  corrobora de forma independente a dominância do rali curto já medida por
+  Prieto-Lage et al. (2023).
+
+Tudo documentado em `EVIDENCE_SOURCES.md` § 00c.
+
+#### Explicitamente rejeitado, com o motivo registrado
+
+- Tabela de "arquétipos táticos" atribuindo estatísticas específicas a jogadores
+  reais e nomeados, sem nenhuma citação.
+- Terminologia inventada ("VAST", "VACC", "BHP", "Space-Time VON CRAMM" — um
+  acrônimo que nem soletra corretamente a partir da própria expansão).
+- Taxonomia de "150 estratégias" com percentuais de "valor esperado" sem fonte.
+- Números específicos de "efeito halo" do saque (28,1%, 51,1%, 45,4%) atribuídos a
+  "um estudo de 1.200 partidas" não localizável em nenhuma busca.
+
+#### Adicionado
+
+- **`content/scenarios/wardlaw-outside-ball-001.ts`** — Golden Scenario 002: bola
+  externa em rally cruzado, três escolhas (manter a diagonal / mudar de direção sem
+  vantagem / manter a diagonal sem profundidade), todas `estimated`, fonte tier C.
+  Situação neutra (`advantage: 'neutral'`) — o primeiro cenário do projeto sem
+  vantagem inicial para nenhum lado, diferente do 001.
+- **`tactical-engine/tests/wardlaw-outside-ball.test.ts`** — 7 testes: validação
+  completa, ausência de vantagem inicial, ordenação de probabilidade batendo com o
+  desfecho terminal de cada escolha, ausência de âncora (Wardlaw não publica taxa),
+  e classificação nunca fingindo percentual.
+- `PATTERN_BACKLOG.md`: C-01 e C-02 (que já eram os candidatos priorizados) marcados
+  como convertidos no Golden Scenario 002.
+
+O cenário 002 ainda não está ligado à interface — `TacticalPlayer` continua servindo
+só o 001. Como e quando múltiplos cenários entram no fluxo mobile é decisão de
+produto separada desta absorção de pesquisa.
+
+
+### Política de evidência revisada — útil vem antes de auditável
+
+O fundador pediu explicitamente menos rigor: não quer nível de confiabilidade de
+publicação científica, quer uma ferramenta útil, com fatos que fazem sentido, sem
+precisar de 100% de checagem antes de cada peça de conteúdo. Duas travas caíram;
+uma se manteve de propósito.
+
+#### O que caiu
+
+- **A exigência de assinatura humana antes de publicar.** `source.verificadaPor`
+  e `verificadaEm` deixam de ser condição de publicação — viram sinal opcional de
+  checagem extra. O invariante que bloqueava isso (`published-without-verified-source`)
+  foi removido do validador, não apenas contornado.
+- **A exigência de fonte tier B para publicar qualquer probabilidade**, e o
+  bloqueio de publicar probabilidade `estimated`. Os invariantes 12 e 16 foram
+  retirados — números continuam com procedência (15) e uma medição continua
+  tendo que apontar para a medição real (17), mas `estimated` agora publica.
+- **Conhecimento geral do ensino de tênis** deixa de ser tier ✗ e passa a ser tier
+  `geral`: aceito como base sozinho, desde que a classificação da escolha nunca
+  passe de `alternativa` ou `situacional` (nunca `padrão`, que continua exigindo
+  dado quantitativo).
+
+#### O que se manteve
+
+- **Citação fabricada continua proibida.** Se `source.referencia` aponta para um
+  artigo, autor ou manual específico, esse material precisa existir de verdade.
+  Isso é honestidade, não rigor editorial, e a distinção é o eixo da mudança
+  inteira.
+- **Invariante 11** (fonte `PENDENTE` não passa de rascunho) e **13** (citação
+  decorativa) continuam de pé: o piso mínimo é ter alguma base declarada, e
+  declará-la de verdade.
+
+#### Alterado
+
+- **`SourceTier`** ganha o valor `geral`.
+- **Golden Scenario 001** passa de `rascunho` para **`publicada`**, com
+  `verificadaPor` ainda `null` — demonstração concreta da nova política.
+- **`TacticalPlayer`** troca o selo fixo "rascunho" por um selo dinâmico: mostra
+  o status real do cenário, ou "fonte não conferida" quando publicado sem
+  checagem extra, sem alarmismo.
+- **`PRODUCT.md` § 00.1 e § 00.5**, **`README.md`**, **`EVIDENCE_SOURCES.md`** e
+  **`PATTERN_BACKLOG.md`** reescritos para refletir a política revisada.
+- Testes de `invariants.test.ts` reescritos: os que verificavam os bloqueios
+  removidos agora verificam a ausência deles — a mudança fica coberta por teste,
+  não só por documentação.
+
+
 ### Evidência — o projeto sai do zero de fontes verificadas
 
 Até aqui nenhum artigo científico tinha sido lido na fonte primária: o ambiente de

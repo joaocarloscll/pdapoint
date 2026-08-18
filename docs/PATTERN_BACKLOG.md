@@ -11,26 +11,36 @@ language: "pt-BR"
 Este é um **backlog de descoberta**: a lista de padrões táticos que existem no
 vocabulário do tênis e que são candidatos a virar situações no PDA Point.
 
-**Nada aqui é fonte.** Os padrões foram levantados por busca em material de
-treinamento e mídia especializada — que, pelo padrão de evidência definido em
-`PRODUCT.md` § 00.1, está no tier ✗ (não aceito como fonte).
+> **Atualizado em 2026-08-18.** A decisão revisada de `PRODUCT.md` § 00.1 mudou o
+> que este backlog vale por si só. Convenção amplamente aceita do ensino de tênis
+> — que é exatamente o que material de treinamento e mídia especializada
+> documenta — agora é uma fonte aceita (tier `geral`), não mais tier ✗. Um item
+> desta lista pode virar conteúdo **sem** passar por literatura Tier B/C, desde
+> que classificado com honestidade: nunca `padrão` (isso continua exigindo dado
+> quantitativo), no máximo `alternativa` ou `situacional`, e com a copy dizendo
+> "é comum ensinar que...", nunca fingindo medição.
 
-O valor deste documento é **direcionar a pesquisa**: dizer quais perguntas vale a
-pena levar aos periódicos gratuitos (IJRSS, ITF CSSR) identificados em
-`EVIDENCE_SOURCES.md` § 01b.
+Pesquisa Tier B/C continua valendo a pena: é o que permite classificar como
+`padrão` e escrever com a confiança de "o profissional faz X em Y% dos pontos".
+O valor deste documento nessa frente não mudou — **direcionar a pesquisa**: dizer
+quais perguntas vale a pena levar aos periódicos gratuitos (IJRSS, ITF CSSR)
+identificados em `EVIDENCE_SOURCES.md` § 01b.
 
 ```text
-backlog (aqui)  →  pesquisa em fonte Tier B/C  →  situação publicável
-   candidato              verificação                   conteúdo
+backlog (aqui)  →  vira situação com tier "geral"     (classificação modesta)
+   candidato    ↘  ou pesquisa em Tier B/C primeiro    (classificação forte)
 ```
 
-Nenhum item desta lista pode virar conteúdo antes de passar pela coluna do meio.
+O que continua proibido, sob qualquer um dos dois caminhos: inventar uma citação
+que não existe, ou classificar como `padrão` sem dado quantitativo por trás.
 
 ## Nota sobre MCP de vídeo
 
-Não há MCP de YouTube disponível nesta sessão. Ainda que houvesse, análise em
-vídeo sem dado divulgado permanece tier ✗ — serviria para **descoberta de
-padrões** (alimentar esta lista), nunca para citação. A regra não muda.
+Não há MCP de YouTube disponível nesta sessão. Um vídeo isolado, sem convergência
+com outras fontes, continua não sustentando uma tática sozinho — não é
+"convenção amplamente aceita", é uma opinião. Serve para **descoberta de
+padrões** (alimentar esta lista), e para compor tier `geral` quando o padrão que
+ele descreve já é ensinado de forma consistente em múltiplas fontes.
 
 ---
 
@@ -54,7 +64,7 @@ de direção de saque (aberto / T / corpo) por lado da quadra?
 | # | Padrão | Descrição | Status |
 |---|---|---|---|
 | R-01 | Devolução profunda no meio | Contra primeiro saque forte: neutraliza e nega ângulo | 🔍 a pesquisar |
-| R-02 | Avançar no segundo saque | Tomar a bola cedo e inverter a iniciativa | 🔍 a pesquisar |
+| R-02 | Avançar no segundo saque | Tomar a bola cedo e inverter a iniciativa | ✅ virou o Golden Scenario 003 |
 | R-03 | Posição de devolução recuada | Contra sacador potente: troca posição de quadra por tempo de reação | 🔍 a pesquisar |
 | R-04 | Devolução para zona sem ângulo | Fixar o sacador e dificultar o segundo golpe | 🔍 a pesquisar |
 
@@ -68,8 +78,8 @@ mas derivado do MCP — portanto inutilizável. Precisa de fonte independente.)*
 
 | # | Padrão | Descrição | Status |
 |---|---|---|---|
-| C-01 | Disciplina de cruzado | Sustentar a diagonal até obter bola atacável | 🔍 a pesquisar |
-| C-02 | Mudança de direção (paralela) | Quando trocar a diagonal pela linha, e o risco associado | 🔍 a pesquisar |
+| C-01 | Disciplina de cruzado | Sustentar a diagonal até obter bola atacável | ✅ virou o Golden Scenario 002 |
+| C-02 | Mudança de direção (paralela) | Quando trocar a diagonal pela linha, e o risco associado | ✅ virou o Golden Scenario 002 |
 | C-03 | Neutralizador profundo no meio | Devolver profundidade central para retirar ângulo do adversário | 🔍 a pesquisar |
 | C-04 | Forehand inside-out | Contornar o backhand para impor o golpe dominante | 🔍 a pesquisar |
 | C-05 | Proteção de backhand | Construir de modo a evitar exposição do lado fraco | 🔍 a pesquisar |
@@ -105,9 +115,9 @@ fonte antes de virar conteúdo.
 
 ---
 
-## Prioridade para o Golden Scenario 001
+## Prioridade para os Golden Scenarios
 
-O primeiro cenário canônico deve ser escolhido por três critérios:
+Cada cenário canônico é escolhido por três critérios:
 
 1. **Frequência** — situação que o jogador recreativo encontra toda partida.
 2. **Decisão clara** — as opções produzem consequências visualmente distintas.
@@ -118,8 +128,8 @@ Candidatos mais fortes, nesta ordem:
 | Posição | Padrão | Por quê |
 |---|---|---|
 | 1º | **A-01 — Ataque à bola curta** ✅ escolhido | É o exemplo já usado no documento de visão, a situação é inequívoca visualmente, e o erro (atacar mal uma bola curta) é universal no recreativo. **Virou o Golden Scenario 001, e a aposta se confirmou:** Prieto-Lage et al. (2023) descrevem exatamente essa sequência — quique curto seguido de golpe agressivo — como a combinação de ponto ganho mais frequente do profissional (`EVIDENCE_SOURCES.md` § 00b.1) |
-| 2º | **C-02 — Mudança de direção** | Trade-off risco/recompensa muito visual; decisão que todo jogador toma |
-| 3º | **R-01 — Devolução profunda no meio** | Decisão simples, alto impacto, e o jogador controla de fato |
+| 2º | **C-02 — Mudança de direção** ✅ escolhido | Trade-off risco/recompensa muito visual; decisão que todo jogador toma. **Virou o Golden Scenario 002** (`wardlaw-outside-ball-001`), fundamentado nas Direcionais de Wardlaw — tier C verificado por convergência de múltiplas fontes independentes (`EVIDENCE_SOURCES.md` § 00c.2) |
+| 3º | **R-02 — Avançar no segundo saque** ✅ escolhido | Decisão simples, alto impacto, e o jogador controla de fato. **Virou o Golden Scenario 003** (`second-serve-return-001`), fundamentado em manual oficial da USTA — tier C — e calibrado contra a âncora medida de segundo saque de Prieto-Lage et al. (`EVIDENCE_SOURCES.md` § 00e) |
 
 ---
 
@@ -169,12 +179,14 @@ pesquisa, dos quais só entram aqui os que forem trabalhados.
 
 ## Como este documento evolui
 
-Quando um padrão receber fonte verificada, ele sai daqui e entra no sistema de
-conteúdo (`PRODUCT.md` § 06) com o template completo preenchido.
-
-Status possíveis:
+Quando um padrão vira conteúdo, ele sai daqui e entra no sistema de conteúdo
+(`PRODUCT.md` § 06) com o template completo preenchido. Há dois caminhos, e o
+segundo é novo desde 2026-08-18:
 
 ```text
-🔍 a pesquisar  →  📄 fonte encontrada  →  ✅ verificada  →  publicável
-                                        ↘  ✗ sem respaldo  →  descartado ou situacional
+🔍 a pesquisar  →  📄 fonte Tier B/C encontrada  →  ✅ lida  →  publicável como `padrão`
+                                                 ↘  ✗ sem respaldo  →  descartado
+🔍 a pesquisar  →  convenção comum confirmada em múltiplas fontes de ensino
+                                                 →  publicável como `geral`, classificado
+                                                    `alternativa` ou `situacional`
 ```
