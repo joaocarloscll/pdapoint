@@ -110,7 +110,11 @@ describe('invariantes de integridade do grafo', () => {
           stateId: 's2',
           label: 'voltar',
           shotIntent: 'reset' as const,
-          classification: 'situacional' as const,
+          winProbability: {
+            value: 0.5,
+            basis: 'estimated' as const,
+            note: 'teste',
+          },
           explanation: 'fecha um ciclo, para teste',
         },
       ],
@@ -160,19 +164,21 @@ describe('invariante 14 — todo caminho resolve o ponto', () => {
     expect(codesOf(broken)).toContain('terminal-does-not-resolve-point')
   })
 
-  it('a escolha padrão ganha o ponto e as demais perdem', () => {
+  it('a escolha de maior probabilidade ganha o ponto e as demais perdem', () => {
     const desfecho = (choiceId: string) => {
       const t = golden001.transitions.find((x) => x.choiceId === choiceId)
       return golden001.states.find((s) => s.id === t?.toStateId)?.terminal
     }
 
+    const melhor = Math.max(
+      ...golden001.choices.map((c) => c.winProbability.value),
+    )
+
     for (const choice of golden001.choices) {
       const fim = desfecho(choice.id)
-      if (choice.classification === 'padrao') {
-        expect(fim).toBe('winner_a')
-      } else {
-        expect(fim).toBe('winner_b')
-      }
+      expect(fim).toBe(
+        choice.winProbability.value === melhor ? 'winner_a' : 'winner_b',
+      )
     }
   })
 })
@@ -193,8 +199,7 @@ describe('invariantes de evidência — PRODUCT.md § 00.1 como código', () => 
     expect(codesOf(golden001)).not.toContain('pending-source-beyond-draft')
   })
 
-  it('12 — classificação forte exige fonte tier B', () => {
-    // Fonte tier C verificada, mas há escolha classificada como "padrao"
+  it('12 — publicar probabilidade exige fonte tier B', () => {
     const broken = mutate({
       status: 'publicada',
       source: {
@@ -205,21 +210,7 @@ describe('invariantes de evidência — PRODUCT.md § 00.1 como código', () => 
         verificadaEm: '2026-08-18',
       },
     })
-    expect(codesOf(broken)).toContain('classification-exceeds-source')
-  })
-
-  it('12 — fonte tier B sustenta classificação forte', () => {
-    const ok = mutate({
-      status: 'publicada',
-      source: {
-        tier: 'B',
-        referencia: 'Autor et al. (2024), IJRSS, DOI 10.x',
-        oQueSustenta: 'frequência de escolha em bola curta no profissional',
-        verificadaPor: 'Fulano',
-        verificadaEm: '2026-08-18',
-      },
-    })
-    expect(codesOf(ok)).not.toContain('classification-exceeds-source')
+    expect(codesOf(broken)).toContain('probability-exceeds-source')
   })
 
   it('13 — rejeita citação decorativa (oQueSustenta vazio)', () => {
@@ -240,6 +231,14 @@ describe('invariantes de evidência — PRODUCT.md § 00.1 como código', () => 
     const publishable = mutate({
       status: 'publicada',
       reviewer: 'Sicrano',
+      // Publicar exige que nenhum número seja estimativa (invariante 16).
+      choices: golden001.choices.map((c) => ({
+        ...c,
+        winProbability: {
+          ...c.winProbability,
+          basis: 'measured' as const,
+        },
+      })),
       source: {
         tier: 'B',
         referencia: 'Autor et al. (2024), IJRSS 7(1), DOI 10.x',
