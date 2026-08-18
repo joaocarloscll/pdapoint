@@ -238,6 +238,74 @@ produz em tempo de execução — nunca é escrito à mão.
 
 ---
 
+## 00.5 — Toda escolha tem uma probabilidade, e todo número tem procedência
+
+O modelo de avaliação segue o espírito da análise de lances do xadrez: cada
+escolha carrega uma **chance de vencer o ponto**, e a qualidade da decisão
+deriva da distância até a melhor opção disponível.
+
+Não existe ambiguidade real entre duas jogadas. Existe diferença que ainda não
+foi medida. Tratar opções como "equivalentes" é descrever a nossa ignorância,
+não o jogo.
+
+### A qualidade é derivada, nunca escrita
+
+| Perda em relação à melhor | Qualidade |
+|---|---|
+| 0 | Melhor escolha |
+| até 3 pp | Excelente |
+| até 8 pp | Boa |
+| até 15 pp | Imprecisão |
+| até 25 pp | Erro |
+| acima de 25 pp | Erro grave |
+
+Faixas calibradas para o tênis, não copiadas do xadrez: um ponto de tênis é
+muito mais volátil que uma posição de xadrez, então perdas pequenas pesam
+menos.
+
+Derivar em vez de escrever garante que o rótulo nunca contradiga o número, e
+que corrigir um número reclassifique a escolha sozinho.
+
+### A diferença em relação ao xadrez, que é onde mora o risco
+
+No xadrez o motor é verdade de campo: o Stockfish avalia a posição e o número
+é auditável por qualquer um. **No tênis não existe equivalente.**
+
+Um número aparenta precisão. Publicar `76%` quando o número é palpite editorial
+é pior do que publicar um rótulo vago, porque o usuário não tem como
+distinguir os dois — e a credibilidade é o ativo do produto.
+
+Por isso toda probabilidade declara sua procedência:
+
+| Procedência | O que é | Publicável |
+|---|---|---|
+| `measured` | Medido em partidas reais e publicado | ✅ |
+| `derived` | Calculado a partir de dado publicado, com o cálculo declarado | ✅ |
+| `estimated` | Estimativa editorial | ❌ apenas rascunho |
+
+E todo número declara, no campo `note`, exatamente o que o sustenta — ou, sendo
+estimativa, **qual dado o substituiria**.
+
+### Consequência no engine
+
+- **Invariante 15** — probabilidade fora de 0–1, ou sem `note`, é rejeitada.
+- **Invariante 16** — cenário publicado com qualquer probabilidade `estimated`
+  é rejeitado.
+- **Invariante 12** — publicar probabilidade é afirmação quantitativa e exige
+  fonte tier B.
+
+### Precisão da sessão
+
+Cada decisão vale o quanto reteve da melhor opção: escolher 60% quando a melhor
+era 80% retém 75%. A precisão da sessão é a média — é o mesmo conceito da
+precisão de partida do xadrez, e é o que alimentará o score do Point IQ.
+
+A precisão avalia **a decisão, não o desfecho**. No tênis a escolha certa perde
+o ponto com frequência; pontuar pelo resultado ensinaria o jogador a perseguir
+sorte.
+
+---
+
 # 01 — Brand System
 
 ## Marca

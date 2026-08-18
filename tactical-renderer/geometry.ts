@@ -131,16 +131,27 @@ export const ease = (kind: Easing, t: number): number =>
 /**
  * Centro aproximado de uma zona nomeada, para posicionar o destaque visual.
  *
- * Espelha as faixas usadas por `zoneOf` nos guardrails: três faixas laterais e
- * três de profundidade.
+ * Espelha exatamente as faixas de `zoneOf`. Quando os dois discordam, o
+ * destaque aparece longe do que está acontecendo — foi assim que o brilho
+ * caiu na metade errada da quadra.
  */
 export function zoneCenter(zone: CourtZone): CourtPoint {
-  const lateral = zone.startsWith('net-')
-    ? zone.slice(4)
-    : zone.slice(0, zone.lastIndexOf('-'))
+  const [half, lateral, depth] = zone.split('-') as [
+    'opp' | 'own',
+    'left' | 'center' | 'right',
+    'deep' | 'short',
+  ]
 
-  const x = lateral === 'deuce' ? 0.165 : lateral === 'center' ? 0.5 : 0.835
-  const y = zone.startsWith('net-') ? 0.125 : zone.endsWith('-deep') ? 0.825 : 0.45
+  const x = lateral === 'left' ? 0.165 : lateral === 'center' ? 0.5 : 0.835
+
+  const y =
+    half === 'opp'
+      ? depth === 'deep'
+        ? 0.125 // fundo do adversário
+        : 0.375 // meia-quadra do adversário
+      : depth === 'short'
+        ? 0.625 // nossa meia-quadra
+        : 0.875 // nosso fundo
 
   return { x, y }
 }

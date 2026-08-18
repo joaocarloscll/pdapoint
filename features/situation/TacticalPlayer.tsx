@@ -14,7 +14,7 @@ import { useCallback, useMemo, useState } from 'react'
 
 import { golden001 } from '../../content/scenarios/golden-001'
 import type {
-  ChoiceClassification,
+  ChoiceQuality,
   TacticalChoice,
   TacticalScenario,
   TacticalState,
@@ -28,10 +28,16 @@ import {
   startSession,
   type PlaySession,
 } from '../../tactical-engine/graph/traverse'
+import {
+  accuracyOf,
+  rankChoices,
+  type ChoiceEvaluation,
+} from '../../tactical-engine/scoring/evaluate'
 import { CourtSvg } from '../../tactical-renderer/CourtSvg'
 import { zoneCenter } from '../../tactical-renderer/geometry'
 import {
   Ball,
+  BounceMark,
   PlayerMarker,
   Trajectory,
   ZoneHighlight,
@@ -49,19 +55,25 @@ import css from './TacticalPlayer.module.css'
  */
 type Phase = 'observation' | 'decision' | 'playing' | 'consequence' | 'comparing'
 
-const CLASSIFICATION_LABEL: Record<ChoiceClassification, string> = {
-  padrao: 'padrão profissional',
-  alternativa: 'alternativa',
-  situacional: 'situacional',
-  incomum: 'incomum no profissional',
+const QUALITY_LABEL: Record<ChoiceQuality, string> = {
+  melhor: 'Melhor escolha',
+  excelente: 'Excelente',
+  boa: 'Boa',
+  imprecisao: 'Imprecisão',
+  erro: 'Erro',
+  'erro-grave': 'Erro grave',
 }
 
-const CLASSIFICATION_COLOR: Record<ChoiceClassification, string> = {
-  padrao: 'var(--success)',
-  alternativa: 'var(--text-secondary)',
-  situacional: 'var(--text-secondary)',
-  incomum: 'var(--danger)',
+const QUALITY_COLOR: Record<ChoiceQuality, string> = {
+  melhor: 'var(--success)',
+  excelente: 'var(--success)',
+  boa: 'var(--text-primary)',
+  imprecisao: 'var(--accent)',
+  erro: 'var(--danger)',
+  'erro-grave': 'var(--danger)',
 }
+
+const pct = (v: number): string => `${Math.round(v * 100)}%`
 
 /**
  * Como o desfecho é anunciado ao usuário.
@@ -106,6 +118,7 @@ type Played = {
   readonly choice: TacticalChoice
   readonly transition: TacticalTransition
   readonly fromState: TacticalState
+  readonly evaluation: ChoiceEvaluation
 }
 
 export function TacticalPlayer() {
@@ -130,15 +143,35 @@ export function TacticalPlayer() {
    * Quando não há (todas situacionais), a plataforma não inventa um —
    * PRODUCT.md § 00.1.
    */
+  /** A opção de maior probabilidade no estado em que a decisão foi tomada. */
   const pattern = useMemo(() => {
     if (played === null) return null
+    const disponiveis = golden001.choices.filter((c) =>
+      played.fromState.availableChoices.includes(c.id),
+    )
     return (
-      golden001.choices.find(
-        (c) =>
-          c.stateId === played.fromState.id && c.classification === 'padrao',
+      disponiveis.reduce<TacticalChoice | null>(
+        (melhor, c) =>
+          melhor === null || c.winProbability.value > melhor.winProbability.value
+            ? c
+            : melhor,
+        null,
       ) ?? null
     )
   }, [played])
+
+  /** Ranking completo das opções, para a comparação. */
+  const ranking = useMemo(
+    () =>
+      played === null
+        ? []
+        : rankChoices(
+            golden001.choices.filter((c) =>
+              played.fromState.availableChoices.includes(c.id),
+            ),
+          ),
+    [played],
+  )
 
   const patternTransition = useMemo(() => {
     if (played === null || pattern === null) return null
@@ -180,6 +213,7 @@ export function TacticalPlayer() {
       choice,
       transition: result.value.transition,
       fromState: state,
+      evaluation: result.value.evaluation,
     })
     setSession(result.value.session)
     setPhase('playing')
@@ -213,7 +247,7 @@ export function TacticalPlayer() {
       ? 'Comparar alternativas'
       : played?.choice.id === pattern.id
         ? 'Ver as outras opções'
-        : 'Ver o padrão profissional'
+        : 'Ver a melhor escolha'
 
   return (
     <main className={css.shell}>
@@ -267,6 +301,14 @@ export function TacticalPlayer() {
                 />
               ) : null,
             )}
+
+          {animating && playback.frame.bounce !== null && (
+            <BounceMark
+              at={playback.frame.bounce.at}
+              color={theme.ball}
+              progress={playback.frame.bounce.progress}
+            />
+          )}
 
           <PlayerMarker
             at={posB}
@@ -353,16 +395,50 @@ export function TacticalPlayer() {
               {OUTCOME_LABEL[state.terminal]}
             </p>
           )}
-          <span
-            className={css.classification}
-            style={
-              {
-                '--tone': CLASSIFICATION_COLOR[played.choice.classification],
-              } as React.CSSProperties
-            }
+          {/* Avaliação da decisão, no estilo da análise de lances do xadrez. */}
+          <div className={css.evalRow}>
+            <span
+              className={css.quality}
+              style={
+                {
+                  '--tone': QUALITY_COLOR[played.evaluation.quality],
+                } as React.CSSProperties
+              }
+            >
+              {QUALITY_LABEL[played.evaluation.quality]}
+            </span>
+            <span className={css.evalNumbers}>
+              {pct(played.evaluation.probability)}
+              {played.evaluation.loss > 0 && (
+                <>
+                  {' · melhor '}
+                  {pct(played.evaluation.bestProbability)}
+                  <span className={css.evalLoss}>
+                    {` −${Math.round(played.evaluation.loss * 100)}`}
+                  </span>
+                </>
+              )}
+            </span>
+          </div>
+
+          {/* Barra de probabilidade: a sua contra a melhor disponível. */}
+          <div
+            className={css.probBar}
+            role="img"
+            aria-label={`Sua escolha vence ${pct(played.evaluation.probability)} das vezes; a melhor opção, ${pct(played.evaluation.bestProbability)}`}
           >
-            {CLASSIFICATION_LABEL[played.choice.classification]}
-          </span>
+            <span
+              className={css.probBest}
+              style={{ width: pct(played.evaluation.bestProbability) }}
+            />
+            <span
+              className={css.probMine}
+              style={{
+                width: pct(played.evaluation.probability),
+                background: QUALITY_COLOR[played.evaluation.quality],
+              }}
+            />
+          </div>
           <p className={css.explanation}>{played.choice.explanation}</p>
 
           <p className={css.sourceNote}>
@@ -398,13 +474,44 @@ export function TacticalPlayer() {
                 className={css.legendSwatch}
                 style={{ background: theme.trajectory }}
               />
-              {pattern?.label ?? 'alternativa'}
+              {pattern?.label ?? 'melhor opção'}
             </span>
           </div>
 
+          {/* Todas as opções ranqueadas pela chance de vencer o ponto. */}
+          <ol className={css.ranking}>
+            {ranking.map((ev) => {
+              const opcao = golden001.choices.find((c) => c.id === ev.choiceId)
+              if (opcao === undefined) return null
+              return (
+                <li
+                  key={ev.choiceId}
+                  className={css.rankingItem}
+                  data-mine={ev.choiceId === played.choice.id}
+                >
+                  <span className={css.rankingLabel}>{opcao.label}</span>
+                  <span
+                    className={css.rankingPct}
+                    style={
+                      { '--tone': QUALITY_COLOR[ev.quality] } as React.CSSProperties
+                    }
+                  >
+                    {pct(ev.probability)}
+                  </span>
+                </li>
+              )
+            })}
+          </ol>
+
           <p className={css.explanation}>
-            {pattern?.explanation ??
-              'A evidência não distingue as opções nesta situação.'}
+            {pattern?.explanation ?? ''}
+          </p>
+
+          <p className={css.sourceNote}>
+            ⓘ Precisão desta decisão:{' '}
+            {Math.round(accuracyOf([played.evaluation]))}%. As probabilidades são
+            estimativas editoriais — este cenário é um rascunho e não está
+            publicado.
           </p>
 
           <button

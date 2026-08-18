@@ -14,8 +14,11 @@
  *   3. preencher source.referencia, oQueSustenta, verificadaPor, verificadaEm;
  *   4. revisar as classificações à luz do que a fonte de fato sustenta.
  *
- * As classificações abaixo são PROVISÓRIAS e refletem convenção de treinamento,
- * não evidência verificada. É exatamente por isso que o status é rascunho.
+ * As probabilidades abaixo são todas `estimated` — estimativa editorial, não
+ * medição. O validador (invariante 15) impede que um cenário com qualquer
+ * número estimado seja publicado. Elas existem para que a mecânica de
+ * avaliação possa ser construída e testada; cada uma declara, no campo
+ * `note`, exatamente qual dado a substituiria.
  *
  * ---
  *
@@ -106,8 +109,15 @@ export const golden001: TacticalScenario = {
       stateId: 's1',
       label: 'Cruzado curto',
       shotIntent: 'attack',
-      targetZone: 'deuce-short',
-      classification: 'incomum',
+      targetZone: 'opp-left-short',
+      winProbability: {
+        value: 0.44,
+        basis: 'estimated',
+        note:
+          'ESTIMATIVA. Premissa: devolver ângulo e bola curta com o adversário ' +
+          'em recuperação inverte a iniciativa. Precisa de dado de taxa de ' +
+          'ponto ganho após bola curta cruzada em situação de ataque.',
+      },
       explanation:
         'A bola curta cruzada encurta a distância que o adversário precisa ' +
         'percorrer e ainda lhe entrega ângulo: ele entra na quadra e passa para ' +
@@ -118,8 +128,15 @@ export const golden001: TacticalScenario = {
       stateId: 's1',
       label: 'Ataque profundo na quadra aberta',
       shotIntent: 'finish',
-      targetZone: 'ad-deep',
-      classification: 'padrao',
+      targetZone: 'opp-right-deep',
+      winProbability: {
+        value: 0.76,
+        basis: 'estimated',
+        note:
+          'ESTIMATIVA. Premissa: atacar o espaço aberto com profundidade contra ' +
+          'adversário deslocado é o padrão dominante. Precisa de dado de taxa ' +
+          'de ponto ganho ao atacar quadra aberta.',
+      },
       explanation:
         'Profundidade no espaço que o adversário deixou: ele já está em ' +
         'recuperação para o lado oposto e não cobre a distância a tempo.',
@@ -129,8 +146,15 @@ export const golden001: TacticalScenario = {
       stateId: 's1',
       label: 'Bola ao meio, sem profundidade',
       shotIntent: 'neutralize',
-      targetZone: 'center-short',
-      classification: 'incomum',
+      targetZone: 'opp-center-short',
+      winProbability: {
+        value: 0.58,
+        basis: 'estimated',
+        note:
+          'ESTIMATIVA. Premissa: bola central sem profundidade devolve a ' +
+          'iniciativa sem conceder ângulo — pior que atacar, melhor que abrir ' +
+          'a quadra para ele. Precisa de dado de profundidade × ponto ganho.',
+      },
       explanation:
         'Devolver ao meio sem profundidade entrega a iniciativa: o adversário ' +
         'recupera a posição, entra na quadra e ataca o lado que ficou aberto.',
@@ -170,7 +194,8 @@ export const golden001: TacticalScenario = {
           kind: 'highlight-zone',
           startMs: 820,
           durationMs: 1000,
-          zone: 'ad-deep',
+          // O espaço aberto na NOSSA metade, para onde ele passa.
+          zone: 'own-right-deep',
           tone: 'risk',
         },
         {
@@ -191,7 +216,18 @@ export const golden001: TacticalScenario = {
           to: { x: 0.68, y: 0.76 },
           easing: 'ease-out',
         },
-        { kind: 'pause', startMs: 1560, durationMs: 420 },
+        // A bola quica dentro e sai: é o quique que fecha o ponto.
+        { kind: 'bounce', startMs: 1520, durationMs: 420, at: { x: 0.9, y: 0.74 } },
+        {
+          kind: 'move-ball',
+          startMs: 1540,
+          durationMs: 420,
+          from: { x: 0.9, y: 0.74 },
+          to: { x: 1.04, y: 0.96 },
+          arc: 0.04,
+          easing: 'linear',
+        },
+        { kind: 'pause', startMs: 1960, durationMs: 380 },
       ],
     },
     {
@@ -205,7 +241,8 @@ export const golden001: TacticalScenario = {
           kind: 'highlight-zone',
           startMs: 0,
           durationMs: 900,
-          zone: 'ad-deep',
+          // O espaço aberto na metade DELE, que é o alvo do ataque.
+          zone: 'opp-right-deep',
           tone: 'opportunity',
         },
         {
@@ -236,7 +273,17 @@ export const golden001: TacticalScenario = {
           to: { x: 0.55, y: 0.7 },
           easing: 'ease-in-out',
         },
-        { kind: 'pause', startMs: 900, durationMs: 460 },
+        { kind: 'bounce', startMs: 640, durationMs: 420, at: { x: 0.82, y: 0.08 } },
+        {
+          kind: 'move-ball',
+          startMs: 660,
+          durationMs: 400,
+          from: { x: 0.82, y: 0.08 },
+          to: { x: 0.94, y: -0.06 },
+          arc: 0.04,
+          easing: 'linear',
+        },
+        { kind: 'pause', startMs: 1060, durationMs: 460 },
       ],
     },
     {
@@ -270,7 +317,8 @@ export const golden001: TacticalScenario = {
           kind: 'highlight-zone',
           startMs: 840,
           durationMs: 1000,
-          zone: 'deuce-deep',
+          // O espaço aberto na nossa metade, do lado esquerdo.
+          zone: 'own-left-deep',
           tone: 'risk',
         },
         {
@@ -291,7 +339,17 @@ export const golden001: TacticalScenario = {
           to: { x: 0.36, y: 0.8 },
           easing: 'ease-out',
         },
-        { kind: 'pause', startMs: 1560, durationMs: 420 },
+        { kind: 'bounce', startMs: 1500, durationMs: 420, at: { x: 0.12, y: 0.78 } },
+        {
+          kind: 'move-ball',
+          startMs: 1520,
+          durationMs: 420,
+          from: { x: 0.12, y: 0.78 },
+          to: { x: -0.04, y: 0.98 },
+          arc: 0.04,
+          easing: 'linear',
+        },
+        { kind: 'pause', startMs: 1940, durationMs: 380 },
       ],
     },
   ],

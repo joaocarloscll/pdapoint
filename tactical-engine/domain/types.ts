@@ -24,17 +24,33 @@ export type CourtPoint = {
   readonly y: number
 }
 
-/** Zonas nomeadas, usadas para intenção de alvo e para o hash anti-loop. */
+/**
+ * Zonas nomeadas, usadas para intenção de alvo e para o hash anti-loop.
+ *
+ * O prefixo diz **de que lado da rede**: `opp` é a metade do adversário
+ * (y < 0.5), `own` é a nossa (y > 0.5). Sem isso, um alvo no fundo do
+ * adversário e um no nosso caem na mesma zona — o destaque visual aparece do
+ * lado errado, e o hash anti-loop confunde estados opostos.
+ *
+ * Lateral é da perspectiva de quem olha o desenho (esquerda/centro/direita),
+ * não `deuce`/`ad`: esses invertem conforme o lado da quadra e conforme a
+ * mão do jogador, e a ambiguidade já custou um bug.
+ */
 export type CourtZone =
-  | 'deuce-deep'
-  | 'deuce-short'
-  | 'center-deep'
-  | 'center-short'
-  | 'ad-deep'
-  | 'ad-short'
-  | 'net-deuce'
-  | 'net-center'
-  | 'net-ad'
+  // Metade do adversário
+  | 'opp-left-deep'
+  | 'opp-center-deep'
+  | 'opp-right-deep'
+  | 'opp-left-short'
+  | 'opp-center-short'
+  | 'opp-right-short'
+  // Nossa metade
+  | 'own-left-short'
+  | 'own-center-short'
+  | 'own-right-short'
+  | 'own-left-deep'
+  | 'own-center-deep'
+  | 'own-right-deep'
 
 // ---------------------------------------------------------------------------
 // Estado
@@ -105,20 +121,43 @@ export type ShotIntent =
   | 'serve'
 
 /**
- * Classificação de uma escolha.
+ * De onde vem um número de probabilidade.
  *
- * Vocabulário descritivo, não prescritivo (PRODUCT.md § 00.2b): descreve o que
- * o profissional faz, não o que o usuário deve fazer.
+ * No xadrez o motor é verdade de campo; no tênis não existe equivalente. Um
+ * número sem procedência declarada é pior que um rótulo vago, porque aparenta
+ * uma precisão que não tem. Por isso a procedência é parte do dado, e o
+ * validador recusa publicar estimativa (PRODUCT.md § 00.5).
  */
-export type ChoiceClassification =
-  /** Predomina no jogo profissional. */
-  | 'padrao'
-  /** Também usado; depende do contexto. */
-  | 'alternativa'
-  /** A evidência não distingue as opções. */
-  | 'situacional'
-  /** Raro no profissional, ou com resultado documentado pior. */
-  | 'incomum'
+export type ProbabilityBasis =
+  /** Medido em partidas reais e publicado. */
+  | 'measured'
+  /** Calculado a partir de dado publicado, com o cálculo declarado. */
+  | 'derived'
+  /** Estimativa editorial. Aceitável em rascunho, nunca em conteúdo publicado. */
+  | 'estimated'
+
+export type WinProbability = {
+  /** Probabilidade de vencer o ponto após esta escolha, de 0 a 1. */
+  readonly value: number
+  readonly basis: ProbabilityBasis
+  /** O que sustenta o número — a fonte, o cálculo, ou a premissa. */
+  readonly note: string
+}
+
+/**
+ * Qualidade de uma escolha, no espírito da avaliação de lances do xadrez.
+ *
+ * NÃO é escrita à mão: deriva da distância entre a probabilidade da escolha e
+ * a da melhor opção disponível. Assim o rótulo nunca contradiz o número, e
+ * corrigir um número reclassifica a escolha sozinho.
+ */
+export type ChoiceQuality =
+  | 'melhor'
+  | 'excelente'
+  | 'boa'
+  | 'imprecisao'
+  | 'erro'
+  | 'erro-grave'
 
 export type TacticalChoice = {
   readonly id: string
@@ -127,7 +166,13 @@ export type TacticalChoice = {
   readonly label: string
   readonly shotIntent: ShotIntent
   readonly targetZone?: CourtZone
-  readonly classification: ChoiceClassification
+  /**
+   * Chance de vencer o ponto ao escolher esta opção.
+   *
+   * Toda escolha tem uma: não existe empate real entre duas opções, existe
+   * diferença que ainda não foi medida (PRODUCT.md § 00.5).
+   */
+  readonly winProbability: WinProbability
   /** O mecanismo, 1–2 frases. Mostrado na Fase 6 do loop. */
   readonly explanation: string
 }
@@ -177,6 +222,17 @@ export type PauseEvent = TimelineEventBase & {
   readonly kind: 'pause'
 }
 
+/**
+ * Quique da bola no ponto em que ela cai.
+ *
+ * Marca visualmente onde a bola tocou a quadra. Sem o quique, a bola apenas
+ * para no alvo e o ponto não se lê como encerrado.
+ */
+export type BounceEvent = TimelineEventBase & {
+  readonly kind: 'bounce'
+  readonly at: CourtPoint
+}
+
 export type AnnotationEvent = TimelineEventBase & {
   readonly kind: 'annotation'
   readonly text: string
@@ -189,6 +245,7 @@ export type TimelineEvent =
   | HighlightZoneEvent
   | ShowArrowEvent
   | PauseEvent
+  | BounceEvent
   | AnnotationEvent
 
 // ---------------------------------------------------------------------------

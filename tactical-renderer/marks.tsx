@@ -137,3 +137,37 @@ export function ZoneHighlight({
     />
   )
 }
+
+type BounceMarkProps = {
+  readonly at: CourtPoint
+  readonly color: string
+  /** 0 no instante do toque, 1 ao fim do quique. */
+  readonly progress: number
+}
+
+/**
+ * Marca o ponto em que a bola tocou a quadra.
+ *
+ * Um anel que expande e desvanece. É o sinal que diz "a bola quicou aqui" —
+ * sem ele a bola apenas para no alvo, e o ponto não se lê como encerrado.
+ */
+export function BounceMark({ at, color, progress }: BounceMarkProps) {
+  const t = Math.min(1, Math.max(0, progress))
+  const { cx, cy } = toSvg(at)
+
+  return (
+    <g>
+      <circle
+        cx={cx}
+        cy={cy}
+        r={4 + t * 16}
+        fill="none"
+        stroke={color}
+        strokeWidth={2.5 * (1 - t) + 0.5}
+        opacity={1 - t}
+      />
+      {/* Marca fina que permanece, indicando onde a bola caiu. */}
+      <circle cx={cx} cy={cy} r={2.5} fill={color} opacity={0.9} />
+    </g>
+  )
+}

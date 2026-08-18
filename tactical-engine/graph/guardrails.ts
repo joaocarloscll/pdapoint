@@ -17,25 +17,28 @@ export const MAX_TRANSITIONS = 18
 /**
  * Converte um ponto em zona nomeada.
  *
- * A quadra é dividida em três faixas horizontais (deuce / center / ad) e duas
- * de profundidade (deep / short), mais a faixa de rede.
+ * A quadra é dividida em três faixas laterais e, em cada metade, duas de
+ * profundidade. A rede está em y = 0.5: abaixo dela é a metade do adversário,
+ * acima é a nossa.
  */
 export function zoneOf(point: CourtPoint): CourtZone {
-  const lateral: 'deuce' | 'center' | 'ad' =
-    point.x < 0.33 ? 'deuce' : point.x < 0.67 ? 'center' : 'ad'
+  const lateral: 'left' | 'center' | 'right' =
+    point.x < 0.33 ? 'left' : point.x < 0.67 ? 'center' : 'right'
 
-  if (point.y < 0.25) {
-    return (
-      lateral === 'deuce'
-        ? 'net-deuce'
-        : lateral === 'center'
-          ? 'net-center'
-          : 'net-ad'
-    )
-  }
+  // y = 0 é o fundo do adversário; y = 1 é o nosso.
+  const half: 'opp' | 'own' = point.y < 0.5 ? 'opp' : 'own'
 
-  const depth: 'deep' | 'short' = point.y > 0.65 ? 'deep' : 'short'
-  return `${lateral}-${depth}` as CourtZone
+  // "Fundo" é longe da rede em qualquer uma das metades.
+  const depth: 'deep' | 'short' =
+    half === 'opp'
+      ? point.y < 0.25
+        ? 'deep'
+        : 'short'
+      : point.y > 0.75
+        ? 'deep'
+        : 'short'
+
+  return `${half}-${lateral}-${depth}` as CourtZone
 }
 
 /**

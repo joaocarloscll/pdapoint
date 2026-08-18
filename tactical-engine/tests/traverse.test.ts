@@ -123,9 +123,10 @@ describe('replay determinístico', () => {
 
 describe('guardrails', () => {
   it('mapeia coordenadas para zonas', () => {
-    expect(zoneOf({ x: 0.1, y: 0.9 })).toBe('deuce-deep')
-    expect(zoneOf({ x: 0.5, y: 0.4 })).toBe('center-short')
-    expect(zoneOf({ x: 0.9, y: 0.1 })).toBe('net-ad')
+    // y = 0 é o fundo do adversário; y = 1 é o nosso; a rede está em 0.5.
+    expect(zoneOf({ x: 0.1, y: 0.9 })).toBe('own-left-deep')
+    expect(zoneOf({ x: 0.5, y: 0.4 })).toBe('opp-center-short')
+    expect(zoneOf({ x: 0.9, y: 0.1 })).toBe('opp-right-deep')
   })
 
   it('estados equivalentes colidem no hash canônico', () => {

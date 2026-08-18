@@ -218,6 +218,13 @@
   .panel {
     /* Centralizado verticalmente na coluna, junto da quadra. */
     justify-content: center;
+
+    /* Em paisagem a coluna tem altura fixa, e a tela de comparação é a mais
+       alta do fluxo. Sem isto o conteúdo transborda a célula do grid sem
+       poder rolar, e o último botão fica inalcançável. */
+    min-height: 0;
+    overflow-y: auto;
+    overscroll-behavior: contain;
   }
 }
 
@@ -242,4 +249,90 @@
   font-weight: 700;
   line-height: 1.15;
   color: var(--tone, var(--text-primary));
+}
+
+/* Avaliação da decisão — linha de qualidade + números. */
+.evalRow {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.quality {
+  font-size: clamp(14px, 3.8vw, 16px);
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  color: var(--tone, var(--text-primary));
+}
+
+.evalNumbers {
+  font-size: 13px;
+  color: var(--text-secondary);
+  font-variant-numeric: tabular-nums;
+}
+
+.evalLoss {
+  color: var(--danger);
+  font-weight: 700;
+}
+
+/* Barra: a melhor opção ao fundo, a sua por cima. */
+.probBar {
+  position: relative;
+  height: 6px;
+  border-radius: 3px;
+  background: rgba(148, 163, 184, 0.18);
+  overflow: hidden;
+}
+
+.probBest,
+.probMine {
+  position: absolute;
+  inset-block: 0;
+  left: 0;
+  border-radius: 3px;
+}
+
+.probBest {
+  background: rgba(148, 163, 184, 0.45);
+}
+
+/* Ranking das opções, como a lista de lances de uma análise. */
+.ranking {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.rankingItem {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 6px 10px;
+  border-radius: 8px;
+  background: var(--surface);
+  font-size: clamp(13px, 3.6vw, 15px);
+}
+
+.rankingItem[data-mine='true'] {
+  outline: 1px solid var(--accent);
+  background: var(--surface-elevated);
+}
+
+.rankingLabel {
+  min-width: 0;
+  overflow-wrap: break-word;
+}
+
+.rankingPct {
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  color: var(--tone, var(--text-primary));
+  flex: none;
 }
