@@ -1,0 +1,233 @@
+/*
+ * Layout do Tactical Player.
+ *
+ * Em CSS, e não em estilos inline, porque adaptação de verdade precisa de
+ * media queries — e as duas coisas que mudam o layout aqui são orientação e
+ * espaço disponível, não estado do React.
+ *
+ * Princípio: a quadra recebe o espaço que sobra e se ajusta a ele; o painel de
+ * decisão nunca encolhe. Se ainda assim não couber, a página rola — controle
+ * inalcançável é bug, controle que exige rolagem é só apertado.
+ */
+
+.shell {
+  --gap: 10px;
+
+  box-sizing: border-box;
+  width: 100%;
+  max-width: 460px;
+  margin: 0 auto;
+
+  /* vh como fallback para navegadores sem dvh; dvh acompanha as barras. */
+  height: 100vh;
+  height: 100dvh;
+
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr) auto;
+  grid-template-areas:
+    'header'
+    'court'
+    'panel';
+  gap: var(--gap);
+
+  padding: max(10px, env(safe-area-inset-top)) max(14px, env(safe-area-inset-right))
+    max(12px, env(safe-area-inset-bottom)) max(14px, env(safe-area-inset-left));
+
+  /* Válvula de escape: em espaços absurdamente apertados a página rola em vez
+     de esconder os controles. Nunca `hidden` aqui. */
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+
+.header {
+  grid-area: header;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  color: var(--text-secondary);
+  min-width: 0;
+}
+
+.counter {
+  letter-spacing: 0.04em;
+  white-space: nowrap;
+}
+
+.draftBadge {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--accent);
+  border: 1px solid rgba(234, 179, 8, 0.4);
+  border-radius: 4px;
+  padding: 2px 6px;
+  white-space: nowrap;
+}
+
+/*
+ * A quadra ocupa o que sobra. `min-height: 0` e `min-width: 0` são o que
+ * permitem a um item de grid encolher abaixo do próprio conteúdo — sem eles,
+ * a quadra empurraria o painel para fora da tela.
+ */
+.court {
+  grid-area: court;
+  min-height: 120px;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.panel {
+  grid-area: panel;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-width: 0;
+}
+
+.context,
+.explanation {
+  margin: 0;
+  font-size: clamp(14px, 3.8vw, 16px);
+  line-height: 1.45;
+  overflow-wrap: break-word;
+}
+
+.playingNote {
+  margin: 0;
+  font-size: clamp(13px, 3.6vw, 15px);
+  color: var(--text-secondary);
+  overflow-wrap: break-word;
+}
+
+.sourceNote {
+  margin: 0;
+  font-size: 12px;
+  color: var(--text-secondary);
+  line-height: 1.4;
+  overflow-wrap: break-word;
+}
+
+.classification {
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-weight: 700;
+  /* Definida inline pelo componente conforme a classificação. */
+  color: var(--tone, var(--text-secondary));
+}
+
+.choiceList {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-width: 0;
+}
+
+/* Alvo de toque nunca abaixo de 44px, em nenhuma tela. */
+.choiceButton,
+.primaryButton,
+.ghostButton {
+  box-sizing: border-box;
+  width: 100%;
+  min-height: 46px;
+  border-radius: 10px;
+  font-size: clamp(14px, 3.8vw, 16px);
+  cursor: pointer;
+  overflow-wrap: break-word;
+}
+
+.choiceButton {
+  border: 1px solid rgba(148, 163, 184, 0.25);
+  background: var(--surface);
+  color: var(--text-primary);
+  text-align: left;
+  padding: 10px 14px;
+}
+
+.choiceButton[data-selected='true'] {
+  border-color: var(--accent);
+  background: var(--surface-elevated);
+}
+
+.primaryButton {
+  border: none;
+  background: var(--accent);
+  color: #0b1120;
+  font-weight: 700;
+  padding: 10px 14px;
+}
+
+.primaryButton:disabled {
+  opacity: 0.45;
+  cursor: default;
+}
+
+.ghostButton {
+  min-height: 44px;
+  border: 1px solid rgba(148, 163, 184, 0.25);
+  background: transparent;
+  color: var(--text-secondary);
+  font-size: 14px;
+  padding: 8px 14px;
+}
+
+.legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 16px;
+  font-size: 13px;
+  color: var(--text-secondary);
+}
+
+.legendItem {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.legendSwatch {
+  width: 14px;
+  height: 3px;
+  border-radius: 2px;
+  flex: none;
+}
+
+/*
+ * Paisagem e telas largas: a quadra vai para o lado, em vez de disputar
+ * altura com os controles. É onde o layout empilhado sofre mais — num celular
+ * deitado sobram ~390px de altura para tudo.
+ */
+@media (orientation: landscape) and (min-width: 600px) {
+  .shell {
+    max-width: 1100px;
+    grid-template-columns: minmax(0, 1fr) minmax(280px, 360px);
+    grid-template-rows: auto minmax(0, 1fr);
+    grid-template-areas:
+      'court header'
+      'court panel';
+    gap: 20px;
+  }
+
+  .panel {
+    /* Centralizado verticalmente na coluna, junto da quadra. */
+    justify-content: center;
+  }
+}
+
+/* Telas muito baixas em retrato: reduz respiro para preservar os controles. */
+@media (orientation: portrait) and (max-height: 620px) {
+  .shell {
+    --gap: 8px;
+  }
+
+  .sourceNote {
+    font-size: 11px;
+  }
+}

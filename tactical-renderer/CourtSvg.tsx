@@ -8,7 +8,7 @@
 
 import type { ReactNode } from 'react'
 
-import { PAD_X, PAD_Y, VIEW_H, VIEW_W } from './geometry'
+import { COURT_FEET, PAD_X, PAD_Y, VIEW_H, VIEW_W } from './geometry'
 import type { CourtTheme } from './theme'
 
 type CourtSvgProps = {
@@ -27,21 +27,45 @@ export function CourtSvg({ theme, children, title }: CourtSvgProps) {
   const width = right - left
   const height = bottom - top
 
-  // Corredores de simples a 1/8 da largura de cada lado.
-  const singlesInset = width / 8
-  // Linha de saque a 1/4 da meia-quadra.
-  const serviceInset = height / 4
+  // Todas as marcações derivam das medidas oficiais, não de frações
+  // arbitrárias — é o que garante que a quadra desenhada seja a quadra real.
+
+  // Corredor de duplas: (36 − 27) / 2 = 4,5 pés de cada lado.
+  const singlesInset =
+    (width * (COURT_FEET.doublesWidth - COURT_FEET.singlesWidth)) /
+    (2 * COURT_FEET.doublesWidth)
+
+  // Linha de saque: 21 pés da rede, num comprimento total de 78.
+  const serviceInset =
+    (height * COURT_FEET.serviceLineFromNet) / COURT_FEET.length
 
   return (
     <svg
       viewBox={`0 0 ${VIEW_W} ${VIEW_H}`}
       role="img"
       aria-label={title}
-      style={{ width: '100%', height: 'auto', display: 'block' }}
+      // O SVG preenche a caixa e `preserveAspectRatio` (xMidYMid meet, o
+      // padrão) encaixa o desenho dentro dela, centralizado e sem distorção.
+      //
+      // Escolhido em vez de aspect-ratio no CSS porque é o único mecanismo com
+      // garantia idêntica em todo navegador: quando altura e largura estão
+      // ambas restritas, aspect-ratio perde para a dimensão explícita e a
+      // quadra sai estreita. Aqui a proporção é do SVG, não do layout.
+      //
+      // A proporção nunca é esticada: num produto sobre ângulos e distâncias,
+      // uma quadra distorcida mentiria sobre para onde a bola foi.
+      style={{ width: '100%', height: '100%', display: 'block' }}
     >
       <title>{title}</title>
 
-      <rect x={0} y={0} width={VIEW_W} height={VIEW_H} fill={theme.courtOuter} />
+      <rect
+        x={0}
+        y={0}
+        width={VIEW_W}
+        height={VIEW_H}
+        rx={14}
+        fill={theme.courtOuter}
+      />
       <rect
         x={left}
         y={top}
@@ -93,6 +117,24 @@ export function CourtSvg({ theme, children, title }: CourtSvgProps) {
         y1={midY - serviceInset}
         x2={(left + right) / 2}
         y2={midY + serviceInset}
+        stroke={theme.lines}
+        strokeWidth={1.5}
+      />
+
+      {/* marcas centrais nas linhas de base */}
+      <line
+        x1={(left + right) / 2}
+        y1={top}
+        x2={(left + right) / 2}
+        y2={top + 8}
+        stroke={theme.lines}
+        strokeWidth={1.5}
+      />
+      <line
+        x1={(left + right) / 2}
+        y1={bottom - 8}
+        x2={(left + right) / 2}
+        y2={bottom}
         stroke={theme.lines}
         strokeWidth={1.5}
       />

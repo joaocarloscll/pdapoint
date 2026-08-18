@@ -9,13 +9,34 @@
 
 import type { CourtPoint, CourtZone, Easing } from '../tactical-engine/domain/types'
 
-/** Sistema de coordenadas interno do SVG. */
-export const VIEW_W = 360
-export const VIEW_H = 540
+/**
+ * Dimensões oficiais da quadra, em pés (Regras de Tênis da ITF).
+ *
+ * Ficam explícitas aqui porque a fidelidade geométrica é requisito de domínio,
+ * não detalhe visual: o produto ensina o usuário a ler ângulo e distância na
+ * quadra. Uma quadra fora de proporção ensina errado — um cruzado pareceria
+ * mais aberto do que é.
+ */
+export const COURT_FEET = {
+  length: 78,
+  doublesWidth: 36,
+  singlesWidth: 27,
+  /** Distância da rede até a linha de saque. */
+  serviceLineFromNet: 21,
+} as const
+
+/** Escala de desenho. Só afeta a resolução do viewBox, não a proporção. */
+const PX_PER_FOOT = 6.5
 
 /** Margem entre a borda do SVG e a linha externa da quadra. */
-export const PAD_X = 24
-export const PAD_Y = 30
+export const PAD_X = 23
+export const PAD_Y = 26.5
+
+/** Sistema de coordenadas interno do SVG, derivado das medidas reais. */
+export const COURT_W = COURT_FEET.doublesWidth * PX_PER_FOOT
+export const COURT_H = COURT_FEET.length * PX_PER_FOOT
+export const VIEW_W = COURT_W + PAD_X * 2
+export const VIEW_H = COURT_H + PAD_Y * 2
 
 const SPAN_X = VIEW_W - PAD_X * 2
 const SPAN_Y = VIEW_H - PAD_Y * 2
