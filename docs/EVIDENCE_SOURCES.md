@@ -209,6 +209,156 @@ material de posicionamento.
 
 ---
 
+## 00c — Pacote "Deep Research Global" do fundador (2026-08-18) — verificação seletiva, e uma correção
+
+O fundador colou um documento extenso ("Deep Research Global — Base de Estratégias,
+Padrões Táticos e Motor de Decisão do PDA Point") pedindo para aproveitar o que
+desse. O documento misturava pesquisa real com uma tabela de estatísticas
+hiperespecíficas atribuídas a 45+ jogadores reais e nomeados, sem citação nenhuma.
+Cada afirmação foi checada individualmente via WebSearch (o acesso direto a
+`arxiv.org`, `researchgate.net`, `scribd.com` e `deepai.org` segue bloqueado por
+egress — ver § 00).
+
+> **Nota de processo.** Esta seção deveria ter sido escrita no mesmo commit que a
+> introduziu ("Add Golden Scenario 002, e um filtro contra pesquisa fabricada").
+> Não foi — o texto existiu no commit message e na descrição do PR, mas o arquivo
+> em si ficou sem a seção, e uma correção seguinte quase apagou § 00d inteira ao
+> tentar consertar isso. Escrita agora, com a posição de inserção conferida à mão.
+
+### 00c.1 — Chan, Fearing, Fernandes & Kovalchik (2021) — ⚠️ PARCIAL, bem corroborado
+
+**Citação.** Chan, T. C. Y., Fearing, D. S., Fernandes, C., & Kovalchik, S. (2021).
+*A Markov process approach to untangling intention versus execution in tennis.*
+arXiv:2110.01527. Publicado depois no **Journal of Quantitative Analysis in Sports**
+(De Gruyter), DOI `10.1515/jqas-2021-0077`.
+
+**Verificação.** Não abri o PDF (egress bloqueado), mas a existência, os autores e o
+conteúdo foram confirmados de forma convergente por cinco fontes independentes: a
+própria listagem do arXiv, a página do periódico De Gruyter, a página de
+apresentação no MIT Sloan Sports Analytics Conference, o repositório de teses da
+University of Toronto (dissertação de mestrado de um dos autores) e um resumo
+técnico de terceiros (DeepAI).
+
+**Achados reportados (por resumo convergente).** O modelo usa processos de Markov e
+de recompensa de Markov sobre centenas de milhões de tacadas simuladas (tracking 3D
+de bola e 2D de jogadores) para separar o valor da **decisão** tática do custo da
+**execução**. A estratégia ótima de seleção de golpe fica mais conservadora à medida
+que o erro de execução cresce; erro de execução no backhand é mais custoso que no
+forehand em qualquer nível de execução; e a seleção ótima na devolução de saque tem
+o valor marginal mais alto do jogo, em qualquer nível de execução.
+
+**Por que importa.** Sustenta, de fora, uma decisão de produto já tomada de forma
+independente: `PRODUCT.md` § 00.5 avalia **a decisão, não o desfecho** — a mesma
+separação entre intenção/decisão e execução que este artigo formaliza. Citado ali.
+
+**O que NÃO absorvo daqui.** Os números específicos por golpe não foram lidos por
+mim na fonte primária — não viram dado no produto, só reforçam o princípio geral.
+
+### 00c.2 — Wardlaw Directionals — ✅ VERIFICADO (como convenção, não como artigo)
+
+**O que é.** Sistema de seleção de golpe de alta percentagem a partir do fundo de
+quadra, atribuído a Paul Wardlaw, técnico universitário (NCAA) de tênis feminino
+nos EUA. Regra central: classificar cada bola recebida como "externa" (cruza a
+frente do corpo) ou "interna" (não cruza), e manter a direção na externa / permitir
+mudança de direção na interna.
+
+**Verificação.** Não existe um artigo científico único por trás disto — é uma
+convenção de ensino. A verificação é por **convergência**: múltiplas fontes
+independentes e não relacionadas entre si (fórum de equipamento e discussão
+técnica, plataforma de cursos em vídeo, site de ferramentas de ensino, repositório
+de slides) descrevem exatamente o mesmo sistema, atribuído ao mesmo autor, com a
+mesma regra de "externa mantém / interna muda", de forma consistente entre si —
+padrão de verificação apropriado para tier C (`PRODUCT.md` § 00.1): convenção
+"amplamente aceita", não dado publicado.
+
+**Uso.** Fonte do Golden Scenario 002 (`content/scenarios/wardlaw-outside-ball-001.ts`).
+
+### 00c.3 — Sandholtz, Hanson, Hager, Kovalchik & Fellingham — ⚠️ PARCIAL
+
+**Citação.** *Stated, Realized, and Optimal Aiming Strategies for the Tennis Serve:
+Experimental Evidence from Collegiate Athletes.* arXiv:2607.28500 (stat.AP).
+
+**Verificação.** Confirmado via listagem de catch-up do arXiv e via página de
+pesquisa de um dos autores (Nathan Sandholtz, professor assistente de Estatística
+na Brigham Young University). Metodologia consistente com um artigo relacionado de
+2017 dos mesmos coautores ("Serving Strategy in Tennis: Accuracy versus Power"):
+experimento com o time masculino de tênis da BYU, jogadores identificam alvos que
+julgam ótimos no saque, servem repetidamente, posição do quique é registrada com
+precisão, e um MDP Bayesiano de dois períodos combina a distribuição de saque de
+cada jogador com uma superfície de recompensa de ponto ganho.
+
+**Uso.** Ainda não citado em nenhum cenário — é sobre o saque, não sobre construção
+de rally. Catalogado para quando houver um cenário de saque.
+
+### 00c.4 — Craig O'Shannessy, "The First Four Shots" — Tier D, corrobora Prieto-Lage
+
+**Quem é.** Analista de estratégia real e público, com trabalho documentado para a
+ATP, Grand Slam Media e Wimbledon; palestrante no MIT Sloan Sports Analytics
+Conference. Tier D na hierarquia de `PRODUCT.md` § 00.1: complementa, nunca sustenta
+uma tática sozinho.
+
+**Achado reportado (por múltiplas fontes jornalísticas convergentes).** Cerca de
+70% dos ralis no circuito masculino e 66% no feminino terminam entre 0 e 4 golpes;
+jogadores que vencem mais desses ralis curtos vencem a partida 90% (masculino) e
+83% (feminino) das vezes.
+
+**Por que importa.** Corrobora, de forma independente, o achado central de
+Prieto-Lage et al. (2023) já usado como âncora medida (§ 00b.1): a dominância do
+rali curto não é um artefato de uma única amostra. Não substitui a âncora — é tier
+D, não B — mas é honesto citar quando duas fontes de metodologia diferente
+convergem.
+
+### 00c.5 — Correção: "VAST", "VACC" e "Space-Time VON CRAMM" são reais
+
+Eu disse ao fundador, e quase escrevi aqui, que esses termos eram "terminologia que
+não existe na literatura de tênis" e um "acrônimo que nem soletra corretamente a
+partir da própria expansão" — assinatura clássica de nome técnico fabricado.
+**Estava errado.**
+
+**Citação.** Kovalchik, S., Ingram, M., Weeratunga, K., & Goncu, C. (2020).
+*Space-Time VON CRAMM: Evaluating Decision-Making in Tennis with Variational
+generatiON of Complete Resolution Arcs via Mixture Modeling.* arXiv:2005.12853
+(stat.AP).
+
+**Verificação.** Confirmado via WebSearch, com resumo técnico consistente e
+detalhado (framework de dados funcionais para estimar Expected Shot Value em tempo
+contínuo, usando um modelo de mistura Gaussiana Bayesiano infinito sobre
+trajetórias de bola e jogador). O acrônimo **soletra corretamente**:
+Variational generatiON of Complete Resolution Arcs via Mixture Modeling → V-ON-C-R-A-M-M.
+Eu tinha analisado errado, sem verificar. O paper deriva três métricas reais: **VAST**
+(value added with shot taking), **Shot IQ**, e **VACC** (value added with court
+coverage) — aplicadas a dados do US Open 2019. A autora principal, Stephanie
+Kovalchik, é a mesma coautora do paper de Decision Loss já citado acima: uma
+pesquisadora real e prolífica em analítica de tênis, não uma coincidência de nome.
+
+**O que isso muda.** Nada foi implementado com base nesses termos até agora — a
+correção chega antes de qualquer dano ao produto. O que muda é o registro: VAST,
+VACC e "Space-Time VON CRAMM" saem da lista de jargão rejeitado. Continuam,
+porém, fora do texto qualitativo de `content/players/` — não porque sejam falsos,
+mas porque são métricas que exigem medição real por jogador, que este projeto não
+tem. Usá-las sem o número calculado seria exatamente a mesma armadilha do § 00.6:
+tomar emprestado o verniz de precisão de um framework real para uma afirmação que
+ele não mede. **"BHP" (Backhand Potency) continua sem confirmação** — não aparece
+nos três metrics reais deste paper nem em nenhuma busca independente.
+
+### O que continua rejeitado, e por quê
+
+1. **A tabela de jogadores do primeiro documento.** Estatísticas como "64,7% de
+   sucesso no ataque pós-resposta" não têm citação nenhuma — nem inventada nem
+   real. Continuam fora.
+2. **A taxonomia de "150 estratégias"** com percentuais de "valor esperado" —
+   mesma ausência de citação.
+3. **Números de "efeito halo" do saque** (28,1%, 51,1%, 45,4%) atribuídos a "um
+   estudo de 1.200 partidas" não localizável em nenhuma busca — continuam sem
+   fonte, e sem fonte não entram, custe o que custar à narrativa do documento.
+4. **"BHP"** — ver acima.
+
+A lição que fica: verificar 2 de 8 referências e generalizar a conclusão para as
+outras 6 foi apressado. A seção § 00e, sobre o segundo pacote de pesquisa, aplica
+uma verificação mais sistemática por isso mesmo.
+
+---
+
 ## 00d — Padrões de jogadores: reputação pública qualitativa, não estatística (2026-08-18)
 
 A seção § 00c já registrou a rejeição da tabela de estatísticas fabricadas
@@ -243,12 +393,87 @@ número real para publicar, e número fabricado não é uma alternativa aceitáv
 Qualquer nova entrada em `content/players/`:
 
 1. Não pode conter percentual, taxa ou métrica numérica de nenhum tipo.
-2. Não pode usar terminologia que não apareça na literatura de tênis real
-   ("VAST", "VACC", "BHP" e variantes do documento rejeitado ficam banidas por
-   teste — `tactical-engine/tests/player-patterns.test.ts`).
+2. Não pode usar jargão técnico que exigiria medição própria por jogador para
+   ter sentido — "VAST", "VACC" e "Shot IQ" são reais (Kovalchik et al. 2020,
+   § 00c), mas ficam banidas daqui mesmo assim: usá-las sem o número calculado
+   emprestaria precisão de um framework real para uma afirmação que ele não
+   mede. "BHP" segue sem confirmação em lugar nenhum. Banido por teste —
+   `tactical-engine/tests/player-patterns.test.ts`.
 3. Descreve estilo de jogo geral, não um "segredo" ou informação privilegiada —
    mesmo espírito de § 00.1 Regra 3.
 4. Jogador retirado é descrito no passado.
+
+---
+
+## 00e — Segundo pacote de pesquisa: PDA_POINT_DEEP_RESEARCH_COMPLETE (2026-08-18)
+
+O fundador enviou um segundo pacote (`.rar`, ~950 KB), pedindo para implementar
+tudo. Estruturalmente muito mais disciplinado que o primeiro: 106 fontes com
+`access_status`/`verification_status` por linha, 165 estratégias, 500 variantes de
+cenário candidatas, 376 linhas de valor de ação com **probabilidade
+propositalmente em branco** (`TO_ESTIMATE` — mesmo princípio do § 00.6 deste
+projeto: não fabricar medição), 125 padrões de jogador em 37 atletas, e 20
+"cenários de ouro" com fonte citada por linha.
+
+O próprio README do pacote declara: *"No probability, DOI, license, full-reading
+claim, player pattern or consensus is intentionally fabricated. Access limitations
+are recorded per source."* Isso bateu, na prática — com uma exceção real que a
+verificação encontrou.
+
+### O achado: referências soltas (dangling references)
+
+Rodei uma checagem mecânica: para cada padrão de jogador e cada estratégia, todo
+`source_id` citado precisa existir na tabela mestra de fontes. **32 dos 125
+padrões de jogador e 35 das 165 estratégias citam um `source_id` que não existe**
+no catálogo do próprio pacote.
+
+A maioria (30 de 32, no caso dos padrões) segue o formato `turnNNNNNNsearchN` —
+um padrão que corresponde ao formato interno de referência de resultado de busca
+de uma ferramenta de agente de IA, nunca resolvido para uma entrada real da
+tabela de fontes. Não é necessariamente uma afirmação fabricada — é uma fonte que
+foi encontrada durante a pesquisa e nunca chegou a ser registrada no catálogo — mas
+enquanto isso for verdade, **essas linhas não são citáveis por este projeto**,
+mesmo sob a barra mais baixa de agora: a barra caiu para "não precisa de um
+humano verificar", não para "não precisa existir".
+
+**Regra aplicada:** todo padrão ou estratégia absorvido deste pacote teve seus
+`source_id`s conferidos um a um contra `01_SOURCE_MASTER/SOURCES_MASTER.csv`.
+Linha com referência solta não entrou. Padrões de fórum/rede social isolados
+(`RED*`, `FOR*`) também ficaram de fora quando eram a única fonte — mesmo padrão
+já aplicado ao primeiro pacote (tier ✗ para fonte isolada de comunidade).
+
+### Fontes novas usadas neste projeto
+
+| Fonte | Tipo | Usada em |
+|---|---|---|
+| USTA, "Tennis strategy: Returning first and second serves" | Manual oficial (tier C) | Golden Scenario 003 |
+| Crespo & Reid, *Tennis Tactics: Winning Patterns of Play* (Human Kinetics) | Livro de treinador (tier C) | 13 novos perfis em `content/players/` |
+| Martín-Lorente, Campos & Crespo (2017), sobre forehand inside-out, *International Journal of Performance Analysis in Sport*, DOI `10.1080/24748668.2017.1349528` | Periódico de performance analysis (tier B) | Padrões de Lendl e Tsitsipas — confirmado real via WebSearch; o mesmo Miguel Crespo do § 00b.2, convergência entre pacotes independentes |
+
+**Verificado, catalogado, ainda sem uso no produto:** Kovalchik et al. (2020),
+"Space-Time VON CRAMM" (§ 00c) — métricas reais (VAST, Shot IQ, VACC) que exigiriam
+medição própria por jogador para virarem conteúdo; a taxonomia de estado tático do
+pacote (`13_TAXONOMY/TACTICAL_STATE_TAXONOMY.md`), mais granular que a nossa em
+alguns eixos (estado de recuperação do adversário como vetor contínuo, por
+exemplo) — vale revisitar quando o engine crescer, não é motivo para reescrevê-lo
+agora.
+
+### O que não foi implementado, e por quê
+
+- **165 estratégias, das quais só 1 virou cenário jogável** (Golden Scenario 003).
+  As outras 164 continuam como estão — dado estruturado, com fonte, mas sem
+  estados/transições/timeline construídos. Cada Golden Scenario leva geometria,
+  timeline e teste próprios; construir 164 de uma vez trocaria cuidado por volume,
+  exatamente o oposto do que este catálogo defende. Ficam disponíveis para
+  priorização futura, com o mesmo critério de sempre (`PATTERN_BACKLOG.md`).
+- **500 variantes de cenário candidatas** — permanecem no arquivo original do
+  pacote como matéria-prima de pesquisa, não copiadas para dentro do repositório.
+- **376 linhas de valor de ação com probabilidade em branco** — não há dado ali
+  para absorver ainda; é uma lista de TODOs de estimativa empírica, não conteúdo.
+- **125 padrões de jogador brutos → 41 absorvidos** (após filtrar referência solta,
+  fonte isolada de fórum, e status `needs_player_specific_source`). Os descartados
+  continuam no CSV original, não foram apagados de lugar nenhum — só não entraram
+  no produto.
 
 ## 01 — Sumário executivo
 

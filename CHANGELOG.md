@@ -9,6 +9,71 @@ versionamento segue [SemVer](https://semver.org/lang/pt-BR/).
 
 ## [Não lançado]
 
+### Segundo pacote de pesquisa: Golden Scenario 003, mais 20 jogadores, e uma correção pública
+
+O fundador enviou um segundo pacote de pesquisa (`.rar`, ~950 KB), estruturalmente
+muito mais disciplinado que o primeiro — probabilidades propositalmente em branco,
+`access_status` por fonte, e a mesma filosofia de honestidade deste projeto. Pedido:
+implementar tudo.
+
+#### Achado de integridade, corrigido antes de absorver qualquer coisa
+
+Checagem mecânica: 32 dos 125 padrões de jogador e 35 das 165 estratégias citavam
+um `source_id` que não existe na tabela mestra do próprio pacote — na maioria,
+identificadores no formato `turnNNNNNNsearchN`, artefato interno de uma ferramenta
+de busca de agente de IA nunca resolvido para uma fonte real registrada. Nada disso
+entrou. Só patterns/estratégias com toda referência resolvendo para uma fonte real
+foram absorvidos.
+
+#### Correção pública: eu estava errado sobre "VAST", "VACC" e "Space-Time VON CRAMM"
+
+No documento anterior (primeiro pacote), rejeitei esses termos como jargão
+inventado — "acrônimo que nem soletra corretamente a partir da própria expansão".
+Verificação neste pacote encontrou o paper real: Kovalchik, Ingram, Weeratunga &
+Goncu (2020), "Space-Time VON CRAMM", arXiv:2005.12853. O acrônimo soletra
+corretamente, e VAST/VACC/Shot IQ são métricas reais de Expected Shot Value. A
+autora principal é a mesma coautora do paper de Decision Loss já citado no projeto.
+Continuam fora do texto de `content/players/` — não por serem falsas, mas por
+exigirem medição real por jogador que não temos. `EVIDENCE_SOURCES.md` § 00c
+reescrita com a correção; § 00c também ganhou, pela primeira vez, as subseções
+00c.1–00c.4 que outros arquivos já citavam mas que nunca tinham sido escritas —
+uma lacuna de processo encontrada e fechada nesta mesma passada.
+
+#### Adicionado
+
+- **`content/scenarios/second-serve-return-001.ts`** — Golden Scenario 003:
+  devolução de segundo saque, fonte tier C (USTA), primeira situação do projeto na
+  fase de devolução. As três probabilidades citam a âncora medida de segundo saque
+  de Prieto-Lage et al. como calibração — a vantagem aqui é estatística (embutida
+  no segundo saque), não posicional como nos cenários 001/002.
+- **`tactical-engine/tests/second-serve-return.test.ts`** — 6 testes.
+- **20 novos perfis em `content/players/`** (Nadal, Graf, Navratilova, Seles,
+  Sampras, Agassi, Connors, Lendl, Kuerten, McEnroe, Borg, Evert, Venus Williams,
+  Hingis, Henin, Wawrinka, Tsitsipas, Osaka, Fritz, de Minaur) — total 41. Dois
+  ganharam fonte tier B real (Martín-Lorente, Campos & Crespo 2017, sobre forehand
+  inside-out, para Lendl e Tsitsipas) e treze ganharam tier C (Crespo & Reid,
+  *Tennis Tactics: Winning Patterns of Play*) — mais fortes que a maioria dos 21
+  anteriores, que seguem tier `geral`.
+- **`EVIDENCE_SOURCES.md` § 00e** — o segundo pacote, o achado de referências
+  soltas, e a lista completa do que não foi implementado e por quê (164 das 165
+  estratégias, as 500 variantes candidatas, os 376 valores de ação ainda em
+  branco).
+
+#### Alterado
+
+- `PATTERN_BACKLOG.md`: R-02 (avançar no segundo saque) marcado como convertido no
+  Golden Scenario 003.
+- `player-patterns.test.ts`: o teste que bania "VAST/VACC/BHP/VON CRAMM" como
+  jargão inventado agora bane pelo motivo certo (métricas reais não medidas para
+  este projeto, não invenção), e a fonte de cada perfil passa a aceitar B/C/`geral`
+  em vez de exigir sempre `geral`.
+
+Não implementado, deliberadamente: as outras 164 estratégias do pacote (dado
+estruturado com fonte, sem cenário jogável construído), as 500 variantes candidatas
+e os 376 valores de ação com probabilidade em branco — ver `EVIDENCE_SOURCES.md`
+§ 00e para a lista completa e o motivo de cada uma.
+
+
 ### Padrões de jogadores profissionais — qualitativo, nunca número fabricado
 
 Depois de rejeitar a tabela de estatísticas inventadas do documento de pesquisa

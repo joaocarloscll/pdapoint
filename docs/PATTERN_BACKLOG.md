@@ -64,7 +64,7 @@ de direção de saque (aberto / T / corpo) por lado da quadra?
 | # | Padrão | Descrição | Status |
 |---|---|---|---|
 | R-01 | Devolução profunda no meio | Contra primeiro saque forte: neutraliza e nega ângulo | 🔍 a pesquisar |
-| R-02 | Avançar no segundo saque | Tomar a bola cedo e inverter a iniciativa | 🔍 a pesquisar |
+| R-02 | Avançar no segundo saque | Tomar a bola cedo e inverter a iniciativa | ✅ virou o Golden Scenario 003 |
 | R-03 | Posição de devolução recuada | Contra sacador potente: troca posição de quadra por tempo de reação | 🔍 a pesquisar |
 | R-04 | Devolução para zona sem ângulo | Fixar o sacador e dificultar o segundo golpe | 🔍 a pesquisar |
 
@@ -129,7 +129,7 @@ Candidatos mais fortes, nesta ordem:
 |---|---|---|
 | 1º | **A-01 — Ataque à bola curta** ✅ escolhido | É o exemplo já usado no documento de visão, a situação é inequívoca visualmente, e o erro (atacar mal uma bola curta) é universal no recreativo. **Virou o Golden Scenario 001, e a aposta se confirmou:** Prieto-Lage et al. (2023) descrevem exatamente essa sequência — quique curto seguido de golpe agressivo — como a combinação de ponto ganho mais frequente do profissional (`EVIDENCE_SOURCES.md` § 00b.1) |
 | 2º | **C-02 — Mudança de direção** ✅ escolhido | Trade-off risco/recompensa muito visual; decisão que todo jogador toma. **Virou o Golden Scenario 002** (`wardlaw-outside-ball-001`), fundamentado nas Direcionais de Wardlaw — tier C verificado por convergência de múltiplas fontes independentes (`EVIDENCE_SOURCES.md` § 00c.2) |
-| 3º | **R-01 — Devolução profunda no meio** | Decisão simples, alto impacto, e o jogador controla de fato |
+| 3º | **R-02 — Avançar no segundo saque** ✅ escolhido | Decisão simples, alto impacto, e o jogador controla de fato. **Virou o Golden Scenario 003** (`second-serve-return-001`), fundamentado em manual oficial da USTA — tier C — e calibrado contra a âncora medida de segundo saque de Prieto-Lage et al. (`EVIDENCE_SOURCES.md` § 00e) |
 
 ---
 

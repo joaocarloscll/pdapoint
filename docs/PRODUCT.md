@@ -19,19 +19,20 @@ anterior está razoavelmente fechado.
 01 — Brand System                    ✅ fechado
 02 — Information Architecture        ✅ fechado
 03 — Core Experience Specification   ✅ fechado
-04 — Golden Scenarios (001, 002)      ✅ publicados
+04 — Golden Scenarios (001, 002, 003) ✅ publicados
 05 — Mobile Wireframes               ✅ fechado
 06 — Tactical Content System         ✅ fechado
 07 — Technical Handoff / Agent Spec  ⏳ próximo
 08 — Validation Plan                 ✅ fechado
 ```
 
-**Sem bloqueio ativo.** Dois cenários publicados: 001 (Prieto-Lage et al. 2023,
-tier B, `EVIDENCE_SOURCES.md` § 00b.1) e 002 (Direcionais de Wardlaw, tier C,
-`EVIDENCE_SOURCES.md` § 00c.2). Nenhum precisa de mais nada para permanecer
+**Sem bloqueio ativo.** Três cenários publicados: 001 (Prieto-Lage et al. 2023,
+tier B, `EVIDENCE_SOURCES.md` § 00b.1), 002 (Direcionais de Wardlaw, tier C,
+`EVIDENCE_SOURCES.md` § 00c.2) e 003 (devolução de segundo saque, USTA, tier C,
+`EVIDENCE_SOURCES.md` § 00e). Nenhum precisa de mais nada para permanecer
 publicado: a decisão revisada de 2026-08-18 (§ 00.1) tirou a exigência de um humano
 abrir a fonte e assinar antes de qualquer conteúdo sair de rascunho.
-`source.verificadaPor` continua `null` nos dois, e está tudo bem: o campo agora
+`source.verificadaPor` continua `null` nos três, e está tudo bem: o campo agora
 registra uma checagem extra opcional, não um requisito de publicação.
 
 Os documentos técnicos e de visão original que originaram este arquivo continuam
