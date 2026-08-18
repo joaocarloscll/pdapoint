@@ -8,21 +8,8 @@
 
 import type { ReactNode } from 'react'
 
-import type { CourtPoint } from '../tactical-engine/domain/types'
+import { PAD_X, PAD_Y, VIEW_H, VIEW_W } from './geometry'
 import type { CourtTheme } from './theme'
-
-/** Sistema de coordenadas interno do SVG. */
-export const VIEW_W = 360
-export const VIEW_H = 540
-
-/** Margem entre a borda do SVG e a linha externa da quadra. */
-const PAD_X = 24
-const PAD_Y = 30
-
-export const toSvg = (p: CourtPoint): { cx: number; cy: number } => ({
-  cx: PAD_X + p.x * (VIEW_W - PAD_X * 2),
-  cy: PAD_Y + p.y * (VIEW_H - PAD_Y * 2),
-})
 
 type CourtSvgProps = {
   readonly theme: CourtTheme

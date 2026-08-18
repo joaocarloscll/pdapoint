@@ -7,7 +7,7 @@
  */
 
 import type { CourtPoint } from '../tactical-engine/domain/types'
-import { toSvg } from './CourtSvg'
+import { svgPathFor, toSvg } from './geometry'
 
 type PlayerMarkerProps = {
   readonly at: CourtPoint
@@ -53,14 +53,17 @@ export function PlayerMarker({
 export function Ball({ at, color }: { at: CourtPoint; color: string }) {
   const { cx, cy } = toSvg(at)
   return (
-    <circle
-      cx={cx}
-      cy={cy}
-      r={5}
-      fill={color}
-      stroke="#0f172a"
-      strokeWidth={1}
-    />
+    <g>
+      <circle cx={cx} cy={cy} r={9} fill={color} opacity={0.25} />
+      <circle
+        cx={cx}
+        cy={cy}
+        r={5}
+        fill={color}
+        stroke="#0f172a"
+        strokeWidth={1}
+      />
+    </g>
   )
 }
 
@@ -70,6 +73,12 @@ type TrajectoryProps = {
   /** 0 = reta. Valores maiores curvam a trajetória. */
   readonly arc?: number
   readonly color: string
+  /**
+   * Fração desenhada, 0→1. A linha acompanha a bola em vez de aparecer
+   * inteira — é o que faz a trajetória ser lida como um golpe, e não como um
+   * diagrama.
+   */
+  readonly progress?: number
   /** Trajetória "fantasma" da escolha do usuário, na comparação visual. */
   readonly ghost?: boolean
 }
@@ -79,32 +88,24 @@ export function Trajectory({
   to,
   arc = 0.25,
   color,
+  progress = 1,
   ghost = false,
 }: TrajectoryProps) {
-  const a = toSvg(from)
-  const b = toSvg(to)
-
-  // Ponto de controle deslocado perpendicularmente ao segmento, proporcional
-  // ao comprimento — o arco acompanha a distância do golpe.
-  const dx = b.cx - a.cx
-  const dy = b.cy - a.cy
-  const len = Math.hypot(dx, dy)
-  const nx = len === 0 ? 0 : -dy / len
-  const ny = len === 0 ? 0 : dx / len
-  const offset = len * arc
-
-  const ctrlX = (a.cx + b.cx) / 2 + nx * offset
-  const ctrlY = (a.cy + b.cy) / 2 + ny * offset
+  const drawn = Math.min(1, Math.max(0, progress))
 
   return (
     <path
-      d={`M ${a.cx} ${a.cy} Q ${ctrlX} ${ctrlY} ${b.cx} ${b.cy}`}
+      d={svgPathFor(from, to, arc)}
       fill="none"
       stroke={color}
       strokeWidth={ghost ? 2 : 2.75}
       strokeLinecap="round"
-      strokeDasharray={ghost ? '5 5' : undefined}
-      opacity={ghost ? 0.5 : 1}
+      // pathLength normaliza o comprimento para 1, o que permite controlar o
+      // traçado sem medir o caminho no DOM.
+      pathLength={1}
+      strokeDasharray={ghost ? '0.02 0.03' : 1}
+      strokeDashoffset={ghost ? 0 : 1 - drawn}
+      opacity={ghost ? 0.45 : 1}
     />
   )
 }
@@ -113,12 +114,14 @@ type ZoneHighlightProps = {
   readonly at: CourtPoint
   readonly color: string
   readonly radius?: number
+  readonly opacity?: number
 }
 
 export function ZoneHighlight({
   at,
   color,
   radius = 34,
+  opacity = 1,
 }: ZoneHighlightProps) {
   const { cx, cy } = toSvg(at)
   return (
@@ -127,10 +130,10 @@ export function ZoneHighlight({
       cy={cy}
       r={radius}
       fill={color}
-      opacity={0.22}
+      opacity={0.22 * opacity}
       stroke={color}
       strokeWidth={1.5}
-      strokeOpacity={0.5}
+      strokeOpacity={0.5 * opacity}
     />
   )
 }
