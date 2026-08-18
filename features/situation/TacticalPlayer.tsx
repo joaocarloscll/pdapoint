@@ -390,11 +390,15 @@ const styles = {
   shell: {
     maxWidth: 430,
     margin: '0 auto',
-    minHeight: '100dvh',
+    // Altura fixa, não mínima: o conteúdo se ajusta à tela em vez de
+    // empurrar os controles para fora dela. `dvh` acompanha as barras do
+    // navegador móvel, que aparecem e somem durante a rolagem.
+    height: '100dvh',
     display: 'flex',
     flexDirection: 'column',
-    padding: '12px 16px calc(16px + env(safe-area-inset-bottom))',
-    gap: 12,
+    padding: '10px 16px calc(12px + env(safe-area-inset-bottom))',
+    gap: 10,
+    overflow: 'hidden',
   },
   header: {
     display: 'flex',
@@ -413,8 +417,16 @@ const styles = {
     borderRadius: 4,
     padding: '2px 6px',
   },
-  courtWrap: { borderRadius: 12, overflow: 'hidden' },
-  panel: { display: 'flex', flexDirection: 'column', gap: 10, marginTop: 'auto' },
+  // A quadra absorve o espaço que sobra. `minHeight: 0` é o que permite a
+  // um filho de flex encolher abaixo do próprio conteúdo.
+  courtWrap: { flex: 1, minHeight: 0, display: 'flex', overflow: 'hidden' },
+  // O painel nunca encolhe: é onde ficam as decisões.
+  panel: {
+    display: 'flex',
+    flexDirection: 'column',
+    gap: 8,
+    flexShrink: 0,
+  },
   context: { margin: 0, fontSize: 15, lineHeight: 1.5 },
   playingNote: {
     margin: 0,

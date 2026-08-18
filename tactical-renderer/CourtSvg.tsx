@@ -37,11 +37,21 @@ export function CourtSvg({ theme, children, title }: CourtSvgProps) {
       viewBox={`0 0 ${VIEW_W} ${VIEW_H}`}
       role="img"
       aria-label={title}
-      style={{ width: '100%', height: 'auto', display: 'block' }}
+      // Preenche o espaço disponível em vez de impor a própria proporção:
+      // é o que mantém os controles alcançáveis em telas baixas.
+      // preserveAspectRatio (xMidYMid meet, o padrão) evita distorção.
+      style={{ width: '100%', height: '100%', display: 'block' }}
     >
       <title>{title}</title>
 
-      <rect x={0} y={0} width={VIEW_W} height={VIEW_H} fill={theme.courtOuter} />
+      <rect
+        x={0}
+        y={0}
+        width={VIEW_W}
+        height={VIEW_H}
+        rx={14}
+        fill={theme.courtOuter}
+      />
       <rect
         x={left}
         y={top}
