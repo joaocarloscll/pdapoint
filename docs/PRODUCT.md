@@ -18,9 +18,9 @@ anterior está razoavelmente fechado.
 00 — Decisões fundamentais          ✅ fechado
 01 — Brand System                    ✅ fechado
 02 — Information Architecture        ✅ fechado
-03 — Core Experience Specification   🔜 próximo
-04 — Golden Scenario 001
-05 — Mobile Wireframes
+03 — Core Experience Specification   ✅ fechado
+04 — Golden Scenario 001             ⛔ bloqueado por EVIDENCE_SOURCES.md
+05 — Mobile Wireframes               🔜 próximo
 06 — Tactical Content System         ◐ fundação decidida (ver 00)
 07 — Technical Handoff / Agent Spec
 08 — Validation Plan
@@ -112,6 +112,21 @@ nível × situação.
 Implicação: se uma situação genuinamente tem respostas diferentes por nível, ela
 deve ser modelada como **duas situações distintas**, cada uma com seu contexto
 explícito e sua própria fonte.
+
+## 00.3 — Superfície é tema visual, não variável tática
+
+Os temas de quadra (`classic`, `paris-clay`, `melbourne-hard`, `new-york-hard`,
+`london-grass`) são **puramente estéticos**. A superfície não altera a
+classificação das decisões de uma tática.
+
+Motivo: manter uma única verdade por situação (coerente com 00.2), evitar
+multiplicar o custo editorial por número de superfícies, e manter o engine livre
+de uma matriz superfície × situação.
+
+Implicação: o conteúdo tático deve ser escrito de forma **neutra de superfície**.
+Se um padrão só se sustenta em uma superfície específica, isso pertence ao
+contexto explícito da tática (e, se necessário, ela vira uma situação distinta —
+mesma regra de 00.2), nunca a uma troca de tema pelo usuário.
 
 ---
 
@@ -291,4 +306,189 @@ O usuário nunca "termina" e trava: sempre existe um próximo passo óbvio.
 
 # 03 — Core Experience Specification
 
-*(próximo)*
+Este é o DNA pedagógico da plataforma. Toda experiência jogável do PDA Point —
+Point IQ, desafio, tática da Biblioteca, Point Builder — é uma repetição deste
+loop. Se algo aqui mudar, muda o produto inteiro.
+
+```text
+SITUAÇÃO
+   ↓
+OBSERVAÇÃO
+   ↓
+DECISÃO
+   ↓
+ANIMAÇÃO DA SUA ESCOLHA
+   ↓
+CONSEQUÊNCIA
+   ↓
+POR QUÊ
+   ↓
+VER MELHOR DECISÃO
+   ↓
+COMPARAÇÃO VISUAL
+   ↓
+PRÓXIMO ESTADO
+```
+
+## Princípio que rege o loop inteiro
+
+O usuário aprende **vendo a consequência**, não lendo um veredito. A animação não
+é enfeite: é o argumento. Texto entra só depois que a imagem já explicou.
+
+Corolário: nunca revelar a classificação de uma escolha antes de animar sua
+consequência.
+
+## Fase 1 — Situação
+
+Estabelece o problema.
+
+| | |
+|---|---|
+| **Mostra** | Quadra, posição de A e B, bola chegando. Curta animação de estabelecimento (a bola entra em quadra e para no ponto de decisão). |
+| **Usuário pode** | Assistir. Nada mais. |
+| **Não mostra** | Opções de decisão. Ainda não. |
+| **Termina quando** | A animação de estabelecimento conclui. |
+
+A animação de entrada existe para o usuário entender **de onde a bola veio** —
+sem isso, a situação é ambígua e a decisão vira chute.
+
+## Fase 2 — Observação
+
+O beat que ensina a ler antes de decidir. É o que separa o PDA Point de um quiz.
+
+| | |
+|---|---|
+| **Mostra** | Quadra estática no estado de decisão. Opcionalmente, um destaque discreto do sinal relevante (espaço aberto, adversário deslocado). |
+| **Usuário pode** | Rever a situação (controle sempre disponível). |
+| **Termina quando** | O usuário toca em "O que você faria?" — ou automaticamente após um intervalo curto. |
+
+Decisão de produto: **as opções aparecem depois da observação, nunca junto com a
+situação.** Se aparecerem juntas, o usuário lê as opções em vez de ler a quadra —
+e o produto perde exatamente a habilidade que se propõe a treinar.
+
+## Fase 3 — Decisão
+
+| | |
+|---|---|
+| **Mostra** | 2 a 4 opções (tipicamente 3), como texto curto de intenção. Quadra permanece visível e protagonista. |
+| **Usuário pode** | Selecionar uma opção · trocar a seleção · rever a situação · confirmar. |
+| **Interação** | Dois toques: tocar seleciona (estado visual), "Confirmar" commita. |
+| **Não pode** | Ver a classificação de qualquer opção antes de confirmar. |
+| **Termina quando** | Usuário confirma. |
+
+Dois toques em vez de um: evita toque acidental em tela pequena e cria um momento
+de compromisso — o usuário assume a decisão antes de ver o resultado, que é o que
+torna o aprendizado real.
+
+**Sem cronômetro.** O tempo até a decisão é **medido** (dado útil para o Point IQ),
+mas nunca imposto. Pressão de relógio prejudica aprendizado e não é o que estamos
+treinando neste estágio do produto.
+
+## Fase 4 — Animação da sua escolha
+
+| | |
+|---|---|
+| **Mostra** | A trajetória da bola escolhida, o deslocamento do adversário, a nova configuração da quadra. |
+| **Usuário pode** | Nada. Inputs bloqueados. |
+| **Não pode** | Pular. Trocar a escolha. Ver o veredito antes do fim. |
+| **Termina quando** | A transição conclui. |
+
+A primeira reprodução é obrigatória e integral. Repetições posteriores podem ser
+puladas ou aceleradas — mas a primeira é a aula.
+
+## Fase 5 — Consequência
+
+O momento em que a imagem já explicou, antes de qualquer texto.
+
+| | |
+|---|---|
+| **Mostra** | Estado resultante, com o efeito da decisão evidenciado visualmente: espaço concedido ou criado, vantagem ganha ou perdida, posição de recuperação. |
+| **Usuário pode** | Rever. |
+| **Termina quando** | Usuário avança — ou automaticamente após uma pausa curta. |
+
+## Fase 6 — Por quê
+
+Só agora entra texto, e pouco.
+
+| | |
+|---|---|
+| **Mostra** | Veredito em uma frase · classificação (`melhor` / `boa` / `situacional` / `ruim`) · mecanismo em 1–2 frases · acesso à fonte. |
+| **Usuário pode** | Expandir a fonte · avançar. |
+
+**A fonte é parte da UI, não um rodapé jurídico.** Decorre de 00.1: se o conteúdo
+é baseado em evidência, o usuário precisa poder ver em que. Tratamento discreto
+(afordância que expande), nunca escondido.
+
+Formato do veredito — descreve o mecanismo, não julga o usuário:
+
+> ✅ "Essa decisão devolveu ângulo ao adversário antes de você consolidar a vantagem."
+> ✗ "Errado! A opção correta era a B."
+
+## Fase 7 — Ver melhor decisão
+
+Fase **condicional**. O que aparece depende da classificação da escolha do usuário
+e da natureza da situação:
+
+| Escolha do usuário | Ação oferecida |
+|---|---|
+| `ruim` ou `boa`, e existe uma opção `melhor` | **Ver melhor decisão** |
+| `melhor` | **Ver as outras opções** (opcional, não obrigatório) |
+| Situação sem resposta dominante (todas `situacional`) | **Comparar alternativas** |
+
+O terceiro caso decorre diretamente de 00.1: quando a evidência não sustenta uma
+única melhor decisão, a plataforma **não inventa uma**. Ela mostra os trade-offs.
+Isso não é uma limitação a esconder — é a diferença entre ensinar tênis e aplicar
+um gabarito.
+
+## Fase 8 — Comparação visual
+
+O pico pedagógico do loop.
+
+| | |
+|---|---|
+| **Mostra** | Na mesma quadra: a trajetória do usuário em tom apagado (fantasma) e a alternativa em destaque, animadas em sequência — primeiro a sua, depois a recomendada. |
+| **Evidencia** | A diferença de espaço, ângulo ou posição resultante entre as duas. |
+| **Usuário pode** | Repetir a comparação · avançar. |
+
+Sobreposição na mesma quadra, e não lado a lado: em 390px de largura, duas quadras
+ficam pequenas demais para comunicar qualquer coisa. A sobreposição também é mais
+honesta com o que queremos mostrar — **a diferença**, não duas cenas isoladas.
+
+## Fase 9 — Próximo estado
+
+| Situação | Comportamento |
+|---|---|
+| O grafo continua | Volta à Fase 1 no novo estado. O loop reinicia. |
+| Estado terminal | Tela de encerramento com as três saídas obrigatórias da IA (seção 02): *próxima situação relacionada* · *ver na Biblioteca* · *voltar*. |
+
+## Acessibilidade — `prefers-reduced-motion`
+
+A animação é o argumento pedagógico; não pode simplesmente ser removida.
+
+Com movimento reduzido: manter a sequência e as mudanças de posição, comprimir
+durações e substituir o movimento contínuo por posições-chave discretas. O usuário
+continua vendo *o que aconteceu*, sem o deslocamento contínuo na tela.
+
+## Instrumentação
+
+| Fase | Evento |
+|---|---|
+| 3 | `decision_presented` |
+| 3 | `decision_selected` (com tempo até decisão) |
+| 6 | `decision_correct` / `decision_wrong` |
+| 7 | `better_option_viewed` |
+
+## Proibido em qualquer implementação deste loop
+
+- Mostrar a classificação de uma opção antes de animar sua consequência.
+- Pular a animação na primeira reprodução.
+- Permitir troca de escolha após confirmar.
+- Reduzir o feedback a "certo / errado".
+- Publicar uma situação cuja explicação não tenha fonte (ver 00.1).
+- Forçar uma "melhor decisão" quando a evidência sustenta apenas `situacional`.
+
+---
+
+# 04 — Golden Scenario 001
+
+*(bloqueado até a base de fontes estar levantada — ver `EVIDENCE_SOURCES.md`)*
