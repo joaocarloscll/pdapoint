@@ -2,7 +2,20 @@ import { describe, expect, it } from 'vitest'
 
 import { golden001 } from '../../content/scenarios/golden-001'
 import type { TimelineEvent } from '../../tactical-engine/domain/types'
-import { controlPoint, ease, fromSvg, toSvg, zoneCenter } from '../geometry'
+import {
+  COURT_FEET,
+  COURT_H,
+  COURT_W,
+  controlPoint,
+  ease,
+  fromSvg,
+  PAD_X,
+  PAD_Y,
+  toSvg,
+  VIEW_H,
+  VIEW_W,
+  zoneCenter,
+} from '../geometry'
 import {
   quantizeForReducedMotion,
   sampleTimeline,
@@ -56,6 +69,61 @@ describe('geometria', () => {
       expect(p.y).toBeGreaterThan(0)
       expect(p.y).toBeLessThan(1)
     }
+  })
+})
+
+/**
+ * A quadra desenhada precisa ser a quadra real.
+ *
+ * Não é preciosismo visual: o produto ensina o usuário a ler ângulo e
+ * distância na quadra. Uma quadra fora de proporção ensina errado, e o erro
+ * seria invisível — o desenho continuaria "parecendo uma quadra".
+ */
+describe('fidelidade geométrica da quadra', () => {
+  it('a proporção é a da quadra de duplas — 36 × 78 pés', () => {
+    const real = COURT_FEET.doublesWidth / COURT_FEET.length
+    expect(COURT_W / COURT_H).toBeCloseTo(real, 6)
+    expect(real).toBeCloseTo(0.4615, 4)
+  })
+
+  it('o viewBox comporta a quadra mais as margens', () => {
+    expect(VIEW_W).toBeCloseTo(COURT_W + PAD_X * 2, 6)
+    expect(VIEW_H).toBeCloseTo(COURT_H + PAD_Y * 2, 6)
+  })
+
+  it('as coordenadas normalizadas cobrem exatamente a quadra', () => {
+    const canto = toSvg({ x: 0, y: 0 })
+    const oposto = toSvg({ x: 1, y: 1 })
+    expect(canto.cx).toBeCloseTo(PAD_X, 6)
+    expect(canto.cy).toBeCloseTo(PAD_Y, 6)
+    expect(oposto.cx - canto.cx).toBeCloseTo(COURT_W, 6)
+    expect(oposto.cy - canto.cy).toBeCloseTo(COURT_H, 6)
+  })
+
+  it('a quadra de simples é 27/36 da de duplas', () => {
+    const inset =
+      (COURT_W * (COURT_FEET.doublesWidth - COURT_FEET.singlesWidth)) /
+      (2 * COURT_FEET.doublesWidth)
+    const larguraSimples = COURT_W - inset * 2
+    expect(larguraSimples / COURT_W).toBeCloseTo(
+      COURT_FEET.singlesWidth / COURT_FEET.doublesWidth,
+      6,
+    )
+    expect(larguraSimples / COURT_W).toBeCloseTo(0.75, 6)
+  })
+
+  it('a linha de saque fica a 21 pés da rede', () => {
+    const inset = (COURT_H * COURT_FEET.serviceLineFromNet) / COURT_FEET.length
+    const meiaQuadra = COURT_H / 2
+    expect(inset / meiaQuadra).toBeCloseTo(
+      COURT_FEET.serviceLineFromNet / (COURT_FEET.length / 2),
+      6,
+    )
+  })
+
+  it('o meio da quadra em y = 0,5 é a rede', () => {
+    const rede = toSvg({ x: 0.5, y: 0.5 })
+    expect(rede.cy).toBeCloseTo(PAD_Y + COURT_H / 2, 6)
   })
 })
 

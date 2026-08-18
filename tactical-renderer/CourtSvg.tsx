@@ -8,7 +8,7 @@
 
 import type { ReactNode } from 'react'
 
-import { PAD_X, PAD_Y, VIEW_H, VIEW_W } from './geometry'
+import { COURT_FEET, PAD_X, PAD_Y, VIEW_H, VIEW_W } from './geometry'
 import type { CourtTheme } from './theme'
 
 type CourtSvgProps = {
@@ -27,10 +27,17 @@ export function CourtSvg({ theme, children, title }: CourtSvgProps) {
   const width = right - left
   const height = bottom - top
 
-  // Corredores de simples a 1/8 da largura de cada lado.
-  const singlesInset = width / 8
-  // Linha de saque a 1/4 da meia-quadra.
-  const serviceInset = height / 4
+  // Todas as marcações derivam das medidas oficiais, não de frações
+  // arbitrárias — é o que garante que a quadra desenhada seja a quadra real.
+
+  // Corredor de duplas: (36 − 27) / 2 = 4,5 pés de cada lado.
+  const singlesInset =
+    (width * (COURT_FEET.doublesWidth - COURT_FEET.singlesWidth)) /
+    (2 * COURT_FEET.doublesWidth)
+
+  // Linha de saque: 21 pés da rede, num comprimento total de 78.
+  const serviceInset =
+    (height * COURT_FEET.serviceLineFromNet) / COURT_FEET.length
 
   return (
     <svg
@@ -110,6 +117,24 @@ export function CourtSvg({ theme, children, title }: CourtSvgProps) {
         y1={midY - serviceInset}
         x2={(left + right) / 2}
         y2={midY + serviceInset}
+        stroke={theme.lines}
+        strokeWidth={1.5}
+      />
+
+      {/* marcas centrais nas linhas de base */}
+      <line
+        x1={(left + right) / 2}
+        y1={top}
+        x2={(left + right) / 2}
+        y2={top + 8}
+        stroke={theme.lines}
+        strokeWidth={1.5}
+      />
+      <line
+        x1={(left + right) / 2}
+        y1={bottom - 8}
+        x2={(left + right) / 2}
+        y2={bottom}
         stroke={theme.lines}
         strokeWidth={1.5}
       />
