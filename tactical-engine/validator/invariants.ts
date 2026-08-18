@@ -1,18 +1,30 @@
 /**
  * Invariantes obrigatórios de um cenário tático.
  *
- * Os invariantes 1–10 vêm do documento de arquitetura, seção 17.
- * Os invariantes 11–13 materializam o padrão de evidência de PRODUCT.md § 00.1
+ * Os invariantes 1–10 vêm do documento de arquitetura, seção 17. Os
+ * invariantes 11 e 13 materializam o padrão de evidência de PRODUCT.md § 00.1
  * — as regras editoriais viram código que falha no CI, em vez de boa intenção.
- * O invariante 14 faz o mesmo com a regra de fechamento de § 00.4, e os
- * invariantes 15–16 com a governança dos números de § 00.5. O invariante 17
- * fecha o ciclo: um número que se diz medido precisa apontar para a medição.
+ * O invariante 14 faz o mesmo com a regra de fechamento de § 00.4, o
+ * invariante 15 com a governança básica dos números de § 00.5, e o invariante
+ * 17 fecha o ciclo: um número que se diz medido precisa apontar para a
+ * medição.
+ *
+ * Os invariantes 12 e 16 existiram e foram retirados em 2026-08-18 (PRODUCT.md
+ * § 00.1, decisão revisada). Exigiam, respectivamente, fonte tier B para
+ * publicar qualquer probabilidade, e proibiam publicar probabilidade
+ * `estimated`. O fundador decidiu que a barra do projeto não é "nível de
+ * confiabilidade de publicação científica", é "faz sentido e é honesto sobre
+ * o que sustenta". Os números continuam obrigatoriamente honestos sobre a
+ * própria procedência (15) e uma medição continua tendo que apontar para a
+ * medição real (17) — o que caiu foi o bloqueio de publicação em cima disso.
+ * Os números ficam retirados, e não reaproveitados, para que quem procurar
+ * "invariante 12" ou "16" em código ou histórico antigo encontre esta nota em
+ * vez de silêncio.
  */
 
 import type {
   TerminalOutcome,
   ScenarioStatus,
-  SourceTier,
   TacticalScenario,
 } from '../domain/types'
 import { MAX_TRANSITIONS } from '../graph/guardrails'
@@ -36,9 +48,6 @@ const issue = (
 
 /** Status a partir dos quais o cenário é visível ao usuário final. */
 const PUBLIC_STATUSES: readonly ScenarioStatus[] = ['publicada']
-
-/** Tiers que sustentam uma afirmação quantitativa. */
-const QUANTITATIVE_TIERS: readonly SourceTier[] = ['B']
 
 /**
  * Desfechos que resolvem o ponto.
@@ -256,12 +265,10 @@ export function validateScenario(
     }
   }
 
-  // 15–16 — governança dos números
-  issues.push(
-    ...checkProbabilities(scenario, isPublicScenario(scenario), context),
-  )
+  // 15 e 17 — governança dos números
+  issues.push(...checkProbabilities(scenario, context))
 
-  // 11–13 — governança de evidência
+  // 11 e 13 — governança de evidência
   issues.push(...checkEvidence(scenario))
 
   return { valid: issues.length === 0, issues }
@@ -321,25 +328,25 @@ function checkTermination(scenario: TacticalScenario): ValidationIssue[] {
 }
 
 /**
- * Invariantes 11–13 — o padrão de evidência de PRODUCT.md § 00.1 como código.
+ * Invariantes 11 e 13 — o padrão de evidência de PRODUCT.md § 00.1 como código.
  *
  * É deliberado que estas regras sejam executáveis: a credibilidade do produto
  * depende delas, e uma regra que vive só na documentação é uma regra que será
- * esquecida quando houver pressa.
+ * esquecida quando houver pressa. O que essas regras protegem, desde a decisão
+ * revisada de 2026-08-18, é mais estreito: não que toda tática tenha um artigo
+ * por trás, mas que nenhuma tática minta sobre o que tem por trás.
  */
-const isPublicScenario = (s: TacticalScenario): boolean =>
-  PUBLIC_STATUSES.includes(s.status)
 
 /**
- * Invariantes 15, 16 e 17 — governança dos números.
+ * Invariantes 15 e 17 — governança dos números.
  *
- * Uma probabilidade aparenta precisão. Publicar uma estimativa editorial como
- * se fosse medição é pior que publicar um rótulo vago, porque o usuário não
- * tem como distinguir. Ver PRODUCT.md § 00.5.
+ * Toda probabilidade continua obrigada a declarar sua procedência (15) e, se
+ * essa procedência é uma medição, a apontar para ela de verdade (17). O que
+ * caiu foi o bloqueio de publicar uma estimativa — ver a nota no topo do
+ * arquivo sobre os invariantes 12 e 16 retirados.
  */
 function checkProbabilities(
   scenario: TacticalScenario,
-  isPublic: boolean,
   context: ValidationContext,
 ): ValidationIssue[] {
   const issues: ValidationIssue[] = []
@@ -365,18 +372,6 @@ function checkProbabilities(
           15,
           'probability-without-note',
           `Escolha "${choice.id}" não declara o que sustenta a probabilidade`,
-        ),
-      )
-    }
-
-    // 16 — estimativa não é publicável
-    if (isPublic && p.basis === 'estimated') {
-      issues.push(
-        issue(
-          16,
-          'estimated-probability-published',
-          `Escolha "${choice.id}" publica uma probabilidade estimada; ` +
-            'estimativa editorial só é aceitável em rascunho',
         ),
       )
     }
@@ -417,23 +412,13 @@ function checkProbabilities(
 function checkEvidence(scenario: TacticalScenario): ValidationIssue[] {
   const issues: ValidationIssue[] = []
   const isPublic = PUBLIC_STATUSES.includes(scenario.status)
-  const isVerified =
-    scenario.source.verificadaPor !== null &&
-    scenario.source.verificadaEm !== null
 
-  // 11 — Regra 2 de § 00.1: não publica sem fonte verificada por um humano
-  if (isPublic && !isVerified) {
-    issues.push(
-      issue(
-        11,
-        'published-without-verified-source',
-        `Cenário "${scenario.id}" está "${scenario.status}" mas a fonte não foi ` +
-          'verificada por um humano (source.verificadaPor / verificadaEm)',
-      ),
-    )
-  }
-
-  // 11 — fonte PENDENTE só é aceitável em rascunho
+  // 11 — fonte PENDENTE só é aceitável em rascunho.
+  //
+  // É o único piso que resta: pode não ter artigo por trás (tier `geral` é
+  // aceito, ver domain/types.ts), mas não pode não ter base nenhuma. Um
+  // cenário publicado sem sequer um "por que isso faz sentido" declarado é
+  // conteúdo vazio, e isso continua barrado independente do nível de rigor.
   if (scenario.source.tier === 'PENDENTE' && scenario.status !== 'rascunho') {
     issues.push(
       issue(
@@ -441,19 +426,6 @@ function checkEvidence(scenario: TacticalScenario): ValidationIssue[] {
         'pending-source-beyond-draft',
         `Cenário "${scenario.id}" tem fonte PENDENTE mas status "${scenario.status}"; ` +
           'fonte pendente só é aceitável em rascunho',
-      ),
-    )
-  }
-
-  // 12 — Regra 1 de § 00.1: a força da fonte limita a força da afirmação.
-  // Publicar probabilidade é afirmação quantitativa e exige fonte tier B.
-  if (isPublic && !QUANTITATIVE_TIERS.includes(scenario.source.tier)) {
-    issues.push(
-      issue(
-        12,
-        'probability-exceeds-source',
-        `Cenário "${scenario.id}" publica probabilidades, o que é afirmação ` +
-          `quantitativa e exige fonte tier B; a fonte é tier "${scenario.source.tier}"`,
       ),
     )
   }

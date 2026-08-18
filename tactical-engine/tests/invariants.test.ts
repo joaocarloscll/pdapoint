@@ -184,10 +184,11 @@ describe('invariante 14 — todo caminho resolve o ponto', () => {
 })
 
 describe('invariantes de evidência — PRODUCT.md § 00.1 como código', () => {
-  it('11 — bloqueia publicação sem fonte verificada por humano', () => {
-    const broken = mutate({ status: 'publicada' })
-    expect(codesOf(broken)).toContain('published-without-verified-source')
-  })
+  // Decisão revisada de 2026-08-18: o fundador não quer nível de
+  // confiabilidade de publicação científica, quer uma ferramenta útil. O que
+  // os testes abaixo defendem mudou de forma: já não é "bloqueia até alguém
+  // assinar", é "não deixa passar conteúdo sem base nenhuma, e não deixa
+  // mentir sobre a base que tem".
 
   it('11 — fonte PENDENTE não passa de rascunho', () => {
     // A fonte pendente é montada aqui, e não herdada do cenário: quando
@@ -212,62 +213,75 @@ describe('invariantes de evidência — PRODUCT.md § 00.1 como código', () => 
     expect(codesOf(golden001)).not.toContain('pending-source-beyond-draft')
   })
 
-  it('11 — fonte real ainda não publica sem assinatura humana', () => {
-    // O gargalo mudou de lugar: já não falta fonte, falta alguém abri-la e
-    // assinar. O invariante continua barrando a publicação.
-    expect(golden001.source.verificadaPor).toBeNull()
-    expect(codesOf(mutate({ status: 'publicada' }))).toContain(
-      'published-without-verified-source',
+  it('11 — publica sem exigir assinatura humana', () => {
+    // Até 2026-08-18 isto era bloqueado (published-without-verified-source).
+    // O código que gerava esse erro foi removido, não apenas contornado —
+    // este teste falharia de novo se alguém o reintroduzisse.
+    const published = mutate({
+      status: 'publicada',
+      source: {
+        tier: 'geral',
+        referencia: '',
+        oQueSustenta: 'convenção comum de ensino: atacar bola curta com profundidade',
+        verificadaPor: null,
+        verificadaEm: null,
+      },
+    })
+    expect(codesOf(published)).not.toContain('published-without-verified-source')
+  })
+
+  it('publica com probabilidade estimated, sem exigir medição', () => {
+    // golden-001 já é exatamente esse caso: as três probabilidades são
+    // `estimated`. Antes disso bastava para barrar a publicação
+    // (estimated-probability-published); agora não barra mais nada.
+    expect(golden001.choices.every((c) => c.winProbability.basis === 'estimated')).toBe(true)
+    expect(codesOf(mutate({ status: 'publicada' }))).not.toContain(
+      'estimated-probability-published',
     )
   })
 
-  it('12 — publicar probabilidade exige fonte tier B', () => {
-    const broken = mutate({
+  it('publica com fonte tier "geral", sem exigir tier B para as probabilidades', () => {
+    // Antes disso era bloqueado (probability-exceeds-source) para qualquer
+    // tier abaixo de B. O tier "geral" nem existia.
+    const published = mutate({
       status: 'publicada',
       source: {
-        tier: 'C',
-        referencia: 'Manual de federação, 2020',
-        oQueSustenta: 'convenção de treinamento sobre bola curta',
-        verificadaPor: 'Fulano',
-        verificadaEm: '2026-08-18',
+        tier: 'geral',
+        referencia: '',
+        oQueSustenta: 'convenção comum de ensino: atacar bola curta com profundidade',
+        verificadaPor: null,
+        verificadaEm: null,
       },
     })
-    expect(codesOf(broken)).toContain('probability-exceeds-source')
+    expect(codesOf(published)).not.toContain('probability-exceeds-source')
   })
 
-  it('13 — rejeita citação decorativa (oQueSustenta vazio)', () => {
+  it('13 — rejeita citação decorativa (oQueSustenta vazio), mesmo sem assinatura humana', () => {
     const broken = mutate({
       status: 'publicada',
       source: {
-        tier: 'B',
-        referencia: 'Autor et al. (2024)',
+        tier: 'geral',
+        referencia: '',
         oQueSustenta: '   ',
-        verificadaPor: 'Fulano',
-        verificadaEm: '2026-08-18',
+        verificadaPor: null,
+        verificadaEm: null,
       },
     })
     expect(codesOf(broken)).toContain('decorative-citation')
   })
 
-  it('um cenário totalmente verificado publica sem erros', () => {
+  it('o piso mínimo publicável: fonte tier "geral", sem assinatura, sem medição', () => {
+    // O caso concreto que a mudança de política existe para permitir: uma
+    // tática com lógica que faz sentido, sem artigo por trás, sem ninguém
+    // além de quem escreveu tendo revisado.
     const publishable = mutate({
       status: 'publicada',
-      reviewer: 'Sicrano',
-      // Publicar exige que nenhum número seja estimativa (invariante 16).
-      choices: golden001.choices.map((c) => ({
-        ...c,
-        winProbability: {
-          ...c.winProbability,
-          basis: 'measured' as const,
-        },
-      })),
       source: {
-        tier: 'B',
-        referencia: 'Autor et al. (2024), IJRSS 7(1), DOI 10.x',
-        oQueSustenta:
-          'distribuição de escolha de alvo em bola curta atacável no circuito profissional',
-        verificadaPor: 'Fulano',
-        verificadaEm: '2026-08-18',
+        tier: 'geral',
+        referencia: '',
+        oQueSustenta: 'convenção comum de ensino: atacar bola curta com profundidade',
+        verificadaPor: null,
+        verificadaEm: null,
       },
     })
     expect(validateScenario(publishable).issues).toEqual([])

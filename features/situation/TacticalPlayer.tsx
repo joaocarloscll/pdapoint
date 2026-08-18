@@ -242,6 +242,21 @@ export function TacticalPlayer() {
   // aparece e o replay fica disponível (PRODUCT.md § 03, Fase 4).
   const canAdvance = playback.isComplete
 
+  // O selo reflete o status real do cenário, não uma bandeira fixa de
+  // "rascunho" (decisão revisada de 2026-08-18, PRODUCT.md § 00.1): publicar
+  // não exige mais assinatura humana, então "publicada" e "não conferida por
+  // humano" deixaram de ser a mesma coisa. Um cenário publicado sem essa
+  // checagem extra ainda merece o selo — só um mais discreto.
+  const statusBadge =
+    golden001.status !== 'publicada'
+      ? { label: golden001.status, title: 'Status editorial do cenário' }
+      : golden001.source.verificadaPor === null
+        ? {
+            label: 'fonte não conferida',
+            title: 'Ninguém, além de quem escreveu, revisou a fonte por cima ainda',
+          }
+        : null
+
   const patternLabel =
     pattern === null
       ? 'Comparar alternativas'
@@ -255,9 +270,11 @@ export function TacticalPlayer() {
         <span className={css.counter}>
           {phase === 'observation' || phase === 'decision' ? '1/1' : 'resultado'}
         </span>
-        <span className={css.draftBadge} title="Fonte ainda não verificada">
-          rascunho
-        </span>
+        {statusBadge !== null && (
+          <span className={css.draftBadge} title={statusBadge.title}>
+            {statusBadge.label}
+          </span>
+        )}
       </header>
 
       <section className={css.court}>
@@ -451,8 +468,7 @@ export function TacticalPlayer() {
             >
               10.1371/journal.pone.0286076
             </a>{' '}
-            (CC BY 4.0). A fonte ainda não passou pela conferência humana, então
-            este cenário segue como rascunho e não está publicado.
+            (CC BY 4.0).
           </p>
 
           <button
@@ -520,8 +536,7 @@ export function TacticalPlayer() {
             ⓘ Precisão desta decisão:{' '}
             {Math.round(accuracyOf([played.evaluation]))}%. As probabilidades são
             estimativas editoriais, não medições: ninguém publicou a comparação
-            entre estes alvos a partir de uma bola curta. Por isso o cenário
-            segue como rascunho.
+            entre estes alvos a partir de uma bola curta.
           </p>
 
           <button

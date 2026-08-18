@@ -11,26 +11,36 @@ language: "pt-BR"
 Este é um **backlog de descoberta**: a lista de padrões táticos que existem no
 vocabulário do tênis e que são candidatos a virar situações no PDA Point.
 
-**Nada aqui é fonte.** Os padrões foram levantados por busca em material de
-treinamento e mídia especializada — que, pelo padrão de evidência definido em
-`PRODUCT.md` § 00.1, está no tier ✗ (não aceito como fonte).
+> **Atualizado em 2026-08-18.** A decisão revisada de `PRODUCT.md` § 00.1 mudou o
+> que este backlog vale por si só. Convenção amplamente aceita do ensino de tênis
+> — que é exatamente o que material de treinamento e mídia especializada
+> documenta — agora é uma fonte aceita (tier `geral`), não mais tier ✗. Um item
+> desta lista pode virar conteúdo **sem** passar por literatura Tier B/C, desde
+> que classificado com honestidade: nunca `padrão` (isso continua exigindo dado
+> quantitativo), no máximo `alternativa` ou `situacional`, e com a copy dizendo
+> "é comum ensinar que...", nunca fingindo medição.
 
-O valor deste documento é **direcionar a pesquisa**: dizer quais perguntas vale a
-pena levar aos periódicos gratuitos (IJRSS, ITF CSSR) identificados em
-`EVIDENCE_SOURCES.md` § 01b.
+Pesquisa Tier B/C continua valendo a pena: é o que permite classificar como
+`padrão` e escrever com a confiança de "o profissional faz X em Y% dos pontos".
+O valor deste documento nessa frente não mudou — **direcionar a pesquisa**: dizer
+quais perguntas vale a pena levar aos periódicos gratuitos (IJRSS, ITF CSSR)
+identificados em `EVIDENCE_SOURCES.md` § 01b.
 
 ```text
-backlog (aqui)  →  pesquisa em fonte Tier B/C  →  situação publicável
-   candidato              verificação                   conteúdo
+backlog (aqui)  →  vira situação com tier "geral"     (classificação modesta)
+   candidato    ↘  ou pesquisa em Tier B/C primeiro    (classificação forte)
 ```
 
-Nenhum item desta lista pode virar conteúdo antes de passar pela coluna do meio.
+O que continua proibido, sob qualquer um dos dois caminhos: inventar uma citação
+que não existe, ou classificar como `padrão` sem dado quantitativo por trás.
 
 ## Nota sobre MCP de vídeo
 
-Não há MCP de YouTube disponível nesta sessão. Ainda que houvesse, análise em
-vídeo sem dado divulgado permanece tier ✗ — serviria para **descoberta de
-padrões** (alimentar esta lista), nunca para citação. A regra não muda.
+Não há MCP de YouTube disponível nesta sessão. Um vídeo isolado, sem convergência
+com outras fontes, continua não sustentando uma tática sozinho — não é
+"convenção amplamente aceita", é uma opinião. Serve para **descoberta de
+padrões** (alimentar esta lista), e para compor tier `geral` quando o padrão que
+ele descreve já é ensinado de forma consistente em múltiplas fontes.
 
 ---
 
@@ -169,12 +179,14 @@ pesquisa, dos quais só entram aqui os que forem trabalhados.
 
 ## Como este documento evolui
 
-Quando um padrão receber fonte verificada, ele sai daqui e entra no sistema de
-conteúdo (`PRODUCT.md` § 06) com o template completo preenchido.
-
-Status possíveis:
+Quando um padrão vira conteúdo, ele sai daqui e entra no sistema de conteúdo
+(`PRODUCT.md` § 06) com o template completo preenchido. Há dois caminhos, e o
+segundo é novo desde 2026-08-18:
 
 ```text
-🔍 a pesquisar  →  📄 fonte encontrada  →  ✅ verificada  →  publicável
-                                        ↘  ✗ sem respaldo  →  descartado ou situacional
+🔍 a pesquisar  →  📄 fonte Tier B/C encontrada  →  ✅ lida  →  publicável como `padrão`
+                                                 ↘  ✗ sem respaldo  →  descartado
+🔍 a pesquisar  →  convenção comum confirmada em múltiplas fontes de ensino
+                                                 →  publicável como `geral`, classificado
+                                                    `alternativa` ou `situacional`
 ```

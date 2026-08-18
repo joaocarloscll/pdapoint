@@ -312,10 +312,20 @@ export type TacticalTransition = {
  * Tier da fonte que sustenta a tática.
  *
  * Tier A está indisponível por licença (PRODUCT.md § 00.2c), portanto B é o
- * teto prático de evidência quantitativa. `PENDENTE` só é aceitável em
- * cenários com status `rascunho`.
+ * teto prático de evidência quantitativa.
+ *
+ * `geral` foi adicionado em 2026-08-18 (PRODUCT.md § 00.1, decisão revisada):
+ * julgamento editorial fundamentado em convenção amplamente aceita do ensino
+ * de tênis, sem um estudo específico por trás. É aceito sozinho — a barra do
+ * projeto deixou de ser "toda afirmação rastreia a um artigo" e passou a ser
+ * "toda afirmação faz sentido e é honesta sobre o que a sustenta". O que
+ * continua proibido é fingir uma fonte que não existe: se o campo `referencia`
+ * aponta para um artigo específico, esse artigo precisa ser real.
+ *
+ * `PENDENTE` é o único piso que resta: cenário sem base nenhuma declarada
+ * ainda (candidato pré-pesquisa), que por isso não passa de `rascunho`.
  */
-export type SourceTier = 'B' | 'C' | 'PENDENTE'
+export type SourceTier = 'B' | 'C' | 'geral' | 'PENDENTE'
 
 export type SourceRef = {
   readonly tier: SourceTier
@@ -326,9 +336,17 @@ export type SourceRef = {
    * Existe para impedir citação decorativa (PRODUCT.md § 06).
    */
   readonly oQueSustenta: string
-  /** Nome de quem abriu a fonte primária. `null` enquanto não verificada. */
+  /**
+   * Quem deu uma checagem extra na fonte, além de quem escreveu a tática.
+   *
+   * Deixou de ser obrigatório para publicar (decisão revisada, 2026-08-18):
+   * o piso agora é a tática fazer sentido e a fonte citada ser real, não uma
+   * segunda pessoa ter conferido cada uma. `null` é um estado normal e
+   * publicável — só significa que ninguém revisou por cima ainda, não que
+   * algo está pendente ou incorreto.
+   */
   readonly verificadaPor: string | null
-  /** Data ISO da verificação. `null` enquanto não verificada. */
+  /** Data ISO dessa checagem extra, se houve. `null` quando não houve. */
   readonly verificadaEm: string | null
 }
 

@@ -9,6 +9,53 @@ versionamento segue [SemVer](https://semver.org/lang/pt-BR/).
 
 ## [Não lançado]
 
+### Política de evidência revisada — útil vem antes de auditável
+
+O fundador pediu explicitamente menos rigor: não quer nível de confiabilidade de
+publicação científica, quer uma ferramenta útil, com fatos que fazem sentido, sem
+precisar de 100% de checagem antes de cada peça de conteúdo. Duas travas caíram;
+uma se manteve de propósito.
+
+#### O que caiu
+
+- **A exigência de assinatura humana antes de publicar.** `source.verificadaPor`
+  e `verificadaEm` deixam de ser condição de publicação — viram sinal opcional de
+  checagem extra. O invariante que bloqueava isso (`published-without-verified-source`)
+  foi removido do validador, não apenas contornado.
+- **A exigência de fonte tier B para publicar qualquer probabilidade**, e o
+  bloqueio de publicar probabilidade `estimated`. Os invariantes 12 e 16 foram
+  retirados — números continuam com procedência (15) e uma medição continua
+  tendo que apontar para a medição real (17), mas `estimated` agora publica.
+- **Conhecimento geral do ensino de tênis** deixa de ser tier ✗ e passa a ser tier
+  `geral`: aceito como base sozinho, desde que a classificação da escolha nunca
+  passe de `alternativa` ou `situacional` (nunca `padrão`, que continua exigindo
+  dado quantitativo).
+
+#### O que se manteve
+
+- **Citação fabricada continua proibida.** Se `source.referencia` aponta para um
+  artigo, autor ou manual específico, esse material precisa existir de verdade.
+  Isso é honestidade, não rigor editorial, e a distinção é o eixo da mudança
+  inteira.
+- **Invariante 11** (fonte `PENDENTE` não passa de rascunho) e **13** (citação
+  decorativa) continuam de pé: o piso mínimo é ter alguma base declarada, e
+  declará-la de verdade.
+
+#### Alterado
+
+- **`SourceTier`** ganha o valor `geral`.
+- **Golden Scenario 001** passa de `rascunho` para **`publicada`**, com
+  `verificadaPor` ainda `null` — demonstração concreta da nova política.
+- **`TacticalPlayer`** troca o selo fixo "rascunho" por um selo dinâmico: mostra
+  o status real do cenário, ou "fonte não conferida" quando publicado sem
+  checagem extra, sem alarmismo.
+- **`PRODUCT.md` § 00.1 e § 00.5**, **`README.md`**, **`EVIDENCE_SOURCES.md`** e
+  **`PATTERN_BACKLOG.md`** reescritos para refletir a política revisada.
+- Testes de `invariants.test.ts` reescritos: os que verificavam os bloqueios
+  removidos agora verificam a ausência deles — a mudança fica coberta por teste,
+  não só por documentação.
+
+
 ### Evidência — o projeto sai do zero de fontes verificadas
 
 Até aqui nenhum artigo científico tinha sido lido na fonte primária: o ambiente de

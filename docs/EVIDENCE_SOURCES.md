@@ -15,9 +15,11 @@ Ele não é uma bibliografia. É uma ferramenta de trabalho: para cada fonte, di
 **o que ela cobre, se dá para acessar, sob qual licença, e se serve para nós**.
 
 > **Regra de leitura deste documento.** Cada fonte carrega um selo de verificação.
-> Nada aqui deve ser citado em conteúdo `published` sem que o selo seja
-> `✅ VERIFICADO` **ou** sem que o fundador tenha feito a verificação humana
-> exigida pela Regra 2 de `PRODUCT.md`.
+> Desde a decisão revisada de 2026-08-18 (`PRODUCT.md` § 00.1), citar uma fonte
+> não exige mais que o fundador a tenha aberto pessoalmente — mas continua
+> exigindo que ela exista de verdade e diga o que se afirma que ela diz. O selo
+> abaixo é sobre isso: quem preparou o conteúdo abriu o material, ou está
+> confiando em metadados de terceiros?
 
 | Selo | Significado |
 |---|---|
@@ -87,17 +89,18 @@ lida para confirmar a licença.
 | `2025_frontiers_technical_tactical_diversity.pdf` | `26bc0650…2659` | confere |
 | `2026_frontiers_spatial_working_memory_decision_making.pdf` | `f971067b…b613` | confere |
 
-### O selo que estes artigos recebem, e o que ainda falta
+### O selo que estes artigos recebem
 
 Recebem `✅ VERIFICADO` neste catálogo: o artefato foi aberto e o conteúdo citado
 foi lido, que é a definição do selo.
 
-**Isso não é a verificação humana da Regra 2 de `PRODUCT.md` § 00.1.** Aquela regra
-existe justamente porque um agente pode produzir uma citação plausível e inexistente,
-e ela não se cumpre com o agente afirmando que cumpriu. Enquanto o fundador não abrir
-o DOI e assinar, `source.verificadaPor` fica `null` no código, e o invariante 11
-continua barrando qualquer publicação. O gargalo mudou de lugar — deixou de ser
-"não temos fonte" e passou a ser "falta a assinatura".
+Isso já é suficiente para publicar (decisão revisada de 2026-08-18, `PRODUCT.md`
+§ 00.1 — publicar deixou de exigir que o fundador abra a fonte pessoalmente).
+`source.verificadaPor` fica `null` no código, e é um estado normal: significa que
+ninguém, além de quem preparou o conteúdo, revisou por cima ainda — não que algo
+está pendente de aprovação. Se o fundador (ou outra pessoa) abrir o DOI e conferir,
+vale preencher o campo como sinal extra de confiança, mas não é o que faz o
+conteúdo ser publicável.
 
 ### 00b.1 — Prieto-Lage et al. (2023) — ✅ VERIFICADO
 
