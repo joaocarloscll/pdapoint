@@ -47,6 +47,15 @@ export type TimelineFrame = {
     readonly tone: 'opportunity' | 'risk'
     readonly opacity: number
   } | null
+
+  /**
+   * Quique em curso, se houver. `progress` vai de 0 a 1 ao longo do evento e
+   * dirige a expansão do anel — é o que faz a bola parecer tocar a quadra.
+   */
+  readonly bounce: {
+    readonly at: CourtPoint
+    readonly progress: number
+  } | null
 }
 
 export type FrameBase = {
@@ -97,6 +106,7 @@ export function sampleTimeline(
   // teleportaria a bola para a própria origem antes da hora.
   let ballClaimed = false
   let activeZone: TimelineFrame['activeZone'] = null
+  let bounce: TimelineFrame['bounce'] = null
   const shots: Array<{
     from: CourtPoint
     to: CourtPoint
@@ -150,6 +160,21 @@ export function sampleTimeline(
         break
       }
 
+      case 'bounce': {
+        const start = event.startMs
+        const end = event.startMs + event.durationMs
+        if (elapsedMs >= start && elapsedMs <= end) {
+          bounce = {
+            at: event.at,
+            progress:
+              event.durationMs === 0
+                ? 1
+                : (elapsedMs - start) / event.durationMs,
+          }
+        }
+        break
+      }
+
       // Contribuem para a duração total, mas não alteram o quadro.
       case 'pause':
       case 'show-arrow':
@@ -158,7 +183,7 @@ export function sampleTimeline(
     }
   }
 
-  return { ball, playerA, playerB, shots, ballProgress, activeZone }
+  return { ball, playerA, playerB, shots, ballProgress, activeZone, bounce }
 }
 
 /**

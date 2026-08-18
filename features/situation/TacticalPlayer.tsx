@@ -37,6 +37,7 @@ import { CourtSvg } from '../../tactical-renderer/CourtSvg'
 import { zoneCenter } from '../../tactical-renderer/geometry'
 import {
   Ball,
+  BounceMark,
   PlayerMarker,
   Trajectory,
   ZoneHighlight,
@@ -300,6 +301,14 @@ export function TacticalPlayer() {
                 />
               ) : null,
             )}
+
+          {animating && playback.frame.bounce !== null && (
+            <BounceMark
+              at={playback.frame.bounce.at}
+              color={theme.ball}
+              progress={playback.frame.bounce.progress}
+            />
+          )}
 
           <PlayerMarker
             at={posB}

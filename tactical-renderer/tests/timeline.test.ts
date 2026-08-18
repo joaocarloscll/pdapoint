@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest'
 
 import { golden001 } from '../../content/scenarios/golden-001'
+import { zoneOf } from '../../tactical-engine/graph/guardrails'
 import type { TimelineEvent } from '../../tactical-engine/domain/types'
 import {
   COURT_FEET,
@@ -62,7 +63,12 @@ describe('geometria', () => {
   })
 
   it('zoneCenter devolve pontos dentro da quadra', () => {
-    for (const zone of ['deuce-deep', 'center-short', 'net-ad'] as const) {
+    for (const zone of [
+      'opp-left-deep',
+      'own-center-short',
+      'opp-right-deep',
+      'own-right-deep',
+    ] as const) {
       const p = zoneCenter(zone)
       expect(p.x).toBeGreaterThan(0)
       expect(p.x).toBeLessThan(1)
@@ -127,6 +133,105 @@ describe('fidelidade geométrica da quadra', () => {
   })
 })
 
+/**
+ * `zoneOf` e `zoneCenter` precisam concordar.
+ *
+ * Quando discordavam, o destaque visual aparecia na metade errada da quadra:
+ * a bola caía no fundo do adversário e o brilho acendia atrás do jogador.
+ * O bug era invisível no código — só aparecia olhando a tela.
+ */
+describe('zoneOf e zoneCenter são consistentes', () => {
+  const TODAS = [
+    'opp-left-deep',
+    'opp-center-deep',
+    'opp-right-deep',
+    'opp-left-short',
+    'opp-center-short',
+    'opp-right-short',
+    'own-left-short',
+    'own-center-short',
+    'own-right-short',
+    'own-left-deep',
+    'own-center-deep',
+    'own-right-deep',
+  ] as const
+
+  it('o centro de uma zona pertence a essa mesma zona', () => {
+    for (const zone of TODAS) {
+      expect(zoneOf(zoneCenter(zone))).toBe(zone)
+    }
+  })
+
+  it('a metade do adversário fica antes da rede e a nossa depois', () => {
+    for (const zone of TODAS) {
+      const p = zoneCenter(zone)
+      if (zone.startsWith('opp-')) expect(p.y).toBeLessThan(0.5)
+      else expect(p.y).toBeGreaterThan(0.5)
+    }
+  })
+
+  it('o fundo de cada metade é o mais distante da rede', () => {
+    expect(zoneCenter('opp-center-deep').y).toBeLessThan(
+      zoneCenter('opp-center-short').y,
+    )
+    expect(zoneCenter('own-center-deep').y).toBeGreaterThan(
+      zoneCenter('own-center-short').y,
+    )
+  })
+
+  it('classifica os cantos corretamente', () => {
+    expect(zoneOf({ x: 0.1, y: 0.05 })).toBe('opp-left-deep')
+    expect(zoneOf({ x: 0.9, y: 0.05 })).toBe('opp-right-deep')
+    expect(zoneOf({ x: 0.1, y: 0.95 })).toBe('own-left-deep')
+    expect(zoneOf({ x: 0.9, y: 0.95 })).toBe('own-right-deep')
+    // Junto à rede, dos dois lados.
+    expect(zoneOf({ x: 0.5, y: 0.45 })).toBe('opp-center-short')
+    expect(zoneOf({ x: 0.5, y: 0.55 })).toBe('own-center-short')
+  })
+})
+
+/**
+ * O quique fecha o ponto: a bola toca a quadra e sai.
+ */
+describe('quique', () => {
+  it('fica ativo apenas dentro da própria janela', () => {
+    const q: TimelineEvent = {
+      kind: 'bounce',
+      startMs: 200,
+      durationMs: 400,
+      at: { x: 0.8, y: 0.1 },
+    }
+    expect(sampleTimeline([q], base, 100).bounce).toBeNull()
+    expect(sampleTimeline([q], base, 400).bounce?.at.x).toBeCloseTo(0.8, 6)
+    expect(sampleTimeline([q], base, 700).bounce).toBeNull()
+  })
+
+  it('o progresso vai de 0 a 1 ao longo do quique', () => {
+    const q: TimelineEvent = {
+      kind: 'bounce',
+      startMs: 0,
+      durationMs: 400,
+      at: { x: 0.5, y: 0.5 },
+    }
+    expect(sampleTimeline([q], base, 0).bounce?.progress).toBeCloseTo(0, 6)
+    expect(sampleTimeline([q], base, 200).bounce?.progress).toBeCloseTo(0.5, 6)
+    expect(sampleTimeline([q], base, 400).bounce?.progress).toBeCloseTo(1, 6)
+  })
+
+  it('toda transição do cenário termina com quique e saída da bola', () => {
+    for (const t of golden001.transitions) {
+      const quiques = t.timeline.filter((e) => e.kind === 'bounce')
+      expect(quiques.length).toBeGreaterThan(0)
+
+      // O último golpe começa depois do quique: é a bola saindo.
+      const golpes = t.timeline.filter((e) => e.kind === 'move-ball')
+      const ultimoGolpe = golpes[golpes.length - 1]!
+      const ultimoQuique = quiques[quiques.length - 1]!
+      expect(ultimoGolpe.startMs).toBeGreaterThanOrEqual(ultimoQuique.startMs)
+    }
+  })
+})
+
 describe('sampleTimeline', () => {
   it('em t=0 a bola está na origem do golpe', () => {
     const frame = sampleTimeline([ballMove], base, 0)
@@ -180,11 +285,11 @@ describe('sampleTimeline', () => {
       kind: 'highlight-zone',
       startMs: 200,
       durationMs: 800,
-      zone: 'ad-deep',
+      zone: 'opp-right-deep',
       tone: 'opportunity',
     }
     expect(sampleTimeline([highlight], base, 100).activeZone).toBeNull()
-    expect(sampleTimeline([highlight], base, 600).activeZone?.zone).toBe('ad-deep')
+    expect(sampleTimeline([highlight], base, 600).activeZone?.zone).toBe('opp-right-deep')
     expect(sampleTimeline([highlight], base, 1200).activeZone).toBeNull()
   })
 
@@ -292,7 +397,27 @@ describe('timelines do cenário canônico', () => {
     }
   })
 
-  it('o quadro final coincide com o estado de destino do engine', () => {
+  it('o estado de destino registra onde a bola quicou, não onde ela saiu', () => {
+    // A animação segue além do quique — a bola sai de quadra — mas o estado
+    // guarda o ponto de toque, que é onde o ponto foi decidido. Ancorar a
+    // verificação no último quadro passaria a cobrar do engine uma posição
+    // que é só acompanhamento visual.
+    for (const transition of golden001.transitions) {
+      const to = golden001.states.find((s) => s.id === transition.toStateId)
+      if (to === undefined) throw new Error('estado ausente')
+
+      const quiques = transition.timeline.filter((e) => e.kind === 'bounce')
+      const ultimo = quiques[quiques.length - 1]
+      if (ultimo === undefined || ultimo.kind !== 'bounce') {
+        throw new Error('transição sem quique')
+      }
+
+      expect(ultimo.at.x).toBeCloseTo(to.ball.x, 6)
+      expect(ultimo.at.y).toBeCloseTo(to.ball.y, 6)
+    }
+  })
+
+  it('as posições dos jogadores no fim coincidem com o estado de destino', () => {
     for (const transition of golden001.transitions) {
       const from = golden001.states.find((s) => s.id === transition.fromStateId)
       const to = golden001.states.find((s) => s.id === transition.toStateId)
@@ -308,8 +433,8 @@ describe('timelines do cenário canônico', () => {
         timelineDuration(transition.timeline),
       )
 
-      expect(frame.ball.x).toBeCloseTo(to.ball.x, 6)
-      expect(frame.ball.y).toBeCloseTo(to.ball.y, 6)
+      expect(frame.playerA.x).toBeCloseTo(to.players.a.position.x, 6)
+      expect(frame.playerA.y).toBeCloseTo(to.players.a.position.y, 6)
       expect(frame.playerB.x).toBeCloseTo(to.players.b.position.x, 6)
       expect(frame.playerB.y).toBeCloseTo(to.players.b.position.y, 6)
     }
